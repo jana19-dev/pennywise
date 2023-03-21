@@ -4,7 +4,7 @@
 </script>
 
 <svelte:head>
-  <title>Login - TVUPWEB</title>
+  <title>Login - BUDGET</title>
 </svelte:head>
 
 <div class="flex min-h-full flex-col items-center justify-center bg-gray-900">
