@@ -1,5 +1,10 @@
 <div class="absolute inset-0" aria-hidden="true">
-  <svg class="absolute bottom-0 left-0 transform text-blue-900" width="100%" height="100%" fill="none">
+  <svg
+    class="absolute bottom-0 left-0 transform text-blue-900"
+    width="100%"
+    height="100%"
+    fill="none"
+  >
     <defs>
       <pattern
         id="eab71dd9-9d7a-47bd-8044-256344ee00d0"
