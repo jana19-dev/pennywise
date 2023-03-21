@@ -1,5 +1,7 @@
 import getAllAccountTypes from "./getAllAccountTypes"
+import getAllAccountTypesLean from "./getAllAccountTypesLean"
 
 export default {
-  getAllAccountTypes
+  getAllAccountTypes,
+  getAllAccountTypesLean
 }
