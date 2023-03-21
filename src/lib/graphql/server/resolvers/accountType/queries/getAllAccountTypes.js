@@ -15,7 +15,13 @@ export default async function handler(parent, args, context) {
     }
   })
 
-  const { search, searchField, subSearchField, skip = 0, orderBy = [{ name: `asc` }] } = args
+  const {
+    search,
+    searchField,
+    subSearchField,
+    skip = 0,
+    orderBy = [{ order: `desc` }, { name: `asc` }]
+  } = args
 
   const where = { userId: authUser.id }
 

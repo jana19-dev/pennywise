@@ -26,6 +26,19 @@ export const UPDATE_ACCOUNT_TYPE_NAME = async (variables) =>
     .then(({ updateAccountTypeName }) => updateAccountTypeName)
     .catch(handleError)
 
+export const UPDATE_ACCOUNT_TYPE_ORDER = async (variables) =>
+  graphQLClient
+    .request(
+      gql`
+        mutation UPDATE_ACCOUNT_TYPE_ORDER($id: ID!, $order: String!) {
+          updateAccountTypeOrder(id: $id, order: $order)
+        }
+      `,
+      variables
+    )
+    .then(({ updateAccountTypeOrder }) => updateAccountTypeOrder)
+    .catch(handleError)
+
 export const DELETE_ACCOUNT_TYPE = async (variables) =>
   graphQLClient
     .request(

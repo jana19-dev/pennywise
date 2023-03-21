@@ -64,7 +64,7 @@
       </svg>
       <div class="mx-auto max-w-7xl px-6 pb-24 pt-40 sm:pb-40 lg:flex lg:px-8">
         <div class="mx-auto max-w-2xl flex-shrink-0 lg:mx-0 lg:max-w-xl lg:pt-8">
-          <img class="h-16 animate-pulse" src="/logo.png" alt="Budget logo" />
+          <img class="h-16" src="/logo.png" alt="Budget logo" />
           <div class="mt-16 sm:mt-32 lg:mt-16">
             <a href="https://jana19.dev/" class="inline-flex space-x-6">
               <span

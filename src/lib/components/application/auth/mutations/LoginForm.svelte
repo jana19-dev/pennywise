@@ -1,6 +1,8 @@
 <script>
   import { page } from "$app/stores"
 
+  import { Button } from "@codepiercer/svelte-tailwind"
+
   import { createMutation } from "@tanstack/svelte-query"
   import { LOGIN } from "$lib/graphql/client/auth/mutations"
 
@@ -10,6 +12,7 @@
   import { ErrorAlert } from "@codepiercer/svelte-tailwind"
 
   let googleLoginError = null
+  let isRedirecting = false
   const onLogin = () => {
     googleLoginError = null
     signInWithPopup(auth, provider)
@@ -28,6 +31,7 @@
 
   const loginMutation = createMutation(LOGIN, {
     onSuccess: () => {
+      isRedirecting = true
       const referrer = $page.url.searchParams.get(`referrer`)
       const href = referrer ? referrer : `/`
       window.location.href = href
@@ -36,9 +40,12 @@
 </script>
 
 <div class="flex flex-col flex-wrap items-center gap-4 rounded-lg p-2">
-  <button
-    type="button"
+  {#if isRedirecting}
+    <p class="-mt-2 -mb-2 text-left text-sm text-gray-200">Taking you to your dashboard...</p>
+  {/if}
+  <Button
     on:click={onLogin}
+    isLoading={$loginMutation.isLoading || isRedirecting}
     class="mr-2 mb-2 inline-flex w-fit items-center rounded-lg bg-[#4285F4] px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-[#4285F4]/90 focus:outline-none focus:ring-4 focus:ring-[#4285F4]/50"
   >
     <svg
@@ -56,7 +63,7 @@
       /></svg
     >
     Sign in with Google
-  </button>
+  </Button>
   {#if $loginMutation.isError || googleLoginError}
     <ErrorAlert>
       {$loginMutation.error?.message || googleLoginError}

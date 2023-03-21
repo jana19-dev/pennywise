@@ -16,9 +16,10 @@ export default /* GraphQL */ `
   }
 
   type Mutation {
-    createAccountType(name: String!): JSON!
+    createAccountType(name: String!, order: Int): JSON!
 
     updateAccountTypeName(id: ID!, name: String!): JSON!
+    updateAccountTypeOrder(id: ID!, order: Int!): JSON!
 
     deleteAccountType(id: ID!): JSON!
   }
