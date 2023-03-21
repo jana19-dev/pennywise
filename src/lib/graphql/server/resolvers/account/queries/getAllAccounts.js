@@ -6,19 +6,23 @@ export default async function handler(parent, args, context) {
   // permissions
   isAuthenticated(context.user)
 
-  const {
-    search,
-    searchField,
-    subSearchField,
-    skip = 0,
-    where = {},
-    orderBy = [{ name: `asc` }]
-  } = args
+  const authUser = await context.prisma.user.findUnique({
+    where: {
+      email: context.user.email
+    },
+    select: {
+      id: true
+    }
+  })
+
+  const { search, searchField, subSearchField, skip = 0, orderBy = [{ name: `asc` }] } = args
+
+  const where = { userId: authUser.id }
 
   // include fuzzy search filters
   if (search) {
     where.AND = search.split(` `).map((word) => ({
-      OR: fuzzySearchBuilder.budgets(word, searchField, subSearchField)
+      OR: fuzzySearchBuilder.accounts(word, searchField, subSearchField)
     }))
   }
 
@@ -31,18 +35,20 @@ export default async function handler(parent, args, context) {
   }
 
   // get metrics
-  const allCountPromise = context.prisma.budget.count()
-  const filteredCountPromise = context.prisma.budget.count({ where })
+  const allCountPromise = context.prisma.account.count()
+  const filteredCountPromise = context.prisma.account.count({ where })
 
-  // get companies
-  const dataPromise = context.prisma.budget.findMany({
+  const dataPromise = context.prisma.account.findMany({
     where,
     orderBy,
     skip,
     take: QUERY_LIMIT,
     select: {
       id: true,
-      name: true
+      name: true,
+      type: true,
+      startingDate: true,
+      startingBalance: true
     }
   })
 

@@ -15,7 +15,6 @@ export const getSession = async (req) => {
     const { user } = await signInWithCredential(auth, credential)
 
     return {
-      id: user.uid,
       name: user.displayName,
       email: user.email,
       image: user.photoURL

@@ -10,6 +10,18 @@ export default async function handler(parent, args, context) {
 
     const { user } = await signInWithCredential(auth, credential)
 
+    const userExists = await context.prisma.user.findUnique({
+      where: { email: user.email },
+      select: { id: true }
+    })
+
+    if (!userExists) {
+      throw new GraphQLError(
+        `You are not authorized to access this application. Please visit https://jana19.dev for more information.`,
+        { extensions: { code: 401 } }
+      )
+    }
+
     context.reqEvent.cookies.set(`accessToken`, accessToken, {
       path: `/`,
       httpOnly: true,

@@ -13,6 +13,7 @@
     alt={$page.data.session.user.name}
   />
   <p>Logged in as <strong>{$page.data.session.user.name}</strong></p>
+  <p class="text-xs">{$page.data.session.user.email}</p>
 
   <Button href="/logout" variant="outlined" color="red" data-sveltekit-preload-data="tap"
     >Logout</Button
