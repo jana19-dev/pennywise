@@ -7,6 +7,8 @@
   import TableHeaderCell from "$lib/components/table/TableHeaderCell.svelte"
   import TableHeaderSort from "$lib/components/table/TableHeaderSort.svelte"
 
+  import SelectAccountTypeInput from "$lib/components/select/SelectAccountTypeInput.svelte"
+
   import CreateAccount from "$lib/components/application/account/mutations/CreateAccount.svelte"
 
   $: activeSearch = $page.url.searchParams.get(`search`)
@@ -69,14 +71,18 @@
   </TextInput>
 </TableHeaderCell>
 <TableHeaderCell>
-  <TextInput
+  <SelectAccountTypeInput
     name="accountType"
+    class="min-w-[9rem]"
     label="Account Type"
-    class="min-w-[7rem] py-2.5"
-    inputClass="text-xs"
+    hideIcon
+    inputClass="text-xs py-1.5"
     color="gray"
     value={searchFields[`accountType`]}
-    on:stopTyping={handleChange}
+    on:select={({ detail }) =>
+      handleChange({
+        target: { name: `accountType`, value: detail.option.value ? detail.option.label : `` }
+      })}
   />
 </TableHeaderCell>
 <TableHeaderCell>

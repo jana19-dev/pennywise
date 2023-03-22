@@ -1,27 +1,27 @@
 <script>
-  export let account
+  export let transaction
   export let isInline = false
 
   import { createForm } from "svelte-forms-lib"
   import * as yup from "yup"
 
   import { createMutation, useQueryClient } from "@tanstack/svelte-query"
-  import { UPDATE_ACCOUNT_TYPE } from "$lib/graphql/client/account/mutations"
+  import { UPDATE_TRANSACTION_ACCOUNT } from "$lib/graphql/client/transaction/mutations"
   import { INVALIDATE_QUERIES_FROM_MUTATION } from "$lib/utils/client/cacheInvalidation"
 
   import { SelectInputEditDialog } from "@codepiercer/svelte-tailwind"
-  import SelectAccountTypeInput from "$lib/components/select/SelectAccountTypeInput.svelte"
+  import SelectAccountInput from "$lib/components/select/SelectAccountInput.svelte"
   import toast from "$lib/utils/client/toast"
 
   const queryClient = useQueryClient()
 
   let dialog
 
-  const updateAccountTypeMutation = createMutation(UPDATE_ACCOUNT_TYPE, {
+  const updateTransactionAccountMutation = createMutation(UPDATE_TRANSACTION_ACCOUNT, {
     onSuccess: () => {
       queryClient.invalidateQueries({
         predicate: ({ queryKey }) =>
-          INVALIDATE_QUERIES_FROM_MUTATION[`UPDATE_ACCOUNT_TYPE`].includes(queryKey[0])
+          INVALIDATE_QUERIES_FROM_MUTATION[`UPDATE_TRANSACTION_ACCOUNT`].includes(queryKey[0])
       })
       toast.success(`Successfully updated`)
       setTimeout(onClose)
@@ -30,28 +30,28 @@
 
   const { form, errors, handleSubmit, handleReset, updateInitialValues } = createForm({
     validationSchema: yup.object().shape({
-      accountTypeId: yup.string()
+      accountId: yup.string().required()
     }),
     initialValues: {
-      accountTypeId: account.accountType?.id
+      accountId: transaction.account?.id
     },
-    onSubmit: ({ accountTypeId }) => {
-      $updateAccountTypeMutation.mutate({
-        id: account.id,
-        accountTypeId
+    onSubmit: ({ accountId }) => {
+      $updateTransactionAccountMutation.mutate({
+        id: transaction.id,
+        accountId
       })
     }
   })
 
   const onClose = () => {
     handleReset()
-    $updateAccountTypeMutation.reset()
+    $updateTransactionAccountMutation.reset()
     dialog.hide()
   }
 
   $: {
     updateInitialValues({
-      accountTypeId: account.accountType?.id
+      accountId: transaction.account?.id
     })
   }
 </script>
@@ -59,22 +59,22 @@
 <SelectInputEditDialog
   bind:dialog
   {isInline}
-  label="Account Type"
-  serverError={$updateAccountTypeMutation.error?.message}
-  isLoading={$updateAccountTypeMutation.isLoading}
+  label="Account"
+  serverError={$updateTransactionAccountMutation.error?.message}
+  isLoading={$updateTransactionAccountMutation.isLoading}
   on:submit={handleSubmit}
   on:close={onClose}
 >
-  <span>{account.accountType?.name || `-`}</span>
+  <span>{transaction.account?.name || `-`}</span>
   <div slot="input">
-    <SelectAccountTypeInput
-      name="accountTypeId"
+    <SelectAccountInput
       isRequired
-      label="Account Type"
-      value={$form[`accountTypeId`]}
-      error={$errors[`accountTypeId`]}
+      name="accountId"
+      label="Account"
+      value={$form[`accountId`]}
+      error={$errors[`accountId`]}
       on:select={({ detail }) => {
-        $form[`accountTypeId`] = detail.option.value
+        $form[`accountId`] = detail.option.value
       }}
     />
   </div>

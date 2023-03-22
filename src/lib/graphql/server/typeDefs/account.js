@@ -14,6 +14,8 @@ export default /* GraphQL */ `
       searchField: String
       subSearchField: String
     ): JSON!
+
+    getAllAccountsLean(search: String): JSON!
   }
 
   type Mutation {

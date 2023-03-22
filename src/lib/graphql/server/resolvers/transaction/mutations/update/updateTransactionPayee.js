@@ -47,7 +47,8 @@ export default async function handler(parent, args, context) {
       id: payeeId
     },
     select: {
-      id: true
+      id: true,
+      userId: true
     }
   })
 

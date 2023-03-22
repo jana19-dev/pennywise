@@ -39,7 +39,15 @@ const accounts = (search, searchField, subSearchField) => {
       break
     case `startingBalance`:
       // search for starting balance greater than or equal to search value floor and ceiling
-      OR.push({ startingBalance: { gte: Math.floor(search), lte: Math.ceil(search) + 1 } })
+      OR.push({
+        startingBalance: { gte: Math.abs(Math.floor(search)), lte: Math.abs(Math.ceil(search)) + 1 }
+      })
+      OR.push({
+        startingBalance: {
+          gte: Math.abs(Math.floor(search)) * -1 - 1,
+          lte: Math.abs(Math.ceil(search)) * -1
+        }
+      })
       break
     default:
       OR.push({ name: { contains: search, mode: `insensitive` } })
@@ -88,7 +96,15 @@ const transactions = (search, searchField, subSearchField) => {
       break
     case `amount`:
       // search for amount greater than or equal to search value floor and ceiling
-      OR.push({ amount: { gte: Math.floor(search), lte: Math.ceil(search) + 1 } })
+      OR.push({
+        amount: { gte: Math.abs(Math.floor(search)), lte: Math.abs(Math.ceil(search)) + 1 }
+      })
+      OR.push({
+        amount: {
+          gte: Math.abs(Math.floor(search)) * -1 - 1,
+          lte: Math.abs(Math.ceil(search)) * -1
+        }
+      })
       break
     case `memo`:
       OR.push({ memo: { contains: search, mode: `insensitive` } })

@@ -119,7 +119,6 @@
       error={$errors[`startingDate`]}
       on:pickDate={({ detail }) => ($form[`startingDate`] = detail.date)}
     />
-
     <TextInput
       type="number"
       inputProps={{ step: 0.01 }}
