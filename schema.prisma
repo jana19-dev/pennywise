@@ -78,10 +78,10 @@ model Transaction {
 }
 
 model DailyAccountBalance {
-  id         String   @id @default(uuid())
-  date       DateTime @db.Date
-  accountId  String
-  balance    Float
+  id        String   @id @default(uuid())
+  date      DateTime @db.Date
+  accountId String
+  balance   Float
 
   @@unique([date, accountId], name: "daily_account_balance_date_account_id")
 }
