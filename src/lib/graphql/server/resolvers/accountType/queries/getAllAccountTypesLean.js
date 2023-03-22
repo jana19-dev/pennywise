@@ -24,7 +24,7 @@ export default async function handler(parent, args, context) {
     }))
   }
 
-  return context.prisma.accountType.findMany({
+  const accountTypes = await context.prisma.accountType.findMany({
     where,
     orderBy: [{ priority: `asc` }, { name: `asc` }],
     select: {
@@ -39,4 +39,23 @@ export default async function handler(parent, args, context) {
       }
     }
   })
+
+  // insert account balances for each account
+  for (const accountType of accountTypes) {
+    for (const account of accountType.accounts) {
+      const {
+        _sum: { amount: balance }
+      } = await context.prisma.transaction.aggregate({
+        where: {
+          accountId: account.id
+        },
+        _sum: {
+          amount: true
+        }
+      })
+      account.balance = parseFloat(balance || 0).toFixed(2)
+    }
+  }
+
+  return accountTypes
 }

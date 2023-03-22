@@ -6,7 +6,7 @@
 </script>
 
 <svelte:head>
-  <title>{$page.data?.title || ``} | Budget</title>
+  <title>{$page.data?.title || ``} | PennyWise</title>
 </svelte:head>
 
 <div class="flex h-full w-full">

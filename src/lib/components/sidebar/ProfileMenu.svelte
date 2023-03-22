@@ -8,9 +8,9 @@
 
 <Button
   on:click={dialog.show}
-  color="gray"
-  variant="primary"
-  class="my-1 w-full justify-between gap-2 px-2"
+  color="blue"
+  variant="ghost"
+  class="my-1 w-full justify-between gap-2 !bg-blue-900 px-4"
 >
   <img
     class="inline-block h-8 w-8 rounded-full"

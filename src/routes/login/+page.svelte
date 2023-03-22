@@ -3,7 +3,7 @@
 </script>
 
 <svelte:head>
-  <title>Login - Budget</title>
+  <title>Login - PennyWise</title>
 </svelte:head>
 
 <div class="min-h-full bg-gray-900 ">
@@ -64,8 +64,8 @@
       </svg>
       <div class="mx-auto max-w-7xl px-6 pb-24 pt-40 sm:pb-40 lg:flex lg:px-8">
         <div class="mx-auto max-w-2xl flex-shrink-0 lg:mx-0 lg:max-w-xl lg:pt-8">
-          <img class="h-16" src="/logo.png" alt="Budget logo" />
-          <div class="mt-16 sm:mt-32 lg:mt-16">
+          <img class="h-24" src="/logo.png" alt="PennyWise logo" />
+          <div class="mt-8">
             <a href="https://jana19.dev/" class="inline-flex space-x-6">
               <span
                 class="rounded-full bg-indigo-500/10 px-3 py-1 text-sm font-semibold leading-6 text-indigo-400 ring-1 ring-inset ring-indigo-500/20"
@@ -73,9 +73,9 @@
               >
             </a>
           </div>
-          <h1 class="mt-10 text-4xl font-bold tracking-tight text-white sm:text-6xl">Budget</h1>
+          <h1 class="mt-10 text-4xl font-bold tracking-tight text-white sm:text-6xl">PennyWise</h1>
           <p class="mt-6 text-lg leading-8 text-gray-300">
-            Get more out of your money with Budget - Your personal finance tracker and budgeting
+            Get more out of your money with PennyWise - Your personal finance tracker and budgeting
             buddy.
           </p>
           <div class="mt-10 flex items-center gap-x-6">
