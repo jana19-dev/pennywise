@@ -48,7 +48,7 @@ export default async function handler(parent, args, context) {
     )
   }
 
-  await context.prisma.category.category({
+  await context.prisma.category.delete({
     where: { id }
   })
 

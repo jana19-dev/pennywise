@@ -48,7 +48,7 @@ export default async function handler(parent, args, context) {
     )
   }
 
-  await context.prisma.payee.payee({
+  await context.prisma.payee.delete({
     where: { id }
   })
 

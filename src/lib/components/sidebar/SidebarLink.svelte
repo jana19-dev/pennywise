@@ -28,7 +28,7 @@
   class:bg-indigo-600={isActive && color === `indigo`}
   class:hover:bg-indigo-700={isActive && color === `indigo`}
   class:text-indigo-50={isActive && color === `indigo`}
-  class:text-indigo-200={!isActive && color === `indigo`}
+  class:text-indigo-100={!isActive && color === `indigo`}
   class:hover:text-indigo-50={isActive && color === `indigo`}
   class:hover:text-indigo-100={!isActive && color === `indigo`}
   class:hover:bg-indigo-600={!isActive && color === `indigo`}

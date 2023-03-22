@@ -33,7 +33,7 @@ export default async function handler(parent, args, context) {
     })
   }
 
-  await context.prisma.transaction.transaction({
+  await context.prisma.transaction.delete({
     where: { id }
   })
 

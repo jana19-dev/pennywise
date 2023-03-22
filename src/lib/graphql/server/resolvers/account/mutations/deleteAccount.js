@@ -48,7 +48,7 @@ export default async function handler(parent, args, context) {
     )
   }
 
-  await context.prisma.account.account({
+  await context.prisma.account.delete({
     where: { id }
   })
 
