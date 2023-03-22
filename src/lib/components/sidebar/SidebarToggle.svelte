@@ -12,7 +12,7 @@
   <div
     class="flex items-center focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
   >
-    <img src="/logo.png" alt="budget logo" class="h-10 w-10" />
+    <img src="/logo.png" alt="pennywise logo" class="h-10 w-10" />
     <div class="relative focus:outline-none focus:ring-2 focus:ring-indigo-500">
       <h1 class="mx-2 text-xl font-semibold tracking-wider text-blue-900">PennyWise</h1>
     </div>

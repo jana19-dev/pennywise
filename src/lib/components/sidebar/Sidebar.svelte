@@ -40,7 +40,7 @@
       data-sveltekit-reload
       class="my-4 flex items-center p-1 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
     >
-      <img src="/logo.png" alt="budget logo" class="h-8 w-8" />
+      <img src="/logo.png" alt="pennywise logo" class="h-8 w-8" />
       <div class="relative focus:outline-none focus:ring-2 focus:ring-indigo-500">
         <h1 class="mx-2 text-xl font-semibold tracking-tight text-gray-50">PennyWise</h1>
       </div>
