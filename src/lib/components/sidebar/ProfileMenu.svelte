@@ -3,6 +3,8 @@
 
   import { Dialog, Button, LoadingAlert, ErrorAlert } from "@codepiercer/svelte-tailwind"
 
+  import CurrencyView from "$lib/components/ui/CurrencyView.svelte"
+
   import { createQuery } from "@tanstack/svelte-query"
   import { GET_USER_OVERVIEW } from "$lib/graphql/client/auth/queries"
 
@@ -34,7 +36,7 @@
 
 <Dialog bind:dialog closeOnOverlayClick size="sm">
   <div slot="content">
-    <div class="mt-4 overflow-hidden rounded-lg bg-white shadow">
+    <div class="overflow-hidden rounded-lg bg-white shadow">
       <h2 class="sr-only" id="user-overview-title">User Overview</h2>
       <div class="bg-white p-6">
         <div class="sm:flex sm:items-center sm:justify-between">
@@ -89,7 +91,7 @@
             class="flex items-center justify-between px-16 py-5 text-center text-sm font-medium "
           >
             <span class="text-gray-600">Net Worth</span>
-            <span class="text-lg text-gray-900">{$userOverviewQueryResult.data.netWorth}</span>
+            <CurrencyView amount={$userOverviewQueryResult.data.netWorth} size="lg" />
           </div>
         </div>
       {/if}

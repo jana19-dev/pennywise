@@ -3,7 +3,7 @@
   "version": "0.3.0",
   "private": true,
   "scripts": {
-    "dev": "vite dev --host",
+    "dev": "TZ=UTC vite dev --host",
     "build": "npm run lint && vite build",
     "preview": "npm run build && vite preview",
     "lint": "prettier . --check && eslint .",

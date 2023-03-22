@@ -30,11 +30,21 @@ export default async function handler(parent, args, context) {
     }
   })
 
+  const accountStartingBalances = await context.prisma.account.aggregate({
+    where,
+    _sum: {
+      startingBalance: true
+    }
+  })
+
   return {
     accounts,
     categories,
     payees,
     transactions,
-    netWorth: parseFloat(netWorth._sum.amount || 0).toFixed(2)
+    netWorth: (
+      parseFloat(netWorth._sum.amount || 0) +
+      parseFloat(accountStartingBalances._sum.startingBalance || 0)
+    ).toFixed(2)
   }
 }

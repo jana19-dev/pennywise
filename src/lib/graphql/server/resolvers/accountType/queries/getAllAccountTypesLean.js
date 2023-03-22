@@ -33,7 +33,8 @@ export default async function handler(parent, args, context) {
       accounts: {
         select: {
           id: true,
-          name: true
+          name: true,
+          startingBalance: true
         },
         orderBy: { name: `asc` }
       }
@@ -53,7 +54,9 @@ export default async function handler(parent, args, context) {
           amount: true
         }
       })
-      account.balance = parseFloat(balance || 0).toFixed(2)
+      account.balance = parseFloat(
+        parseFloat(balance || 0) + parseFloat(account.startingBalance || 0)
+      ).toFixed(2)
     }
   }
 

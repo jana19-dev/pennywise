@@ -2,20 +2,21 @@
   import { goto } from "$app/navigation"
   import { page } from "$app/stores"
 
-  import { TextInput } from "@codepiercer/svelte-tailwind"
+  import { TextInput, DateInput } from "@codepiercer/svelte-tailwind"
 
   import TableHeaderCell from "$lib/components/table/TableHeaderCell.svelte"
   import TableHeaderSort from "$lib/components/table/TableHeaderSort.svelte"
 
-  import CreateAccountType from "$lib/components/application/accountType/mutations/CreateAccountType.svelte"
+  import CreateAccount from "$lib/components/application/account/mutations/CreateAccount.svelte"
 
   $: activeSearch = $page.url.searchParams.get(`search`)
   $: activeSearchField = $page.url.searchParams.get(`searchField`)
 
   let searchFields = {
     name: ``,
-    priority: ``,
-    accounts: ``
+    accountType: ``,
+    startingDate: ``,
+    startingBalance: ``
   }
 
   $: {
@@ -50,7 +51,7 @@
 </script>
 
 <TableHeaderCell>
-  <CreateAccountType />
+  <CreateAccount />
 </TableHeaderCell>
 <TableHeaderCell>
   <TextInput
@@ -69,28 +70,48 @@
 </TableHeaderCell>
 <TableHeaderCell>
   <TextInput
-    name="priority"
-    label="Priority"
+    name="accountType"
+    label="Account Type"
     class="min-w-[7rem] py-2.5"
     inputClass="text-xs"
     color="gray"
-    value={searchFields[`priority`]}
+    value={searchFields[`accountType`]}
+    on:stopTyping={handleChange}
+  />
+</TableHeaderCell>
+<TableHeaderCell>
+  <DateInput
+    name="startingDate"
+    label="Starting Date"
+    type="date"
+    class="min-w-[7rem] py-2"
+    inputClass="text-xs"
+    color="gray"
+    value={searchFields[`startingDate`]}
+    on:pickDate={({ detail }) =>
+      handleChange({ target: { name: `startingDate`, value: detail.date } })}
+  >
+    <div slot="label">
+      <TableHeaderSort orderByField="startingDate">Starting Date</TableHeaderSort>
+    </div>
+  </DateInput>
+</TableHeaderCell>
+<TableHeaderCell>
+  <TextInput
+    name="startingBalance"
+    type="number"
+    label="Starting Balance"
+    class="min-w-[7rem] py-2.5"
+    inputClass="text-xs"
+    color="gray"
+    value={searchFields[`startingBalance`]}
     on:stopTyping={handleChange}
   >
     <div slot="label">
-      <TableHeaderSort orderByField="priority">Priority</TableHeaderSort>
+      <TableHeaderSort orderByField="startingBalance">Starting Balance</TableHeaderSort>
     </div>
   </TextInput>
 </TableHeaderCell>
 <TableHeaderCell>
-  <TextInput
-    name="accounts"
-    class="py-2.5"
-    inputClass="text-xs"
-    color="gray"
-    value={searchFields[`accounts`]}
-    on:stopTyping={handleChange}
-  >
-    <div slot="label">Accounts</div>
-  </TextInput>
+  <div class="text-right">Current Balance</div>
 </TableHeaderCell>

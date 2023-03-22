@@ -1,10 +1,10 @@
 import dateFns from "date-fns"
 
-const getDateRange = (search) => {
+const getDateTimeRange = (search) => {
   const searchDate = new Date(search)
   const gte = dateFns.startOfDay(searchDate)
-  const lt = dateFns.endOfDay(searchDate)
-  return { gte, lt }
+  const lte = dateFns.endOfDay(searchDate)
+  return { gte, lte }
 }
 
 const accountTypes = (search, searchField) => {
@@ -15,6 +15,9 @@ const accountTypes = (search, searchField) => {
       break
     case `priority`:
       OR.push({ priority: { equals: parseInt(search) } })
+      break
+    case `accounts`:
+      OR.push({ accounts: { some: { OR: accounts(search) } } })
       break
     default:
       OR.push({ name: { contains: search, mode: `insensitive` } })
@@ -32,11 +35,11 @@ const accounts = (search, searchField, subSearchField) => {
       OR.push({ accountType: { OR: accountTypes(search, subSearchField) } })
       break
     case `startingDate`:
-      OR.push({ startingDate: getDateRange(search) })
+      OR.push({ startingDate: getDateTimeRange(search) })
       break
     case `startingBalance`:
       // search for starting balance greater than or equal to search value floor and ceiling
-      OR.push({ startingBalance: { gte: Math.floor(search), lte: Math.ceil(search) } })
+      OR.push({ startingBalance: { gte: Math.floor(search), lte: Math.ceil(search) + 1 } })
       break
     default:
       OR.push({ name: { contains: search, mode: `insensitive` } })
@@ -72,7 +75,7 @@ const transactions = (search, searchField, subSearchField) => {
   const OR = []
   switch (searchField) {
     case `date`:
-      OR.push({ date: getDateRange(search) })
+      OR.push({ date: getDateTimeRange(search) })
       break
     case `category`:
       OR.push({ category: { OR: categories(search, subSearchField) } })
@@ -85,7 +88,7 @@ const transactions = (search, searchField, subSearchField) => {
       break
     case `amount`:
       // search for amount greater than or equal to search value floor and ceiling
-      OR.push({ amount: { gte: Math.floor(search), lte: Math.ceil(search) } })
+      OR.push({ amount: { gte: Math.floor(search), lte: Math.ceil(search) + 1 } })
       break
     case `memo`:
       OR.push({ memo: { contains: search, mode: `insensitive` } })

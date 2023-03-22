@@ -1,17 +1,17 @@
 import { graphQLClient, gql, handleError } from "$lib/graphql/client"
 
-export const GET_ALL_PAYEES = ({ queryKey: [, variables] = [], pageParam = 0 } = {}) =>
+export const GET_ALL_ACCOUNTS = ({ queryKey: [, variables] = [], pageParam = 0 } = {}) =>
   graphQLClient
     .request(
       gql`
-        query GET_ALL_PAYEES(
+        query GET_ALL_ACCOUNTS(
           $skip: Int
-          $orderBy: [PayeeOrderByInput!]
+          $orderBy: [AccountOrderByInput!]
           $search: String
           $searchField: String
           $subSearchField: String
         ) {
-          getAllPayees(
+          getAllAccounts(
             skip: $skip
             orderBy: $orderBy
             search: $search
@@ -22,5 +22,5 @@ export const GET_ALL_PAYEES = ({ queryKey: [, variables] = [], pageParam = 0 } =
       `,
       { ...variables, skip: pageParam }
     )
-    .then(({ getAllPayees }) => getAllPayees)
+    .then(({ getAllAccounts }) => getAllAccounts)
     .catch(handleError)

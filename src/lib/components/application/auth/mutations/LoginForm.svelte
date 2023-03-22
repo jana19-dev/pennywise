@@ -14,6 +14,7 @@
   let googleLoginError = null
   let isRedirecting = false
   const onLogin = () => {
+    isRedirecting = true
     googleLoginError = null
     signInWithPopup(auth, provider)
       .then((result) => {
@@ -26,6 +27,7 @@
         // Handle Errors here.
         const errorMessage = error.message
         googleLoginError = errorMessage
+        isRedirecting = false
       })
   }
 

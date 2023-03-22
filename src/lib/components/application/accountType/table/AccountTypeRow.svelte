@@ -4,8 +4,9 @@
   import TableCell from "$lib/components/table/TableCell.svelte"
 
   import DeleteAccountType from "$lib/components/application/accountType/mutations/DeleteAccountType.svelte"
-  import EditAccountTypeName from "$lib/components/application/accountType/mutations/update/EditAccountTypeName.svelte"
-  import EditAccountTypePriority from "$lib/components/application/accountType/mutations/update/EditAccountTypePriority.svelte"
+  import UpdateAccountTypeName from "$lib/components/application/accountType/mutations/update/UpdateAccountTypeName.svelte"
+  import UpdateAccountTypePriority from "$lib/components/application/accountType/mutations/update/UpdateAccountTypePriority.svelte"
+  import AccountTypeAccounts from "$lib/components/application/accountType/table/AccountTypeAccounts.svelte"
 </script>
 
 <tr class="h-10">
@@ -13,9 +14,12 @@
     <DeleteAccountType {accountType} />
   </TableCell>
   <TableCell>
-    <EditAccountTypeName {accountType} isInline />
+    <UpdateAccountTypeName {accountType} isInline />
   </TableCell>
   <TableCell>
-    <EditAccountTypePriority {accountType} isInline />
+    <UpdateAccountTypePriority {accountType} isInline />
+  </TableCell>
+  <TableCell>
+    <AccountTypeAccounts {accountType} />
   </TableCell>
 </tr>

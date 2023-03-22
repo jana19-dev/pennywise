@@ -52,7 +52,7 @@
 
 <FormDialog
   bind:dialog
-  title="Add new account type"
+  title="Create new account type"
   error={$createAccountTypeMutation?.error?.message}
   isLoading={$createAccountTypeMutation.isLoading}
   on:submit={handleSubmit}
