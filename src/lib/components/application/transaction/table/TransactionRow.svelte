@@ -1,6 +1,8 @@
 <script>
   export let transaction
 
+  import { page } from "$app/stores"
+
   import TableCell from "$lib/components/table/TableCell.svelte"
 
   import DeleteTransaction from "$lib/components/application/transaction/mutations/DeleteTransaction.svelte"
@@ -19,9 +21,11 @@
   <TableCell>
     <UpdateTransactionDate {transaction} isInline />
   </TableCell>
-  <TableCell>
-    <UpdateTransactionAccount {transaction} isInline />
-  </TableCell>
+  {#if !$page.params.accountId}
+    <TableCell>
+      <UpdateTransactionAccount {transaction} isInline />
+    </TableCell>
+  {/if}
   <TableCell>
     <UpdateTransactionCategory {transaction} isInline />
   </TableCell>

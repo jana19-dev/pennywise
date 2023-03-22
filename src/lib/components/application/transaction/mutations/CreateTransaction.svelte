@@ -1,4 +1,6 @@
 <script>
+  import { page } from "$app/stores"
+
   import { Button, FormDialog, TextInput, DateInput } from "@codepiercer/svelte-tailwind"
   import PlusIcon from "@codepiercer/svelte-tailwind/icons/PlusIcon.svelte"
   import CheckIcon from "$lib/components/icons/CheckIcon.svelte"
@@ -33,44 +35,52 @@
   })
 
   let isIncome = false
-  const { form, errors, touched, handleChange, handleSubmit, handleReset } = createForm({
-    validationSchema: yup.object().shape({
-      date: yup.string().required(),
-      accountId: yup.string().required(),
-      categoryId: yup.string().required(),
-      payeeId: yup.string().required(),
-      amount: yup
-        .number()
-        .typeError(
-          `The amount should be a positive decimal with maximum two digits of decimal places`
-        )
-        .test(
-          `is-decimal`,
-          `The amount should be a positive decimal with maximum two digits of decimal places`,
-          (val) => {
-            if (val != undefined) {
-              return /^\d+(\.\d{0,2})?$/.test(val)
+  const { form, errors, touched, handleChange, handleSubmit, handleReset, updateInitialValues } =
+    createForm({
+      validationSchema: yup.object().shape({
+        date: yup.string().required(),
+        accountId: yup.string().required(),
+        categoryId: yup.string().required(),
+        payeeId: yup.string().required(),
+        amount: yup
+          .number()
+          .typeError(
+            `The amount should be a positive decimal with maximum two digits of decimal places`
+          )
+          .test(
+            `is-decimal`,
+            `The amount should be a positive decimal with maximum two digits of decimal places`,
+            (val) => {
+              if (val != undefined) {
+                return /^\d+(\.\d{0,2})?$/.test(val)
+              }
+              return true
             }
-            return true
-          }
-        )
-        .required(),
-      memo: yup.string()
-    }),
-    initialValues: {
-      date: new Date()
-    },
-    onSubmit: ({ date, accountId, categoryId, payeeId, amount, memo }) => {
-      $createTransactionMutation.mutate({
-        date: formatDate(date),
-        accountId,
-        categoryId,
-        payeeId,
-        amount: isIncome ? parseFloat(amount) : parseFloat(amount) * -1,
-        memo
-      })
-    }
-  })
+          )
+          .required(),
+        memo: yup.string()
+      }),
+      initialValues: {
+        date: new Date(),
+        accountId: $page.params.accountId
+      },
+      onSubmit: ({ date, accountId, categoryId, payeeId, amount, memo }) => {
+        $createTransactionMutation.mutate({
+          date: formatDate(date),
+          accountId,
+          categoryId,
+          payeeId,
+          amount: isIncome ? parseFloat(amount) : parseFloat(amount) * -1,
+          memo
+        })
+      }
+    })
+
+  $: {
+    updateInitialValues({
+      accountId: $page.params.accountId
+    })
+  }
 
   const onClose = () => {
     handleReset()

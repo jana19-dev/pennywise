@@ -60,20 +60,37 @@ export default async function handler(parent, args, context) {
   }
 
   // get metrics
-  const allCountPromise = context.prisma.account.count()
-  const filteredCountPromise = context.prisma.account.count({ where })
+  const allCountPromise = context.prisma.transaction.count()
+  const filteredCountPromise = context.prisma.transaction.count({ where })
 
-  const dataPromise = context.prisma.account.findMany({
+  const dataPromise = context.prisma.transaction.findMany({
     where,
     orderBy,
     skip,
     take: QUERY_LIMIT,
     select: {
       id: true,
-      name: true,
-      type: true,
-      startingDate: true,
-      startingBalance: true
+      date: true,
+      account: {
+        select: {
+          id: true,
+          name: true
+        }
+      },
+      category: {
+        select: {
+          id: true,
+          name: true
+        }
+      },
+      payee: {
+        select: {
+          id: true,
+          name: true
+        }
+      },
+      amount: true,
+      memo: true
     }
   })
 

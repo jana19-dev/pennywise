@@ -37,7 +37,6 @@
   <div class=" flex items-center justify-center">
     <a
       href="/"
-      data-sveltekit-reload
       class="my-4 flex items-center p-1 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
     >
       <img src="/logo.png" alt="pennywise logo" class="h-8 w-8" />
@@ -62,7 +61,7 @@
           {#each $accountTypesQueryResult.data as accountType (accountType.id)}
             {#if accountType.accounts.length > 0}
               <span
-                class="inline-flex w-fit items-center rounded bg-indigo-500/70 px-2 py-0.5 text-xs font-medium text-white"
+                class="inline-flex w-fit items-center rounded bg-yellow-600/40 px-2 py-0.5 text-xs font-medium text-white"
                 >{accountType.name}</span
               >
               {#each accountType.accounts as account (account.id)}
