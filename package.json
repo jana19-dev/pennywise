@@ -10,6 +10,7 @@
     "lint:fix": "prettier . --write && eslint . --fix",
     "husky": "husky install",
     "prisma": "prisma format && prisma db push",
+    "prisma:generate": "prisma generate",
     "studio": "prisma studio"
   },
   "devDependencies": {
