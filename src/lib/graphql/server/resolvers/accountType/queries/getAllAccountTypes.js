@@ -20,7 +20,7 @@ export default async function handler(parent, args, context) {
     searchField,
     subSearchField,
     skip = 0,
-    orderBy = [{ order: `desc` }, { name: `asc` }]
+    orderBy = [{ priority: `asc` }, { name: `asc` }]
   } = args
 
   const where = { userId: authUser.id }
@@ -51,7 +51,15 @@ export default async function handler(parent, args, context) {
     take: QUERY_LIMIT,
     select: {
       id: true,
-      name: true
+      name: true,
+      priority: true,
+      accounts: {
+        select: {
+          id: true,
+          name: true
+        },
+        orderBy: { name: `asc` }
+      }
     }
   })
 

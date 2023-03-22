@@ -20,7 +20,7 @@ model User {
 model AccountType {
   id       String    @id @default(uuid())
   name     String
-  order    Int       @default(0)
+  priority Int       @default(99)
   user     User      @relation(fields: [userId], references: [id])
   userId   String
   accounts Account[]

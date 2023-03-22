@@ -1,6 +1,7 @@
 export default /* GraphQL */ `
   input AccountTypeOrderByInput {
     name: SortOrder
+    priority: SortOrder
   }
 
   type Query {
@@ -16,10 +17,10 @@ export default /* GraphQL */ `
   }
 
   type Mutation {
-    createAccountType(name: String!, order: Int): JSON!
+    createAccountType(name: String!, priority: Int): JSON!
 
     updateAccountTypeName(id: ID!, name: String!): JSON!
-    updateAccountTypeOrder(id: ID!, order: Int!): JSON!
+    updateAccountTypePriority(id: ID!, priority: Int!): JSON!
 
     deleteAccountType(id: ID!): JSON!
   }

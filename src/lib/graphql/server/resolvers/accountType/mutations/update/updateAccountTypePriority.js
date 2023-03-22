@@ -14,7 +14,7 @@ export default async function handler(parent, args, context) {
     }
   })
 
-  const { id, order } = args
+  const { id, priority } = args
 
   const accountTypeExists = await context.prisma.accountType.findUnique({
     where: {
@@ -47,7 +47,7 @@ export default async function handler(parent, args, context) {
       id
     },
     data: {
-      order
+      priority
     },
     select: {
       id: true

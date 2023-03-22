@@ -14,11 +14,11 @@ export default async function handler(parent, args, context) {
     }
   })
 
-  const { name } = args
+  const { name, priority } = args
 
   const accountTypeExists = await context.prisma.accountType.findUnique({
     where: {
-      accountType_name_user_id: {
+      account_type_name_user_id: {
         name,
         userId: authUser.id
       }
@@ -39,6 +39,7 @@ export default async function handler(parent, args, context) {
   await context.prisma.accountType.create({
     data: {
       name,
+      priority,
       userId: authUser.id
     }
   })

@@ -7,4 +7,6 @@ export async function load({ parent, url }) {
   if (!session.user) {
     throw redirect(302, `/login?referrer=${encodeURIComponent(url.href)}`)
   }
+
+  throw redirect(302, `/transactions`)
 }

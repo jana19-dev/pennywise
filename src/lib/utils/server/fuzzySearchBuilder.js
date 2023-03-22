@@ -11,10 +11,13 @@ const accountTypes = (search, searchField) => {
   const OR = []
   switch (searchField) {
     case `name`:
-      OR.push({ name: { contains: search } })
+      OR.push({ name: { contains: search, mode: `insensitive` } })
+      break
+    case `priority`:
+      OR.push({ priority: { equals: parseInt(search) } })
       break
     default:
-      OR.push({ name: { contains: search } })
+      OR.push({ name: { contains: search, mode: `insensitive` } })
   }
   return OR
 }
@@ -23,7 +26,7 @@ const accounts = (search, searchField, subSearchField) => {
   const OR = []
   switch (searchField) {
     case `name`:
-      OR.push({ name: { contains: search } })
+      OR.push({ name: { contains: search, mode: `insensitive` } })
       break
     case `accountType`:
       OR.push({ accountType: { OR: accountTypes(search, subSearchField) } })
@@ -36,7 +39,7 @@ const accounts = (search, searchField, subSearchField) => {
       OR.push({ startingBalance: { gte: Math.floor(search), lte: Math.ceil(search) } })
       break
     default:
-      OR.push({ name: { contains: search } })
+      OR.push({ name: { contains: search, mode: `insensitive` } })
   }
   return OR
 }
@@ -45,10 +48,10 @@ const categories = (search, searchField) => {
   const OR = []
   switch (searchField) {
     case `name`:
-      OR.push({ name: { contains: search } })
+      OR.push({ name: { contains: search, mode: `insensitive` } })
       break
     default:
-      OR.push({ name: { contains: search } })
+      OR.push({ name: { contains: search, mode: `insensitive` } })
   }
   return OR
 }
@@ -57,10 +60,10 @@ const payees = (search, searchField) => {
   const OR = []
   switch (searchField) {
     case `name`:
-      OR.push({ name: { contains: search } })
+      OR.push({ name: { contains: search, mode: `insensitive` } })
       break
     default:
-      OR.push({ name: { contains: search } })
+      OR.push({ name: { contains: search, mode: `insensitive` } })
   }
   return OR
 }
@@ -85,10 +88,10 @@ const transactions = (search, searchField, subSearchField) => {
       OR.push({ amount: { gte: Math.floor(search), lte: Math.ceil(search) } })
       break
     case `memo`:
-      OR.push({ memo: { contains: search } })
+      OR.push({ memo: { contains: search, mode: `insensitive` } })
       break
     default:
-      OR.push({ memo: { contains: search } })
+      OR.push({ memo: { contains: search, mode: `insensitive` } })
   }
   return OR
 }

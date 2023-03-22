@@ -1,7 +1,7 @@
 import createAccountType from "./createAccountType"
 
 import updateAccountTypeName from "./update/updateAccountTypeName"
-import updateAccountTypeOrder from "./update/updateAccountTypeOrder"
+import updateAccountTypePriority from "./update/updateAccountTypePriority"
 
 import deleteAccountType from "./deleteAccountType"
 
@@ -9,7 +9,7 @@ export default {
   createAccountType,
 
   updateAccountTypeName,
-  updateAccountTypeOrder,
+  updateAccountTypePriority,
 
   deleteAccountType
 }
