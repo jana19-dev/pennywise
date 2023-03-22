@@ -1,6 +1,7 @@
 import { DateResolver, JSONResolver } from "graphql-scalars"
 
 import authMutations from "$lib/graphql/server/resolvers/auth/mutations"
+import authQueries from "$lib/graphql/server/resolvers/auth/queries"
 
 import accountQueries from "$lib/graphql/server/resolvers/account/queries"
 import accountMutations from "$lib/graphql/server/resolvers/account/mutations"
@@ -22,6 +23,7 @@ const resolvers = {
   JSON: JSONResolver,
 
   Query: {
+    ...authQueries,
     ...accountQueries,
     ...accountTypeQueries,
     ...categoryQueries,
