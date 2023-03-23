@@ -34,14 +34,15 @@
     }
   })
 
-  let isIncome = false
+  let transactionType = `expense` // expense or income or transfer
   const { form, errors, touched, handleChange, handleSubmit, handleReset, updateInitialValues } =
     createForm({
       validationSchema: yup.object().shape({
         date: yup.string().required(),
         accountId: yup.string().required(),
-        categoryId: yup.string().required(),
-        payeeId: yup.string().required(),
+        categoryId: yup.string(),
+        payeeId: yup.string(),
+        transferAccountId: yup.string(),
         amount: yup
           .number()
           .typeError(
@@ -64,19 +65,20 @@
         date: new Date(),
         accountId: $page.params.accountId
       },
-      onSubmit: ({ date, accountId, categoryId, payeeId, amount, memo }) => {
+      onSubmit: ({ date, accountId, categoryId, payeeId, transferAccountId, amount, memo }) => {
         $createTransactionMutation.mutate({
           date: formatDate(date),
           accountId,
           categoryId,
           payeeId,
-          amount: isIncome ? parseFloat(amount) : parseFloat(amount) * -1,
+          transferAccountId,
+          amount: transactionType === `income` ? parseFloat(amount) : parseFloat(amount) * -1,
           memo
         })
       }
     })
 
-  $: {
+  $: if ($page.params.accountId) {
     updateInitialValues({
       ...$form,
       accountId: $page.params.accountId
@@ -86,7 +88,7 @@
   const onClose = () => {
     handleReset()
     $createTransactionMutation.reset()
-    isIncome = false
+    transactionType = `expense`
     dialog.hide()
   }
 </script>
@@ -100,7 +102,7 @@
   isLoading={$createTransactionMutation.isLoading}
   on:submit={handleSubmit}
   on:close={onClose}
-  initialFocusID="categoryId"
+  initialFocusID="amount"
 >
   <div class="flex flex-col gap-8">
     <DateInput
@@ -124,71 +126,98 @@
         $form[`accountId`] = detail.option.value
       }}
     />
-    <SelectCategoryInput
-      id="categoryId"
+    <TextInput
+      id="amount"
+      type="number"
+      inputProps={{ step: 0.01, min: 0 }}
+      name="amount"
+      label="Amount"
       isRequired
-      name="categoryId"
-      label="Category"
-      value={$form[`categoryId`] || ``}
-      error={$errors[`categoryId`]}
-      on:select={({ detail }) => {
-        $form[`categoryId`] = detail.option.value
-      }}
-    />
-    <SelectPayeeInput
-      isRequired
-      name="payeeId"
-      label="Payee"
-      value={$form[`payeeId`] || ``}
-      error={$errors[`payeeId`]}
-      on:select={({ detail }) => {
-        $form[`payeeId`] = detail.option.value
-      }}
-    />
-    <div class="flex items-center justify-between gap-2">
-      <TextInput
-        type="number"
-        inputProps={{ step: 0.01, min: 0 }}
-        name="amount"
-        label="Amount"
+      isTouched={$touched[`amount`]}
+      value={$form[`amount`]}
+      error={$errors[`amount`]}
+      on:change={handleChange}
+      on:keyup={handleChange}
+      class="flex-1"
+    >
+      <div class="flex items-center gap-1">
+        <Button
+          size="sm"
+          class="py-1 px-1"
+          color="green"
+          variant={transactionType === `income` ? `secondary` : `ghost`}
+          on:click={() => {
+            transactionType = `income`
+          }}
+          >INCOME
+          {#if transactionType === `income`}
+            <CheckIcon />
+          {/if}
+        </Button>
+        <Button
+          size="sm"
+          class="py-1 px-1"
+          color="red"
+          variant={transactionType === `expense` ? `secondary` : `ghost`}
+          on:click={() => {
+            transactionType = `expense`
+          }}
+          >EXPENSE
+          {#if transactionType === `expense`}
+            <CheckIcon />
+          {/if}
+        </Button>
+        <Button
+          size="sm"
+          class="py-1 px-1"
+          color="blue"
+          variant={transactionType === `transfer` ? `secondary` : `ghost`}
+          on:click={() => {
+            transactionType = `transfer`
+          }}
+          >TRANSFER
+          {#if transactionType === `transfer`}
+            <CheckIcon />
+          {/if}
+        </Button>
+      </div>
+    </TextInput>
+    {#if transactionType !== `transfer`}
+      <SelectCategoryInput
         isRequired
-        isTouched={$touched[`amount`]}
-        value={$form[`amount`]}
-        error={$errors[`amount`]}
-        on:change={handleChange}
-        on:keyup={handleChange}
-        class="flex-1"
-      >
-        <div class="flex items-center gap-2">
-          <Button
-            size="sm"
-            class="py-1"
-            color="green"
-            variant={isIncome ? `secondary` : `ghost`}
-            on:click={() => {
-              isIncome = true
-            }}
-            >INCOME
-            {#if isIncome}
-              <CheckIcon />
-            {/if}
-          </Button>
-          <Button
-            size="sm"
-            class="py-1"
-            color="red"
-            variant={!isIncome ? `secondary` : `ghost`}
-            on:click={() => {
-              isIncome = false
-            }}
-            >EXPENSE
-            {#if !isIncome}
-              <CheckIcon />
-            {/if}
-          </Button>
-        </div>
-      </TextInput>
-    </div>
+        name="categoryId"
+        label="Category"
+        value={$form[`categoryId`] || ``}
+        error={$errors[`categoryId`]}
+        on:select={({ detail }) => {
+          $form[`categoryId`] = detail.option.value
+        }}
+      />
+      <SelectPayeeInput
+        isRequired
+        direction="top"
+        name="payeeId"
+        label="Payee"
+        value={$form[`payeeId`] || ``}
+        error={$errors[`payeeId`]}
+        on:select={({ detail }) => {
+          $form[`payeeId`] = detail.option.value
+        }}
+      />
+    {/if}
+    {#if transactionType === `transfer`}
+      <SelectAccountInput
+        direction="top"
+        isRequired
+        name="transferAccountId"
+        label="To Account"
+        value={$form[`transferAccountId`] || ``}
+        error={$errors[`transferAccountId`]}
+        on:select={({ detail }) => {
+          $form[`transferAccountId`] = detail.option.value
+        }}
+      />
+    {/if}
     <TextInput
       id="memo"
       label="Memo"

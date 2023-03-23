@@ -9,6 +9,7 @@ export const CREATE_TRANSACTION = async (variables) =>
           $accountId: ID!
           $categoryId: ID
           $payeeId: ID
+          $transferAccountId: ID
           $amount: Float!
           $memo: String
         ) {
@@ -17,6 +18,7 @@ export const CREATE_TRANSACTION = async (variables) =>
             accountId: $accountId
             categoryId: $categoryId
             payeeId: $payeeId
+            transferAccountId: $transferAccountId
             amount: $amount
             memo: $memo
           )

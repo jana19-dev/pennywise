@@ -63,18 +63,21 @@ model Payee {
 }
 
 model Transaction {
-  id         String   @id @default(uuid())
-  date       DateTime @default(now())
-  category   Category @relation(fields: [categoryId], references: [id])
-  categoryId String
-  account    Account  @relation(fields: [accountId], references: [id])
-  accountId  String
-  payee      Payee    @relation(fields: [payeeId], references: [id])
-  payeeId    String
-  user       User     @relation(fields: [userId], references: [id])
-  userId     String
-  memo       String?
-  amount     Float
+  id           String       @id @default(uuid())
+  date         DateTime     @default(now())
+  category     Category?    @relation(fields: [categoryId], references: [id])
+  categoryId   String?
+  account      Account      @relation(fields: [accountId], references: [id])
+  accountId    String
+  payee        Payee?       @relation(fields: [payeeId], references: [id])
+  payeeId      String?
+  transferTo   Transaction? @relation("Transfer", fields: [transferId], references: [id])
+  transferFrom Transaction? @relation("Transfer")
+  transferId   String?      @unique
+  user         User         @relation(fields: [userId], references: [id])
+  userId       String
+  memo         String?
+  amount       Float
 }
 
 model DailyAccountBalance {

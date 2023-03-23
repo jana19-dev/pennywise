@@ -60,7 +60,9 @@ export default async function handler(parent, args, context) {
   }
 
   // get metrics
-  const allCountPromise = context.prisma.transaction.count()
+  const allCountPromise = context.prisma.transaction.count({
+    where: { userId: authUser.id, accountId }
+  })
   const filteredCountPromise = context.prisma.transaction.count({ where })
 
   const dataPromise = context.prisma.transaction.findMany({
@@ -87,6 +89,16 @@ export default async function handler(parent, args, context) {
         select: {
           id: true,
           name: true
+        }
+      },
+      transferTo: {
+        select: {
+          account: {
+            select: {
+              id: true,
+              name: true
+            }
+          }
         }
       },
       amount: true,

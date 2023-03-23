@@ -22,7 +22,8 @@ export default async function handler(parent, args, context) {
     },
     select: {
       id: true,
-      userId: true
+      userId: true,
+      transferId: true
     }
   })
 
@@ -53,6 +54,21 @@ export default async function handler(parent, args, context) {
       id: true
     }
   })
+
+  if (transactionExists.transferId) {
+    // update both transactions in the transfer
+    await context.prisma.transaction.update({
+      where: {
+        id: transactionExists.transferId
+      },
+      data: {
+        amount: -amount
+      },
+      select: {
+        id: true
+      }
+    })
+  }
 
   return true
 }

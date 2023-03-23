@@ -14,7 +14,7 @@
   import UpdateTransactionMemo from "$lib/components/application/transaction/mutations/update/UpdateTransactionMemo.svelte"
 </script>
 
-<tr class="h-10">
+<tr class="h-10" class:bg-purple-50={transaction.transferTo}>
   <TableCell>
     <DeleteTransaction {transaction} />
   </TableCell>
@@ -26,12 +26,25 @@
       <UpdateTransactionAccount {transaction} isInline />
     </TableCell>
   {/if}
-  <TableCell>
-    <UpdateTransactionCategory {transaction} isInline />
-  </TableCell>
-  <TableCell>
-    <UpdateTransactionPayee {transaction} isInline />
-  </TableCell>
+  {#if transaction.transferTo}
+    <TableCell colspan={2}>
+      <div class="font-semibold">
+        <span>Transfer to</span>
+        <span
+          class="inline-flex items-center rounded-md bg-purple-100 px-2.5 py-0.5 text-xs text-purple-800"
+          >{transaction.transferTo.account.name}</span
+        >
+      </div>
+    </TableCell>
+  {:else}
+    <TableCell>
+      <UpdateTransactionCategory {transaction} isInline />
+    </TableCell>
+    <TableCell>
+      <UpdateTransactionPayee {transaction} isInline />
+    </TableCell>
+  {/if}
+
   <TableCell>
     <UpdateTransactionMemo {transaction} isInline />
   </TableCell>

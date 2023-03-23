@@ -101,30 +101,43 @@
   </div>
   <div slot="info">
     <div class="mt-4 flex w-fit items-center gap-2">
-      <Button
-        size="sm"
-        color="green"
-        variant={isIncome ? `secondary` : `ghost`}
-        on:click={() => {
-          isIncome = true
-        }}
-        >INCOME
-        {#if isIncome}
-          <CheckIcon />
-        {/if}
-      </Button>
-      <Button
-        size="sm"
-        color="red"
-        variant={!isIncome ? `secondary` : `ghost`}
-        on:click={() => {
-          isIncome = false
-        }}
-        >EXPENSE
-        {#if !isIncome}
-          <CheckIcon />
-        {/if}
-      </Button>
+      {#if !transaction.transferTo}
+        <Button
+          size="sm"
+          color="green"
+          variant={isIncome ? `secondary` : `ghost`}
+          on:click={() => {
+            isIncome = true
+          }}
+          >INCOME
+          {#if isIncome}
+            <CheckIcon />
+          {/if}
+        </Button>
+        <Button
+          size="sm"
+          color="red"
+          variant={!isIncome ? `secondary` : `ghost`}
+          on:click={() => {
+            isIncome = false
+          }}
+          >EXPENSE
+          {#if !isIncome}
+            <CheckIcon />
+          {/if}
+        </Button>
+      {/if}
+      {#if transaction.transferTo}
+        <Button size="sm" color="blue" variant="secondary" class="pointer-events-none"
+          >Transfer
+          {#if isIncome} from: {:else} to: {/if}
+          {#if isIncome}
+            {transaction.account.name}
+          {:else}
+            {transaction.transferTo.account.name}
+          {/if}
+        </Button>
+      {/if}
     </div>
   </div>
 </TextEditDialog>

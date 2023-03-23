@@ -35,7 +35,9 @@ export default async function handler(parent, args, context) {
   }
 
   // get metrics
-  const allCountPromise = context.prisma.payee.count()
+  const allCountPromise = context.prisma.payee.count({
+    where: { userId: authUser.id }
+  })
   const filteredCountPromise = context.prisma.payee.count({ where })
 
   const dataPromise = context.prisma.payee.findMany({

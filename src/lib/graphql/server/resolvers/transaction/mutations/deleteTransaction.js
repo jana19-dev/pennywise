@@ -18,7 +18,7 @@ export default async function handler(parent, args, context) {
 
   const transactionExists = await context.prisma.transaction.findUnique({
     where: { id },
-    select: { id: true, userId: true }
+    select: { id: true, userId: true, transferId: true }
   })
 
   if (!transactionExists) {
@@ -33,9 +33,20 @@ export default async function handler(parent, args, context) {
     })
   }
 
-  await context.prisma.transaction.delete({
-    where: { id }
-  })
+  if (transactionExists.transferId) {
+    // delete both transactions in the transfer
+    await context.prisma.transaction.delete({
+      where: { id: transactionExists.transferId }
+    })
+    await context.prisma.transaction.delete({
+      where: { id }
+    })
+  } else {
+    // delete the transaction
+    await context.prisma.transaction.delete({
+      where: { id }
+    })
+  }
 
   return true
 }

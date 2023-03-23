@@ -29,6 +29,7 @@ export default /* GraphQL */ `
       accountId: ID!
       categoryId: ID
       payeeId: ID
+      transferAccountId: ID
       amount: Float!
       memo: String
     ): JSON!
