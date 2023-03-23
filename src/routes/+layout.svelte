@@ -12,7 +12,10 @@
   const queryClient = new QueryClient({
     defaultOptions: {
       queries: {
-        enabled: !!browser
+        enabled: !!browser,
+        retry: false,
+        refetchOnWindowFocus: false,
+        refetchOnMount: false
       }
     }
   })

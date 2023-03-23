@@ -5,5 +5,6 @@ import accountType from "./accountType"
 import category from "./category"
 import payee from "./payee"
 import transaction from "./transaction"
+import report from "./report"
 
-export default [_scalar, auth, account, accountType, category, payee, transaction]
+export default [_scalar, auth, account, accountType, category, payee, transaction, report]

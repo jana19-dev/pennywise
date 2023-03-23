@@ -18,6 +18,8 @@ import payeeMutations from "$lib/graphql/server/resolvers/payee/mutations"
 import transactionQueries from "$lib/graphql/server/resolvers/transaction/queries"
 import transactionMutations from "$lib/graphql/server/resolvers/transaction/mutations"
 
+import reportQueries from "$lib/graphql/server/resolvers/report/queries"
+
 const resolvers = {
   Date: DateResolver,
   JSON: JSONResolver,
@@ -28,7 +30,8 @@ const resolvers = {
     ...accountTypeQueries,
     ...categoryQueries,
     ...payeeQueries,
-    ...transactionQueries
+    ...transactionQueries,
+    ...reportQueries
   },
   Mutation: {
     ...authMutations,

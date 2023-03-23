@@ -57,7 +57,10 @@
     })
 
   $: if (initialValue) {
-    updateInitialValues({ name: initialValue })
+    updateInitialValues({
+      ...form.values,
+      name: initialValue
+    })
   }
 
   const createAccountMutation = createMutation(CREATE_ACCOUNT, {

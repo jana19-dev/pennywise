@@ -98,7 +98,8 @@
     </div>
   </div>
 
-  <div slot="footer" class="flex justify-end">
+  <div slot="footer" class="flex justify-between">
+    <Button on:click={dialog.hide} variant="outlined" color="gray" class="gap-2 px-4">Close</Button>
     <Button href="/logout" data-sveltekit-preload-data="tap" color="red" class="gap-2 px-4">
       Logout
     </Button>

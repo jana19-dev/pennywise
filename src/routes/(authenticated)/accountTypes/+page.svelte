@@ -49,7 +49,11 @@
   $: metrics = $queryResult.data?.pages[0]?.metrics || {}
 </script>
 
-<TableMetrics {metrics} count={allData.length} {queryResult} />
+<TableMetrics {metrics} count={allData.length} {queryResult}>
+  <h1 class="hidden text-center text-xl font-medium leading-6 text-gray-900 sm:truncate lg:flex">
+    {$page.data?.title || ``}
+  </h1>
+</TableMetrics>
 
 <div class="h-full overflow-y-auto p-2 pt-0" class:pointer-events-none={$queryResult.isLoading}>
   <TableWrapper>

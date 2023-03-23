@@ -78,6 +78,7 @@
 
   $: {
     updateInitialValues({
+      ...$form,
       accountId: $page.params.accountId
     })
   }
@@ -99,7 +100,7 @@
   isLoading={$createTransactionMutation.isLoading}
   on:submit={handleSubmit}
   on:close={onClose}
-  initialFocusID="date"
+  initialFocusID="categoryId"
 >
   <div class="flex flex-col gap-8">
     <DateInput
@@ -124,6 +125,7 @@
       }}
     />
     <SelectCategoryInput
+      id="categoryId"
       isRequired
       name="categoryId"
       label="Category"
@@ -156,33 +158,36 @@
         on:change={handleChange}
         on:keyup={handleChange}
         class="flex-1"
-      />
-      <div class="flex items-center gap-2">
-        <Button
-          size="sm"
-          color="green"
-          variant={isIncome ? `secondary` : `ghost`}
-          on:click={() => {
-            isIncome = true
-          }}
-          >INCOME
-          {#if isIncome}
-            <CheckIcon />
-          {/if}
-        </Button>
-        <Button
-          size="sm"
-          color="red"
-          variant={!isIncome ? `secondary` : `ghost`}
-          on:click={() => {
-            isIncome = false
-          }}
-          >EXPENSE
-          {#if !isIncome}
-            <CheckIcon />
-          {/if}
-        </Button>
-      </div>
+      >
+        <div class="flex items-center gap-2">
+          <Button
+            size="sm"
+            class="py-1"
+            color="green"
+            variant={isIncome ? `secondary` : `ghost`}
+            on:click={() => {
+              isIncome = true
+            }}
+            >INCOME
+            {#if isIncome}
+              <CheckIcon />
+            {/if}
+          </Button>
+          <Button
+            size="sm"
+            class="py-1"
+            color="red"
+            variant={!isIncome ? `secondary` : `ghost`}
+            on:click={() => {
+              isIncome = false
+            }}
+            >EXPENSE
+            {#if !isIncome}
+              <CheckIcon />
+            {/if}
+          </Button>
+        </div>
+      </TextInput>
     </div>
     <TextInput
       id="memo"
