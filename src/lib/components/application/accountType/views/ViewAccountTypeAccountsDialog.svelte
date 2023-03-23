@@ -20,7 +20,6 @@
 <Dialog bind:dialog size="xl" closeOnOverlayClick class="pt-0">
   <div slot="header" class="flex items-start justify-between">
     <h2 class="text-xl font-semibold text-gray-900">{accountType.name} Accounts</h2>
-
     <CloseButton on:click={dialog.hide} />
   </div>
 

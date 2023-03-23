@@ -6,12 +6,17 @@
   export let error = null
   export let direction = `bottom`
 
-  import { SelectInput } from "@codepiercer/svelte-tailwind"
+  import { Button, SelectInput } from "@codepiercer/svelte-tailwind"
+  import PlusIcon from "@codepiercer/svelte-tailwind/icons/PlusIcon.svelte"
+
+  import CreateAccount from "$lib/components/application/account/mutations/CreateAccount.svelte"
 
   import { createQuery } from "@tanstack/svelte-query"
   import { GET_ALL_ACCOUNTS_LEAN } from "$lib/graphql/client/account/queries"
 
   const queryResult = createQuery([`GET_ALL_ACCOUNTS_LEAN`], GET_ALL_ACCOUNTS_LEAN)
+
+  let dialog
 
   $: options =
     $queryResult?.data?.map((account) => ({
@@ -30,10 +35,17 @@
   error={$queryResult.error?.message || error}
   isLoading={$queryResult.isLoading}
   {...$$props}
+  let:searchValue
   on:select
 >
   <slot />
   <slot name="label" slot="label">
     {label}
   </slot>
+  <CreateAccount slot="addNew" bind:dialog initialValue={searchValue}>
+    <Button variant="outlined" on:click={dialog.show} size="sm"
+      ><PlusIcon class="-ml-2" />
+      new: {searchValue}</Button
+    >
+  </CreateAccount>
 </SelectInput>

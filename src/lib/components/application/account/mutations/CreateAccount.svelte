@@ -1,6 +1,7 @@
 <script>
-  export let accountType = {}
   export let dialog
+  export let accountType = {}
+  export let initialValue = ``
 
   import { Button, FormDialog, DateInput, TextInput } from "@codepiercer/svelte-tailwind"
   import PlusIcon from "@codepiercer/svelte-tailwind/icons/PlusIcon.svelte"
@@ -19,39 +20,45 @@
 
   const queryClient = useQueryClient()
 
-  const { form, errors, touched, handleChange, handleSubmit, handleReset } = createForm({
-    validationSchema: yup.object().shape({
-      name: yup.string().required(),
-      accountTypeId: yup.string().required(),
-      startingDate: yup.string().required(),
-      startingBalance: yup
-        .number()
-        .test(
-          `is-decimal`,
-          `The amount should be a decimal with maximum two digits after comma`,
-          (val) => {
-            if (val != undefined) {
-              return /^-?\d+(\.\d{0,2})?$/.test(val)
+  const { form, errors, touched, handleChange, handleSubmit, handleReset, updateInitialValues } =
+    createForm({
+      validationSchema: yup.object().shape({
+        name: yup.string().required(),
+        accountTypeId: yup.string().required(),
+        startingDate: yup.string().required(),
+        startingBalance: yup
+          .number()
+          .test(
+            `is-decimal`,
+            `The amount should be a decimal with maximum two digits after comma`,
+            (val) => {
+              if (val != undefined) {
+                return /^-?\d+(\.\d{0,2})?$/.test(val)
+              }
+              return true
             }
-            return true
-          }
-        )
-        .required()
-    }),
-    initialValues: {
-      accountTypeId: accountType.id,
-      startingDate: new Date(),
-      startingBalance: 0
-    },
-    onSubmit: ({ name, accountTypeId, startingDate, startingBalance }) => {
-      $createAccountMutation.mutate({
-        name,
-        accountTypeId,
-        startingDate: formatDate(startingDate),
-        startingBalance: parseFloat(startingBalance)
-      })
-    }
-  })
+          )
+          .required()
+      }),
+      initialValues: {
+        name: initialValue,
+        accountTypeId: accountType.id,
+        startingDate: new Date(),
+        startingBalance: 0
+      },
+      onSubmit: ({ name, accountTypeId, startingDate, startingBalance }) => {
+        $createAccountMutation.mutate({
+          name,
+          accountTypeId,
+          startingDate: formatDate(startingDate),
+          startingBalance: parseFloat(startingBalance)
+        })
+      }
+    })
+
+  $: if (initialValue) {
+    updateInitialValues({ name: initialValue })
+  }
 
   const createAccountMutation = createMutation(CREATE_ACCOUNT, {
     onSuccess: () => {
@@ -71,9 +78,11 @@
   }
 </script>
 
-{#if !accountType.id}
-  <Button on:click={dialog.show} class="px-2 pr-3"><PlusIcon class="mr-1" />New</Button>
-{/if}
+<slot>
+  {#if !accountType.id}
+    <Button on:click={dialog.show} class="px-2 pr-3"><PlusIcon class="mr-1" />New</Button>
+  {/if}
+</slot>
 
 <FormDialog
   bind:dialog

@@ -1,4 +1,7 @@
 <script>
+  export let initialValue = ``
+  export let dialog
+
   import { Button, FormDialog, TextInput } from "@codepiercer/svelte-tailwind"
   import PlusIcon from "@codepiercer/svelte-tailwind/icons/PlusIcon.svelte"
 
@@ -12,8 +15,6 @@
 
   const queryClient = useQueryClient()
 
-  let dialog
-
   const createAccountTypeMutation = createMutation(CREATE_ACCOUNT_TYPE, {
     onSuccess: () => {
       toast.success(`Successfully created the account type`)
@@ -25,21 +26,27 @@
     }
   })
 
-  const { form, errors, touched, handleChange, handleSubmit, handleReset } = createForm({
-    validationSchema: yup.object().shape({
-      name: yup.string().required().min(3).max(50),
-      priority: yup.number().typeError(`Order must be a number`)
-    }),
-    initialValues: {
-      priority: 0
-    },
-    onSubmit: ({ name, priority }) => {
-      $createAccountTypeMutation.mutate({
-        name,
-        priority: parseInt(priority)
-      })
-    }
-  })
+  const { form, errors, touched, handleChange, handleSubmit, handleReset, updateInitialValues } =
+    createForm({
+      validationSchema: yup.object().shape({
+        name: yup.string().required().min(3).max(50),
+        priority: yup.number().typeError(`Order must be a number`)
+      }),
+      initialValues: {
+        name: initialValue,
+        priority: 0
+      },
+      onSubmit: ({ name, priority }) => {
+        $createAccountTypeMutation.mutate({
+          name,
+          priority: parseInt(priority)
+        })
+      }
+    })
+
+  $: if (initialValue) {
+    updateInitialValues({ name: initialValue, priority: 0 })
+  }
 
   const onClose = () => {
     handleReset()
@@ -48,7 +55,9 @@
   }
 </script>
 
-<Button on:click={dialog.show} class="px-2 pr-3"><PlusIcon class="mr-1" />New</Button>
+<slot>
+  <Button on:click={dialog.show} class="px-2 pr-3"><PlusIcon class="mr-1" />New</Button>
+</slot>
 
 <FormDialog
   bind:dialog

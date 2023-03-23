@@ -5,12 +5,12 @@
   import { createForm } from "svelte-forms-lib"
   import * as yup from "yup"
 
+  import { SelectInputEditDialog } from "@codepiercer/svelte-tailwind"
+  import SelectCategoryInput from "$lib/components/select/SelectCategoryInput.svelte"
+
   import { createMutation, useQueryClient } from "@tanstack/svelte-query"
   import { UPDATE_TRANSACTION_CATEGORY } from "$lib/graphql/client/transaction/mutations"
   import { INVALIDATE_QUERIES_FROM_MUTATION } from "$lib/utils/client/cacheInvalidation"
-
-  import { SelectInputEditDialog } from "@codepiercer/svelte-tailwind"
-  import SelectCategoryInput from "$lib/components/select/SelectCategoryInput.svelte"
   import toast from "$lib/utils/client/toast"
 
   const queryClient = useQueryClient()
