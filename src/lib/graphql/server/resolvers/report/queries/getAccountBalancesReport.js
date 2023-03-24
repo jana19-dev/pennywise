@@ -106,7 +106,7 @@ export default async function handler(parent, args, context) {
         })
         .filter((dataset) => dataset.values.some((value) => value !== 0)),
       {
-        name: `Total`,
+        name: `Net Worth`,
         values: response.map((dateRange) => dateRange.total),
         chartType: `line`
       }
