@@ -32,7 +32,7 @@ export default async function handler(parent, args, context) {
   const { response } = dateRangeResponse(startDate, args.endDate)
 
   // get all transactions for the user and group by month and year and then sub-group by category
-  const transactions = await context.prisma.transaction.findMany({
+  let transactions = await context.prisma.transaction.findMany({
     where: {
       userId: authUser.id,
       transferId: {
@@ -44,12 +44,19 @@ export default async function handler(parent, args, context) {
     },
     select: {
       amount: true,
+      payeeId: true,
       categoryId: true,
+      transferId: true,
       date: true
     },
     orderBy: {
       date: `asc`
     }
+  })
+
+  // filter out opening balances
+  transactions = transactions.filter((transaction) => {
+    return !(!transaction.payeeId && !transaction.categoryId && !transaction.transferId)
   })
 
   const categoriesMap = (

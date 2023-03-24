@@ -44,6 +44,9 @@
       },
       tooltipOptions: {
         formatTooltipY: (d) => parseFloat(d).toFixed(2)
+      },
+      lineOptions: {
+        regionFill: 1
       }
     }}
   />
