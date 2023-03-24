@@ -41,7 +41,11 @@
           <tr class="h-10 text-xs" class:bg-blue-50={isTotalRow}>
             {#each row as cell, idx}
               {@const isTotalCell = noAverage ? idx >= row.length - 1 : idx >= row.length - 2}
-              <td class="px-2" class:text-right={idx !== 0} class:bg-blue-50={isTotalCell}>
+              <td
+                class="border-x border-b border-gray-200 px-2"
+                class:text-right={idx !== 0}
+                class:bg-blue-50={isTotalCell}
+              >
                 {#if parseFloat(cell) === parseFloat(cell)}
                   <CurrencyView amount={cell} />
                 {:else}

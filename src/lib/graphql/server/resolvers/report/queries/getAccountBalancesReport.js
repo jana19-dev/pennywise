@@ -55,9 +55,14 @@ export default async function handler(parent, args, context) {
         id: true,
         name: true
       },
-      orderBy: {
-        name: `asc`
-      }
+      orderBy: [
+        {
+          accountType: {
+            priority: `asc`
+          }
+        },
+        { name: `asc` }
+      ]
     })
   ).reduce((acc, account) => {
     acc[account.id] = account.name
