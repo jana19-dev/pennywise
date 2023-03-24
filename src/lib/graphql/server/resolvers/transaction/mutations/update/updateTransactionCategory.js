@@ -22,7 +22,10 @@ export default async function handler(parent, args, context) {
     },
     select: {
       id: true,
-      userId: true
+      userId: true,
+      transferId: true,
+      payeeId: true,
+      categoryId: true
     }
   })
 
@@ -42,7 +45,11 @@ export default async function handler(parent, args, context) {
     })
   }
 
-  if (!transactionExists.transferTo && !transactionExists.payee && !transactionExists.category) {
+  if (
+    !transactionExists.transferId &&
+    !transactionExists.payeeId &&
+    !transactionExists.categoryId
+  ) {
     throw new GraphQLError(`You cannot add a category for an opening balance transaction.`, {
       extensions: {
         code: `403`

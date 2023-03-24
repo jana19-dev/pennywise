@@ -18,7 +18,13 @@ export default async function handler(parent, args, context) {
 
   const transactionExists = await context.prisma.transaction.findUnique({
     where: { id },
-    select: { id: true, userId: true, transferId: true }
+    select: {
+      id: true,
+      userId: true,
+      transferId: true,
+      payeeId: true,
+      categoryId: true
+    }
   })
 
   if (!transactionExists) {
@@ -31,6 +37,21 @@ export default async function handler(parent, args, context) {
     throw new GraphQLError(`You do not have permission to delete this transaction.`, {
       extensions: { code: 403 }
     })
+  }
+
+  if (
+    !transactionExists.transferId &&
+    !transactionExists.payeeId &&
+    !transactionExists.categoryId
+  ) {
+    throw new GraphQLError(
+      `You cannot delete an opening balance transaction. Only allowed to update the date, amount or memo. `,
+      {
+        extensions: {
+          code: `403`
+        }
+      }
+    )
   }
 
   if (transactionExists.transferId) {

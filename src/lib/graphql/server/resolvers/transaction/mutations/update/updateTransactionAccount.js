@@ -22,7 +22,10 @@ export default async function handler(parent, args, context) {
     },
     select: {
       id: true,
-      userId: true
+      userId: true,
+      transferId: true,
+      payeeId: true,
+      categoryId: true
     }
   })
 
@@ -36,6 +39,18 @@ export default async function handler(parent, args, context) {
 
   if (transactionExists.userId !== authUser.id) {
     throw new GraphQLError(`You do not have permission to update this transaction.`, {
+      extensions: {
+        code: `403`
+      }
+    })
+  }
+
+  if (
+    !transactionExists.transferId &&
+    !transactionExists.payeeId &&
+    !transactionExists.categoryId
+  ) {
+    throw new GraphQLError(`You cannot update the account for an opening balance transaction.`, {
       extensions: {
         code: `403`
       }
