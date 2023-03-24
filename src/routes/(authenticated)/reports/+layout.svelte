@@ -5,15 +5,7 @@
   import { Button } from "@codepiercer/svelte-tailwind"
   import SelectReportInput from "$lib/components/select/SelectReportInput.svelte"
 
-  const REPORTS = [
-    `ACCOUNT_TRANSACTIONS`,
-    `CATEGORY_TRANSACTIONS`,
-    `PAYEE_TRANSACTIONS`,
-    `EXPENSE_BY_CATEGORY`,
-    `EXPENSE_BY_PAYEE`,
-    `INCOME_BY_PAYEE`,
-    `ACCOUNT_BALANCES`
-  ]
+  const REPORTS = [`ACCOUNT_BALANCES`, `EXPENSE_BY_CATEGORY`, `EXPENSE_BY_PAYEE`, `INCOME_BY_PAYEE`]
 </script>
 
 <div class="flex h-full w-full flex-col lg:flex-row">
