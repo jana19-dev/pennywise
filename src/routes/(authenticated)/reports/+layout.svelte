@@ -6,6 +6,8 @@
   import SelectReportInput from "$lib/components/select/SelectReportInput.svelte"
 
   const REPORTS = [`ACCOUNT_BALANCES`, `EXPENSE_BY_CATEGORY`, `EXPENSE_BY_PAYEE`, `INCOME_BY_PAYEE`]
+
+  $: reportName = $page.url.pathname.split(`/`).pop()
 </script>
 
 <div class="flex h-full w-full flex-col lg:flex-row">
@@ -14,7 +16,7 @@
       <SelectReportInput
         name="reportName"
         label=""
-        value={$page.url.pathname.split(`/`).pop() || ``}
+        value={reportName !== `reports` ? reportName : ``}
         on:select={({ detail }) => {
           goto(`/reports/${detail.option.value}`)
         }}
@@ -25,7 +27,7 @@
         {#each REPORTS as report (report)}
           <div class="flex items-center gap-2">
             <Button
-              variant={$page.url.pathname.split(`/`).pop() === report ? `primary` : `outlined`}
+              variant={reportName === report ? `primary` : `outlined`}
               size="sm"
               class="w-full justify-between gap-2"
               href="/reports/{report}"

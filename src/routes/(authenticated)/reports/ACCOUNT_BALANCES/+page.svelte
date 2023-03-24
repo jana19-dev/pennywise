@@ -27,8 +27,8 @@
 <div class="flex min-h-full flex-col overflow-auto bg-white">
   <div class="rounded-md p-4 shadow-md">
     <div class="flex flex-col items-center justify-between gap-4 lg:flex-row">
-      <h1 class="inline-flex gap-2 text-2xl font-semibold tracking-tight text-gray-900">
-        Account Balances Report
+      <h1 class="hidden gap-2 text-2xl font-semibold tracking-tight text-gray-900 lg:inline-flex">
+        Account Balances
       </h1>
       <DateRangePicker bind:dateRange />
     </div>

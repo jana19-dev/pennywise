@@ -9,8 +9,8 @@
   class:text-lg={size === `lg`}
   class:bg-red-50={amount < 0}
   class:bg-green-50={amount > 0}
-  class:bg-purple-50={amount == 0}
+  class:bg-gray-50={amount == 0}
   class:text-red-800={amount < 0}
   class:text-green-800={amount > 0}
-  class:text-purple-800={amount == 0}>{parseFloat(amount).toFixed(2)}</span
+  class:text-gray-800={amount == 0}>{parseFloat(amount).toFixed(2)}</span
 >
