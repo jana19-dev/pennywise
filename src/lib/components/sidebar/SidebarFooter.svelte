@@ -47,8 +47,4 @@
     <SidebarLink {link} />
   {/each}
   <ProfileMenu />
-  <p class="pb-2 text-center text-xs font-medium text-gray-300">
-    version <span class="font-bold">{import.meta.env.BUILD_VERSION}</span> - last updated at
-    <span class="font-bold">{new Date(import.meta.env.BUILD_TIME).toLocaleString()}</span>
-  </p>
 </div>

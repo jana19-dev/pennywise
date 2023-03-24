@@ -7,8 +7,10 @@
   class="inline-flex items-center rounded-md px-2.5 py-0.5 font-semibold"
   class:text-xs={size === `sm`}
   class:text-lg={size === `lg`}
-  class:bg-red-100={amount < 0}
-  class:bg-green-100={amount >= 0}
+  class:bg-red-50={amount < 0}
+  class:bg-green-50={amount > 0}
+  class:bg-purple-50={amount == 0}
   class:text-red-800={amount < 0}
-  class:text-green-800={amount >= 0}>{parseFloat(amount).toFixed(2)}</span
+  class:text-green-800={amount > 0}
+  class:text-purple-800={amount == 0}>{parseFloat(amount).toFixed(2)}</span
 >

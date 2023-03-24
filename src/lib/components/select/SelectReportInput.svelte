@@ -11,7 +11,8 @@
   const options = [
     { label: `ACCOUNT TRANSACTIONS`, value: `ACCOUNT_TRANSACTIONS` },
     { label: `CATEGORY TRANSACTIONS`, value: `CATEGORY_TRANSACTIONS` },
-    { label: `PAYEE TRANSACTIONS`, value: `PAYEE_TRANSACTIONS` }
+    { label: `PAYEE TRANSACTIONS`, value: `PAYEE_TRANSACTIONS` },
+    { label: `EXPENSE BY CATEGORY`, value: `EXPENSE_BY_CATEGORY` }
   ]
 </script>
 

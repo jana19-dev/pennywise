@@ -38,3 +38,16 @@ export const GET_PAYEE_TRANSACTIONS_REPORT = ({ queryKey: [, variables] = [] } =
     )
     .then(({ getPayeeTransactionsReport }) => getPayeeTransactionsReport)
     .catch(handleError)
+
+export const GET_EXPENSE_BY_CATEGORY_REPORT = ({ queryKey: [, variables] = [] } = {}) =>
+  graphQLClient
+    .request(
+      gql`
+        query GET_EXPENSE_BY_CATEGORY_REPORT($startDate: Date, $endDate: Date) {
+          getExpenseByCategoryReport(startDate: $startDate, endDate: $endDate)
+        }
+      `,
+      variables
+    )
+    .then(({ getExpenseByCategoryReport }) => getExpenseByCategoryReport)
+    .catch(handleError)
