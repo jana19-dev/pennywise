@@ -10,34 +10,38 @@
 
   const quickRanges = [
     {
-      label: `Last 7 Days`,
-      startDate: formatDate(new Date(new Date().setDate(new Date().getDate() - 7))),
-      endDate: today
-    },
-    {
-      label: `Last 30 Days`,
-      startDate: formatDate(new Date(new Date().setDate(new Date().getDate() - 30))),
-      endDate: today
-    },
-    {
       label: `This Month`,
       startDate: formatDate(new Date(new Date().setDate(1))),
       endDate: today
     },
     {
-      label: `Last Month`,
-      startDate: formatDate(new Date(new Date().setMonth(new Date().getMonth() - 1))),
-      endDate: formatDate(new Date(new Date().setDate(0)))
+      label: `Last 3 Months`,
+      startDate: formatDate(
+        new Date(new Date(new Date().setDate(1)).setMonth(new Date().getMonth() - 2))
+      ),
+      endDate: formatDate(new Date(new Date()))
     },
     {
       label: `This Year`,
-      startDate: formatDate(new Date(new Date().setMonth(0))),
+      startDate: formatDate(new Date(new Date(new Date().setDate(1)).setMonth(0))),
       endDate: today
     },
     {
       label: `Last Year`,
-      startDate: formatDate(new Date(new Date().setFullYear(new Date().getFullYear() - 1))),
-      endDate: formatDate(new Date(new Date().setMonth(0)))
+      startDate: formatDate(
+        new Date(
+          new Date(new Date(new Date().setDate(1)).setMonth(0)).setFullYear(
+            new Date().getFullYear() - 1
+          )
+        )
+      ),
+      endDate: formatDate(
+        new Date(
+          new Date(new Date(new Date().setDate(31)).setMonth(11)).setFullYear(
+            new Date().getFullYear() - 1
+          )
+        )
+      )
     }
   ]
 </script>

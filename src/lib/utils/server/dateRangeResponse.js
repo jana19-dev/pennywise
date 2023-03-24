@@ -1,9 +1,9 @@
 import dateFns from "date-fns"
 
-const dateRangeResponse = (startDate = new Date(`2023-01-01`)) => {
+const dateRangeResponse = (startDate = new Date(`2023-01-01`), endDate = new Date()) => {
   // Construct the period date range and timeAdder
   startDate = dateFns.startOfMonth(startDate)
-  const endDate = dateFns.endOfMonth(new Date())
+  endDate = dateFns.endOfMonth(endDate)
   const timeAdder = dateFns.addMonths
   const formatString = `MMM yyyy`
 

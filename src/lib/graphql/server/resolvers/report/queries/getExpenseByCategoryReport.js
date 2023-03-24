@@ -14,16 +14,21 @@ export default async function handler(parent, args, context) {
     }
   })
 
-  // get the oldest transaction date
-  const oldestTransaction = await context.prisma.transaction.findFirst({
-    orderBy: {
-      date: `asc`
-    },
-    select: {
-      date: true
-    }
-  })
-  const { response } = dateRangeResponse(oldestTransaction.date)
+  let { startDate } = args
+
+  if (!startDate) {
+    // get the oldest transaction date
+    const oldestTransaction = await context.prisma.transaction.findFirst({
+      orderBy: {
+        date: `asc`
+      },
+      select: {
+        date: true
+      }
+    })
+    startDate = oldestTransaction.date
+  }
+  const { response } = dateRangeResponse(startDate, args.endDate)
 
   // get all transactions for the user and group by month and year and then sub-group by category
   const transactions = await context.prisma.transaction.findMany({

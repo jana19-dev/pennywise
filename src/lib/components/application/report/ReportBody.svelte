@@ -25,8 +25,8 @@
 {:else if $queryResult.isError}
   <ErrorAlert>Error: {$queryResult.error.message}</ErrorAlert>
 {:else if $queryResult.data}
-  <div class="flex w-full flex-col justify-between px-4 lg:flex-row">
-    <div class="pt-6 lg:min-w-[14rem]">
+  <div class="flex w-full flex-col justify-between px-4">
+    <div class="overflow-x-auto pt-6">
       <TableWrapper>
         <tr slot="header" class="h-6 bg-blue-200 text-xs font-semibold">
           {#each $queryResult.data.table.labels as label, idx}
@@ -34,24 +34,11 @@
           {/each}
         </tr>
         {#each $queryResult.data.table.rows as row, idx}
-          {@const isTotalRow = idx === $queryResult.data.table.rows.length - 1}
-          <tr
-            class="h-10 text-xs"
-            class:bg-gray-50={idx % 2 === 0}
-            class:bg-gray-400={isTotalRow}
-            class:text-white={isTotalRow}
-          >
+          {@const isTotalRow = idx >= $queryResult.data.table.rows.length - 1}
+          <tr class="h-10 text-xs" class:bg-gray-100={isTotalRow}>
             {#each row as cell, idx}
-              {@const isTotalCell = isTotalRow || idx === row.length - 2}
-              {@const isAverageCell = idx === row.length - 1}
-              <td
-                class="px-2"
-                class:text-right={idx !== 0}
-                class:bg-gray-50={idx % 2 === 0}
-                class:bg-gray-400={isTotalCell}
-                class:text-white={isTotalCell}
-                class:bg-gray-300={isAverageCell}
-              >
+              {@const isTotalCell = idx >= row.length - 2}
+              <td class="px-2" class:text-right={idx !== 0} class:bg-gray-100={isTotalCell}>
                 {#if parseFloat(cell) === parseFloat(cell)}
                   <CurrencyView amount={cell} />
                 {:else}
@@ -63,9 +50,11 @@
         {/each}
       </TableWrapper>
     </div>
-    <div class="hidden flex-1 lg:block">
-      <Chart bind:this={chartRef} data={$queryResult.data.chart} {...chartOptions} />
-    </div>
+    {#if $queryResult.data.chart.datasets[0].values.filter(Boolean).length > 1}
+      <div class="">
+        <Chart bind:this={chartRef} data={$queryResult.data.chart} {...chartOptions} />
+      </div>
+    {/if}
   </div>
 {:else}
   <div class="flex h-full w-full flex-col items-center justify-center">
