@@ -64,9 +64,7 @@ export default async function handler(parent, args, context) {
               id: true,
               name: true
             }
-          },
-          startingDate: true,
-          startingBalance: true
+          }
         },
         orderBy: { name: `asc` }
       }

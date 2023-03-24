@@ -13,11 +13,9 @@
 
   import DeleteAccount from "$lib/components/application/account/mutations/DeleteAccount.svelte"
   import UpdateAccountName from "$lib/components/application/account/mutations/update/UpdateAccountName.svelte"
-  import UpdateAccountStartingDate from "$lib/components/application/account/mutations/update/UpdateAccountStartingDate.svelte"
-  import UpdateAccountStartingBalance from "$lib/components/application/account/mutations/update/UpdateAccountStartingBalance.svelte"
 </script>
 
-<Dialog bind:dialog size="xl" closeOnOverlayClick class="pt-0">
+<Dialog bind:dialog size="sm" closeOnOverlayClick class="pt-0">
   <div slot="header" class="flex items-start justify-between">
     <h2 class="text-xl font-semibold text-gray-900">{accountType.name} Accounts</h2>
     <CloseButton on:click={dialog.hide} />
@@ -29,8 +27,6 @@
       <tr slot="header">
         <TableHeaderCell />
         <TableHeaderCell>Name</TableHeaderCell>
-        <TableHeaderCell><div class="min-w-[7rem]">Starting Date</div></TableHeaderCell>
-        <TableHeaderCell>Starting Balance</TableHeaderCell>
       </tr>
       {#each accountType.accounts as account (account.id)}
         <tr class="h-10">
@@ -39,12 +35,6 @@
           </TableCell>
           <TableCell>
             <UpdateAccountName {account} isInline />
-          </TableCell>
-          <TableCell>
-            <UpdateAccountStartingDate {account} isInline />
-          </TableCell>
-          <TableCell>
-            <UpdateAccountStartingBalance {account} isInline />
           </TableCell>
         </tr>
       {/each}

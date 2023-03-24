@@ -25,8 +25,8 @@
       validationSchema: yup.object().shape({
         name: yup.string().required(),
         accountTypeId: yup.string().required(),
-        startingDate: yup.string().required(),
-        startingBalance: yup
+        openingDate: yup.string().required(),
+        openingBalance: yup
           .number()
           .test(
             `is-decimal`,
@@ -43,15 +43,15 @@
       initialValues: {
         name: initialValue,
         accountTypeId: accountType.id,
-        startingDate: new Date(),
-        startingBalance: 0
+        openingDate: new Date(),
+        openingBalance: 0
       },
-      onSubmit: ({ name, accountTypeId, startingDate, startingBalance }) => {
+      onSubmit: ({ name, accountTypeId, openingDate, openingBalance }) => {
         $createAccountMutation.mutate({
           name,
           accountTypeId,
-          startingDate: formatDate(startingDate),
-          startingBalance: parseFloat(startingBalance)
+          openingDate: formatDate(openingDate),
+          openingBalance: parseFloat(openingBalance)
         })
       }
     })
@@ -122,24 +122,24 @@
     {/if}
     <DateInput
       class="flex-1"
-      label="Starting Date"
-      name="startingDate"
+      label="Opening Date"
+      name="openingDate"
       type="date"
       isRequired
-      isTouched={$touched[`startingDate`]}
-      value={$form[`startingDate`]}
-      error={$errors[`startingDate`]}
-      on:pickDate={({ detail }) => ($form[`startingDate`] = detail.date)}
+      isTouched={$touched[`openingDate`]}
+      value={$form[`openingDate`]}
+      error={$errors[`openingDate`]}
+      on:pickDate={({ detail }) => ($form[`openingDate`] = detail.date)}
     />
     <TextInput
       type="number"
       inputProps={{ step: 0.01 }}
-      name="startingBalance"
-      label="Starting Balance"
+      name="openingBalance"
+      label="Opening Balance"
       isRequired
-      isTouched={$touched[`startingBalance`]}
-      value={$form[`startingBalance`]}
-      error={$errors[`startingBalance`]}
+      isTouched={$touched[`openingBalance`]}
+      value={$form[`openingBalance`]}
+      error={$errors[`openingBalance`]}
       on:change={handleChange}
       on:keyup={handleChange}
     />

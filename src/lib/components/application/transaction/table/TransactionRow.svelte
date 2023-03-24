@@ -36,6 +36,15 @@
         >
       </div>
     </TableCell>
+  {:else if !transaction.transferTo && !transaction.payee && !transaction.category}
+    <TableCell colspan={2}>
+      <div class="font-semibold">
+        <span
+          class="inline-flex items-center rounded-md bg-purple-100 px-2.5 py-0.5 text-xs text-purple-800"
+          >Opening Balance</span
+        >
+      </div>
+    </TableCell>
   {:else}
     <TableCell>
       <UpdateTransactionCategory {transaction} isInline />

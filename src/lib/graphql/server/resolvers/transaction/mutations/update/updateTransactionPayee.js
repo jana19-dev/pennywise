@@ -42,6 +42,14 @@ export default async function handler(parent, args, context) {
     })
   }
 
+  if (!transactionExists.transferTo && !transactionExists.payee && !transactionExists.category) {
+    throw new GraphQLError(`You cannot add a payee for an opening balance transaction.`, {
+      extensions: {
+        code: `403`
+      }
+    })
+  }
+
   const payeeExists = await context.prisma.payee.findUnique({
     where: {
       id: payeeId

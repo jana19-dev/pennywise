@@ -29,15 +29,13 @@ model AccountType {
 }
 
 model Account {
-  id              String        @id @default(uuid())
-  name            String
-  accountType     AccountType   @relation(fields: [accountTypeId], references: [id])
-  accountTypeId   String
-  startingDate    DateTime      @db.Date
-  startingBalance Float
-  user            User          @relation(fields: [userId], references: [id])
-  userId          String
-  transactions    Transaction[]
+  id            String        @id @default(uuid())
+  name          String
+  accountType   AccountType   @relation(fields: [accountTypeId], references: [id])
+  accountTypeId String
+  user          User          @relation(fields: [userId], references: [id])
+  userId        String
+  transactions  Transaction[]
 
   @@unique([name, userId], name: "account_name_user_id")
 }

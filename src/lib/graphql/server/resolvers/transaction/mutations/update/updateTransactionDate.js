@@ -22,7 +22,11 @@ export default async function handler(parent, args, context) {
     },
     select: {
       id: true,
-      userId: true
+      userId: true,
+      accountId: true,
+      transferId: true,
+      payeeId: true,
+      categoryId: true
     }
   })
 
@@ -40,6 +44,45 @@ export default async function handler(parent, args, context) {
         code: `403`
       }
     })
+  }
+
+  if (
+    !transactionExists.transferId &&
+    !transactionExists.payeeId &&
+    !transactionExists.categoryId
+  ) {
+    // this is an opening balance transaction: make sure the updating date is the min date of all transactions for this account
+    const [firstNormalTransaction] = await context.prisma.transaction.findMany({
+      where: {
+        accountId: transactionExists.accountId,
+        userId: authUser.id,
+        id: {
+          not: {
+            equals: id
+          }
+        }
+      },
+      orderBy: {
+        date: `asc`
+      },
+      take: 1,
+      select: {
+        date: true
+      }
+    })
+
+    if (firstNormalTransaction && date >= firstNormalTransaction.date) {
+      throw new GraphQLError(
+        `You cannot update the date of an opening balance transaction to be before the date of the first transaction ${firstNormalTransaction.date
+          .toISOString()
+          .slice(0, 10)}`,
+        {
+          extensions: {
+            code: `403`
+          }
+        }
+      )
+    }
   }
 
   await context.prisma.transaction.update({

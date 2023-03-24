@@ -2,8 +2,6 @@ export default /* GraphQL */ `
   input AccountOrderByInput {
     name: SortOrder
     type: SortOrder
-    startingDate: SortOrder
-    startingBalance: SortOrder
   }
 
   type Query {
@@ -22,14 +20,12 @@ export default /* GraphQL */ `
     createAccount(
       name: String!
       accountTypeId: ID!
-      startingDate: Date!
-      startingBalance: Float!
+      openingDate: Date!
+      openingBalance: Float!
     ): JSON!
 
     updateAccountName(id: ID!, name: String!): JSON!
     updateAccountType(id: ID!, accountTypeId: ID!): JSON!
-    updateAccountStartingDate(id: ID!, startingDate: Date!): JSON!
-    updateAccountStartingBalance(id: ID!, startingBalance: Float!): JSON!
 
     deleteAccount(id: ID!): JSON!
   }

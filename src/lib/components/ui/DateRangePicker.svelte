@@ -57,7 +57,7 @@
       dateRange.startDate = detail.date || today
     }}
     options={{
-      maxDate: formatDate(new Date(new Date().setDate(new Date(dateRange.endDate).getDate() - 7)))
+      maxDate: formatDate(new Date(new Date().setDate(new Date(dateRange.endDate).getDate() - 30)))
     }}
     class="min-w-[10rem]"
   />

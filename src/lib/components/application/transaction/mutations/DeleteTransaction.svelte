@@ -42,7 +42,13 @@
   }
 </script>
 
-<Button variant="ghost" class="my-0.5 p-1 px-1.5" on:click={onOpen} color="red">
+<Button
+  variant="ghost"
+  class="my-0.5 p-1 px-1.5"
+  on:click={onOpen}
+  color="red"
+  isDisabled={!transaction.transferTo && !transaction.payee && !transaction.category}
+>
   <span class="sr-only">Delete Transaction</span>
   <TrashIcon />
 </Button>

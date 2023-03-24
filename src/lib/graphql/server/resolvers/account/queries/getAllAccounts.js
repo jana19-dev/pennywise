@@ -53,9 +53,7 @@ export default async function handler(parent, args, context) {
           id: true,
           name: true
         }
-      },
-      startingDate: true,
-      startingBalance: true
+      }
     }
   })
 
@@ -72,22 +70,6 @@ export default async function handler(parent, args, context) {
 
   // add data to response
   response.data = data
-
-  // insert account balance data
-  for (const account of response.data) {
-    const {
-      _sum: { amount: balance }
-    } = await context.prisma.transaction.aggregate({
-      where: {
-        accountId: account.id
-      },
-      _sum: {
-        amount: true
-      }
-    })
-
-    account.balance = (parseFloat(balance || 0) + parseFloat(account.startingBalance)).toFixed(2)
-  }
 
   return response
 }

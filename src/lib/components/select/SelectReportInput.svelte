@@ -12,7 +12,10 @@
     { label: `ACCOUNT TRANSACTIONS`, value: `ACCOUNT_TRANSACTIONS` },
     { label: `CATEGORY TRANSACTIONS`, value: `CATEGORY_TRANSACTIONS` },
     { label: `PAYEE TRANSACTIONS`, value: `PAYEE_TRANSACTIONS` },
-    { label: `EXPENSE BY CATEGORY`, value: `EXPENSE_BY_CATEGORY` }
+    { label: `EXPENSE BY CATEGORY`, value: `EXPENSE_BY_CATEGORY` },
+    { label: `EXPENSE BY PAYEE`, value: `EXPENSE_BY_PAYEE` },
+    { label: `INCOME BY PAYEE`, value: `INCOME_BY_PAYEE` },
+    { label: `ACCOUNT BALANCES`, value: `ACCOUNT_BALANCES` }
   ]
 </script>
 

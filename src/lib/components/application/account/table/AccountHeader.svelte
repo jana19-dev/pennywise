@@ -2,7 +2,7 @@
   import { goto } from "$app/navigation"
   import { page } from "$app/stores"
 
-  import { TextInput, DateInput } from "@codepiercer/svelte-tailwind"
+  import { TextInput } from "@codepiercer/svelte-tailwind"
 
   import TableHeaderCell from "$lib/components/table/TableHeaderCell.svelte"
   import TableHeaderSort from "$lib/components/table/TableHeaderSort.svelte"
@@ -16,9 +16,7 @@
 
   let searchFields = {
     name: ``,
-    accountType: ``,
-    startingDate: ``,
-    startingBalance: ``
+    accountType: ``
   }
 
   $: {
@@ -84,40 +82,4 @@
         target: { name: `accountType`, value: detail.option.value ? detail.option.label : `` }
       })}
   />
-</TableHeaderCell>
-<TableHeaderCell>
-  <DateInput
-    name="startingDate"
-    label="Starting Date"
-    type="date"
-    class="min-w-[7rem] py-2"
-    inputClass="text-xs"
-    color="gray"
-    value={searchFields[`startingDate`]}
-    on:pickDate={({ detail }) =>
-      handleChange({ target: { name: `startingDate`, value: detail.date } })}
-  >
-    <div slot="label">
-      <TableHeaderSort orderByField="startingDate">Starting Date</TableHeaderSort>
-    </div>
-  </DateInput>
-</TableHeaderCell>
-<TableHeaderCell>
-  <TextInput
-    name="startingBalance"
-    type="number"
-    label="Starting Balance"
-    class="min-w-[7rem] py-2.5"
-    inputClass="text-xs"
-    color="gray"
-    value={searchFields[`startingBalance`]}
-    on:stopTyping={handleChange}
-  >
-    <div slot="label">
-      <TableHeaderSort orderByField="startingBalance">Starting Balance</TableHeaderSort>
-    </div>
-  </TextInput>
-</TableHeaderCell>
-<TableHeaderCell>
-  <div class="text-right">Current Balance</div>
 </TableHeaderCell>

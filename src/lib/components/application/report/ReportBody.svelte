@@ -1,6 +1,7 @@
 <script>
   export let queryResult
   export let chartOptions = {}
+  export let noAverage = false
 
   import { LoadingAlert, ErrorAlert } from "@codepiercer/svelte-tailwind"
 
@@ -28,21 +29,23 @@
   <div class="flex w-full flex-col justify-between px-4">
     <div class="overflow-x-auto pt-6">
       <TableWrapper>
-        <tr slot="header" class="h-6 bg-blue-200 text-xs font-semibold">
+        <tr slot="header" class="h-6 bg-blue-300 text-xs font-semibold">
           {#each $queryResult.data.table.labels as label, idx}
-            <td class="min-w-[5rem] px-3" class:text-right={idx !== 0}>{label}</td>
+            <td class="min-w-[6rem] px-3" class:text-right={idx !== 0}>{label}</td>
           {/each}
         </tr>
         {#each $queryResult.data.table.rows as row, idx}
-          {@const isTotalRow = idx >= $queryResult.data.table.rows.length - 1}
-          <tr class="h-10 text-xs" class:bg-gray-100={isTotalRow}>
+          {@const isTotalRow = noAverage
+            ? idx === $queryResult.data.table.rows.length - 1
+            : idx >= $queryResult.data.table.rows.length - 1}
+          <tr class="h-10 text-xs" class:bg-blue-50={isTotalRow}>
             {#each row as cell, idx}
-              {@const isTotalCell = idx >= row.length - 2}
-              <td class="px-2" class:text-right={idx !== 0} class:bg-gray-100={isTotalCell}>
+              {@const isTotalCell = noAverage ? idx >= row.length - 1 : idx >= row.length - 2}
+              <td class="px-2" class:text-right={idx !== 0} class:bg-blue-50={isTotalCell}>
                 {#if parseFloat(cell) === parseFloat(cell)}
                   <CurrencyView amount={cell} />
                 {:else}
-                  {cell}
+                  <strong>{cell}</strong>
                 {/if}
               </td>
             {/each}
@@ -50,11 +53,7 @@
         {/each}
       </TableWrapper>
     </div>
-    {#if $queryResult.data.chart.datasets[0].values.filter(Boolean).length > 1}
-      <div class="">
-        <Chart bind:this={chartRef} data={$queryResult.data.chart} {...chartOptions} />
-      </div>
-    {/if}
+    <Chart bind:this={chartRef} data={$queryResult.data.chart} {...chartOptions} />
   </div>
 {:else}
   <div class="flex h-full w-full flex-col items-center justify-center">

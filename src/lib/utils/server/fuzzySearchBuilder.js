@@ -34,21 +34,6 @@ const accounts = (search, searchField, subSearchField) => {
     case `accountType`:
       OR.push({ accountType: { OR: accountTypes(search, subSearchField) } })
       break
-    case `startingDate`:
-      OR.push({ startingDate: getDateTimeRange(search) })
-      break
-    case `startingBalance`:
-      // search for starting balance greater than or equal to search value floor and ceiling
-      OR.push({
-        startingBalance: { gte: Math.abs(Math.floor(search)), lte: Math.abs(Math.ceil(search)) + 1 }
-      })
-      OR.push({
-        startingBalance: {
-          gte: Math.abs(Math.floor(search)) * -1 - 1,
-          lte: Math.abs(Math.ceil(search)) * -1
-        }
-      })
-      break
     default:
       OR.push({ name: { contains: search, mode: `insensitive` } })
   }

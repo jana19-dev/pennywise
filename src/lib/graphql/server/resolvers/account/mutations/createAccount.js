@@ -14,7 +14,7 @@ export default async function handler(parent, args, context) {
     }
   })
 
-  const { name, accountTypeId, startingDate, startingBalance } = args
+  const { name, accountTypeId, openingDate, openingBalance } = args
 
   const accountExists = await context.prisma.account.findUnique({
     where: {
@@ -36,12 +36,23 @@ export default async function handler(parent, args, context) {
     })
   }
 
-  await context.prisma.account.create({
+  const account = await context.prisma.account.create({
     data: {
       name,
       accountTypeId,
-      startingDate,
-      startingBalance,
+      userId: authUser.id
+    },
+    select: {
+      id: true
+    }
+  })
+
+  // Create opening balance transaction
+  await context.prisma.transaction.create({
+    data: {
+      date: openingDate,
+      accountId: account.id,
+      amount: openingBalance,
       userId: authUser.id
     }
   })

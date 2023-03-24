@@ -31,7 +31,7 @@ export default async function handler(parent, args, context) {
   }
   const { response } = dateRangeResponse(startDate, args.endDate)
 
-  // get all transactions for the user and group by month and year and then sub-group by category
+  // get all transactions for the user and group by month and year and then sub-group by payee
   const transactions = await context.prisma.transaction.findMany({
     where: {
       userId: authUser.id,
@@ -44,7 +44,7 @@ export default async function handler(parent, args, context) {
     },
     select: {
       amount: true,
-      categoryId: true,
+      payeeId: true,
       date: true
     },
     orderBy: {
@@ -52,8 +52,8 @@ export default async function handler(parent, args, context) {
     }
   })
 
-  const categoriesMap = (
-    await context.prisma.category.findMany({
+  const payeesMap = (
+    await context.prisma.payee.findMany({
       where: {
         userId: authUser.id
       },
@@ -65,8 +65,8 @@ export default async function handler(parent, args, context) {
         name: `asc`
       }
     })
-  ).reduce((acc, category) => {
-    acc[category.id] = category.name
+  ).reduce((acc, payee) => {
+    acc[payee.id] = payee.name
     return acc
   }, {})
 
@@ -78,11 +78,11 @@ export default async function handler(parent, args, context) {
 
     // loop through the transactions and add them to the response
     transactionsForDateRange.forEach((transaction) => {
-      const category = categoriesMap[transaction.categoryId]
-      if (!dateRange[category]) {
-        dateRange[category] = 0
+      const payee = payeesMap[transaction.payeeId]
+      if (!dateRange[payee]) {
+        dateRange[payee] = 0
       }
-      dateRange[category] = parseFloat(dateRange[category]) + parseFloat(transaction.amount * -1)
+      dateRange[payee] = parseFloat(dateRange[payee]) + parseFloat(transaction.amount * -1)
     })
   })
 
@@ -102,11 +102,11 @@ export default async function handler(parent, args, context) {
   const chart = {
     labels: response.map((dateRange) => dateRange.day),
     datasets: [
-      ...Object.keys(categoriesMap)
-        .map((categoryId) => {
+      ...Object.keys(payeesMap)
+        .map((payeeId) => {
           return {
-            name: categoriesMap[categoryId],
-            values: response.map((dateRange) => dateRange[categoriesMap[categoryId]] || 0),
+            name: payeesMap[payeeId],
+            values: response.map((dateRange) => dateRange[payeesMap[payeeId]] || 0),
             chartType: `bar`
           }
         })
@@ -121,12 +121,12 @@ export default async function handler(parent, args, context) {
 
   // construct the table response
   const table = {
-    labels: [`Category`, ...response.map((dateRange) => dateRange.day), `Total`, `Average`],
+    labels: [`Payee`, ...response.map((dateRange) => dateRange.day), `Total`, `Average`],
     rows: []
   }
-  Object.keys(categoriesMap).forEach((categoryId) => {
-    const category = categoriesMap[categoryId]
-    const row = [category, ...response.map((dateRange) => dateRange[category] * -1 || 0), 0, 0]
+  Object.keys(payeesMap).forEach((payeeId) => {
+    const payee = payeesMap[payeeId]
+    const row = [payee, ...response.map((dateRange) => dateRange[payee] * -1 || 0), 0, 0]
     // remove rows that are all 0
     if (row.slice(1, row.length - 2).every((value) => value === 0)) {
       return

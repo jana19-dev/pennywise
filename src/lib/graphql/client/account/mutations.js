@@ -7,14 +7,14 @@ export const CREATE_ACCOUNT = async (variables) =>
         mutation CREATE_ACCOUNT(
           $name: String!
           $accountTypeId: ID!
-          $startingDate: Date!
-          $startingBalance: Float!
+          $openingDate: Date!
+          $openingBalance: Float!
         ) {
           createAccount(
             name: $name
             accountTypeId: $accountTypeId
-            startingDate: $startingDate
-            startingBalance: $startingBalance
+            openingDate: $openingDate
+            openingBalance: $openingBalance
           )
         }
       `,
@@ -47,32 +47,6 @@ export const UPDATE_ACCOUNT_TYPE = async (variables) =>
       variables
     )
     .then(({ updateAccountType }) => updateAccountType)
-    .catch(handleError)
-
-export const UPDATE_ACCOUNT_STARTING_DATE = async (variables) =>
-  graphQLClient
-    .request(
-      gql`
-        mutation UPDATE_ACCOUNT_STARTING_DATE($id: ID!, $startingDate: Date!) {
-          updateAccountStartingDate(id: $id, startingDate: $startingDate)
-        }
-      `,
-      variables
-    )
-    .then(({ updateAccountStartingDate }) => updateAccountStartingDate)
-    .catch(handleError)
-
-export const UPDATE_ACCOUNT_STARTING_BALANCE = async (variables) =>
-  graphQLClient
-    .request(
-      gql`
-        mutation UPDATE_ACCOUNT_STARTING_BALANCE($id: ID!, $startingBalance: Float!) {
-          updateAccountStartingBalance(id: $id, startingBalance: $startingBalance)
-        }
-      `,
-      variables
-    )
-    .then(({ updateAccountStartingBalance }) => updateAccountStartingBalance)
     .catch(handleError)
 
 export const DELETE_ACCOUNT = async (variables) =>

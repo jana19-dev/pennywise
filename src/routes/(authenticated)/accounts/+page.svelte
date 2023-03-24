@@ -16,7 +16,7 @@
 
   $: orderBy = buildSort({
     orderByParam: $page.url.searchParams.get(`orderBy`),
-    allowedKeys: [`name`, `startingDate`, `startingBalance`],
+    allowedKeys: [`name`],
     defaultOrderBy: { name: `asc` }
   })
   $: search = $page.url.searchParams.get(`search`) || ``

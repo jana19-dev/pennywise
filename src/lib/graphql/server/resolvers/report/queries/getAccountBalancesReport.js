@@ -31,20 +31,14 @@ export default async function handler(parent, args, context) {
   }
   const { response } = dateRangeResponse(startDate, args.endDate)
 
-  // get all transactions for the user and group by month and year and then sub-group by category
+  // get all transactions for the user and group by month and year and then sub-group by account
   const transactions = await context.prisma.transaction.findMany({
     where: {
-      userId: authUser.id,
-      transferId: {
-        equals: null
-      },
-      amount: {
-        lt: 0
-      }
+      userId: authUser.id
     },
     select: {
       amount: true,
-      categoryId: true,
+      accountId: true,
       date: true
     },
     orderBy: {
@@ -52,8 +46,8 @@ export default async function handler(parent, args, context) {
     }
   })
 
-  const categoriesMap = (
-    await context.prisma.category.findMany({
+  const accountsMap = (
+    await context.prisma.account.findMany({
       where: {
         userId: authUser.id
       },
@@ -65,8 +59,8 @@ export default async function handler(parent, args, context) {
         name: `asc`
       }
     })
-  ).reduce((acc, category) => {
-    acc[category.id] = category.name
+  ).reduce((acc, account) => {
+    acc[account.id] = account.name
     return acc
   }, {})
 
@@ -78,11 +72,11 @@ export default async function handler(parent, args, context) {
 
     // loop through the transactions and add them to the response
     transactionsForDateRange.forEach((transaction) => {
-      const category = categoriesMap[transaction.categoryId]
-      if (!dateRange[category]) {
-        dateRange[category] = 0
+      const account = accountsMap[transaction.accountId]
+      if (!dateRange[account]) {
+        dateRange[account] = 0
       }
-      dateRange[category] = parseFloat(dateRange[category]) + parseFloat(transaction.amount * -1)
+      dateRange[account] = parseFloat(dateRange[account]) + parseFloat(transaction.amount)
     })
   })
 
@@ -102,11 +96,11 @@ export default async function handler(parent, args, context) {
   const chart = {
     labels: response.map((dateRange) => dateRange.day),
     datasets: [
-      ...Object.keys(categoriesMap)
-        .map((categoryId) => {
+      ...Object.keys(accountsMap)
+        .map((accountId) => {
           return {
-            name: categoriesMap[categoryId],
-            values: response.map((dateRange) => dateRange[categoriesMap[categoryId]] || 0),
+            name: accountsMap[accountId],
+            values: response.map((dateRange) => dateRange[accountsMap[accountId]] || 0),
             chartType: `bar`
           }
         })
@@ -121,30 +115,24 @@ export default async function handler(parent, args, context) {
 
   // construct the table response
   const table = {
-    labels: [`Category`, ...response.map((dateRange) => dateRange.day), `Total`, `Average`],
+    labels: [`Payee`, ...response.map((dateRange) => dateRange.day), `Total`],
     rows: []
   }
-  Object.keys(categoriesMap).forEach((categoryId) => {
-    const category = categoriesMap[categoryId]
-    const row = [category, ...response.map((dateRange) => dateRange[category] * -1 || 0), 0, 0]
-    // remove rows that are all 0
-    if (row.slice(1, row.length - 2).every((value) => value === 0)) {
-      return
-    }
-    row[row.length - 2] = row.slice(1, row.length - 1).reduce((acc, value) => acc + value, 0) // Total
-    row[row.length - 1] = row[row.length - 2] / response.length // Average
+  Object.keys(accountsMap).forEach((accountId) => {
+    const account = accountsMap[accountId]
+    const row = [account, ...response.map((dateRange) => dateRange[account] || 0), 0]
+    row[row.length - 1] = row.slice(1, row.length - 1).reduce((acc, value) => acc + value, 0) // Total
     table.rows.push(row)
   })
   // add the total row
   table.rows.push([
-    `Total`,
-    ...response.map((dateRange) => dateRange.total * -1),
-    response.reduce((acc, dateRange) => acc + dateRange.total * -1, 0),
-    response.reduce((acc, dateRange) => acc + dateRange.total * -1, 0) / response.length
+    `Net Worth`,
+    ...response.map((dateRange) => dateRange.total),
+    response.reduce((acc, dateRange) => acc + dateRange.total, 0)
   ])
 
   // check if there is at least one row with a value
-  if (table.rows.every((row) => row.slice(1, row.length - 2).every((value) => value === 0))) {
+  if (table.rows.every((row) => row.slice(1, row.length - 1).every((value) => value === 0))) {
     throw new GraphQLError(`No data for the selected date range`)
   }
 
