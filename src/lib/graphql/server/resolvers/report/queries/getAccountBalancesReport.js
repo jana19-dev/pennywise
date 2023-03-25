@@ -120,7 +120,7 @@ export default async function handler(parent, args, context) {
 
   // construct the table response
   const table = {
-    labels: [`Payee`, ...response.map((dateRange) => dateRange.day), `Total`],
+    labels: [`Payee`, ...response.map((dateRange) => dateRange.day), `Current Balance`],
     rows: []
   }
   Object.keys(accountsMap).forEach((accountId) => {
