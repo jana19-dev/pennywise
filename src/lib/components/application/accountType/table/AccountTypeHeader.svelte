@@ -85,7 +85,7 @@
 <TableHeaderCell>
   <TextInput
     name="accounts"
-    class="py-2.5"
+    class="min-w-[8rem] py-2.5"
     inputClass="text-xs"
     color="gray"
     value={searchFields[`accounts`]}

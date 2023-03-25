@@ -1,6 +1,7 @@
 <script>
   export let link
   export let color = `gray` // "gray" | "indigo"
+  export let iconOnly = false
 
   import { page } from "$app/stores"
 
@@ -13,7 +14,9 @@
 
 <a
   href={link.href}
-  class="group flex w-full items-center justify-between rounded-md px-2 py-1.5 text-xs font-medium leading-5 transition focus:outline-none"
+  class="group flex w-full items-center justify-between rounded-md py-1 text-xs font-medium leading-5 transition focus:outline-none"
+  class:px-1={iconOnly}
+  class:py-2={!iconOnly}
   class:bg-gray-600={isActive && color === `gray`}
   class:hover:bg-gray-700={isActive && color === `gray`}
   class:text-gray-50={isActive && color === `gray`}
@@ -40,7 +43,9 @@
 >
   <div class="flex items-center">
     <svg
-      class="mr-3 h-6 w-6 flex-shrink-0"
+      class="h-6 w-6 flex-shrink-0"
+      class:ml-2={iconOnly}
+      class:mr-3={!iconOnly}
       xmlns="http://www.w3.org/2000/svg"
       fill="none"
       viewBox="0 0 24 24"
@@ -52,7 +57,9 @@
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" {d} />
       {/each}
     </svg>
-    {link.label}
+    {#if !iconOnly}
+      {link.label}
+    {/if}
   </div>
   <slot />
 </a>

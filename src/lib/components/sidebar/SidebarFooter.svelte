@@ -43,8 +43,10 @@
 </script>
 
 <div class="flex flex-shrink-0 flex-col items-center gap-1 p-1">
-  {#each links as link}
-    <SidebarLink {link} />
-  {/each}
+  <div class="flex w-full items-center gap-1">
+    {#each links as link}
+      <SidebarLink {link} iconOnly />
+    {/each}
+  </div>
   <ProfileMenu />
 </div>

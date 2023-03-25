@@ -2,7 +2,7 @@
   import { isSidebarOpenStore } from "$lib/stores"
   import { afterNavigate } from "$app/navigation"
 
-  import { LoadingAlert, ErrorAlert } from "@codepiercer/svelte-tailwind"
+  import { Button, LoadingAlert, ErrorAlert } from "@codepiercer/svelte-tailwind"
 
   import SidebarLink from "$lib/components/sidebar/SidebarLink.svelte"
   import SidebarFooter from "$lib/components/sidebar/SidebarFooter.svelte"
@@ -35,19 +35,14 @@
   class="fixed inset-y-0 left-0 z-30 flex w-64 transform flex-col bg-gray-900 transition duration-300 lg:static lg:inset-0 lg:translate-x-0"
 >
   <div class=" flex items-center justify-center">
-    <a
-      href="/"
-      class="my-4 flex items-center p-1 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
-    >
-      <img src="/logo.png" alt="pennywise logo" class="h-8 w-8" />
-      <div class="relative focus:outline-none focus:ring-2 focus:ring-indigo-500">
-        <h1 class="mx-2 text-xl font-semibold tracking-tight text-gray-50">PennyWise</h1>
-      </div>
-    </a>
+    <Button href="/" variant="ghost" class="m-1 mx-2 w-full p-1 hover:!bg-gray-700">
+      <img src="/logo.png" alt="PennyWise logo" class="h-8 w-8" />
+      <h1 class="ml-2 text-xl font-semibold tracking-tight text-gray-50">PennyWise</h1>
+    </Button>
   </div>
 
   <nav class="flex h-full flex-col overflow-y-auto px-1">
-    <div class="flex flex-1">
+    <div class="flex flex-1 overflow-y-auto">
       {#if $accountTypesQueryResult.isLoading}
         <div class="w-full">
           <LoadingAlert>Loading accounts ...</LoadingAlert>
@@ -57,7 +52,7 @@
           <ErrorAlert>Error: {$accountTypesQueryResult.error.message}</ErrorAlert>
         </div>
       {:else}
-        <div class="flex flex-1 flex-col gap-2 overflow-y-auto px-1">
+        <div class="flex flex-1 flex-col gap-2 px-1">
           {#each $accountTypesQueryResult.data as accountType (accountType.id)}
             {#if accountType.accounts.length > 0}
               <span
