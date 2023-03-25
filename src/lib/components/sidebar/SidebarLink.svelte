@@ -14,9 +14,9 @@
 
 <a
   href={link.href}
-  class="group flex w-full items-center justify-between rounded-md py-1 text-xs font-medium leading-5 transition focus:outline-none"
+  class="group flex w-full items-center justify-between rounded-md py-0.5 text-xs font-medium leading-5 transition focus:outline-none"
   class:px-1={iconOnly}
-  class:py-2={!iconOnly}
+  class:px-2={!iconOnly}
   class:bg-gray-600={isActive && color === `gray`}
   class:hover:bg-gray-700={isActive && color === `gray`}
   class:text-gray-50={isActive && color === `gray`}
