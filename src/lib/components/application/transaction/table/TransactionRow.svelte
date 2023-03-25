@@ -14,7 +14,11 @@
   import UpdateTransactionMemo from "$lib/components/application/transaction/mutations/update/UpdateTransactionMemo.svelte"
 </script>
 
-<tr class="h-10" class:bg-purple-50={transaction.transferTo}>
+<tr
+  class="h-10"
+  class:bg-purple-50={transaction.transferTo}
+  class:bg-yellow-50={!transaction.transferTo && !transaction.payee && !transaction.category}
+>
   <TableCell>
     <DeleteTransaction {transaction} />
   </TableCell>
@@ -40,7 +44,7 @@
     <TableCell colspan={2}>
       <div class="font-semibold">
         <span
-          class="inline-flex items-center rounded-md bg-purple-100 px-2.5 py-0.5 text-xs text-purple-800"
+          class="inline-flex items-center rounded-md bg-yellow-100 px-2.5 py-0.5 text-xs text-yellow-800"
           >Opening Balance</span
         >
       </div>

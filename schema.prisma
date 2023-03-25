@@ -37,7 +37,7 @@ model Account {
   userId        String
   transactions  Transaction[]
 
-  @@unique([name, userId], name: "account_name_user_id")
+  @@unique([name, userId, accountTypeId], name: "account_name_user_id_account_type_id")
 }
 
 model Category {
@@ -76,13 +76,4 @@ model Transaction {
   userId       String
   memo         String?
   amount       Float
-}
-
-model DailyAccountBalance {
-  id        String   @id @default(uuid())
-  date      DateTime @db.Date
-  accountId String
-  balance   Float
-
-  @@unique([date, accountId], name: "daily_account_balance_date_account_id")
 }
