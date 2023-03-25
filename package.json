@@ -32,7 +32,8 @@
     "date-fns": "2.29.3",
     "graphql": "16.6.0",
     "graphql-tag": "2.12.6",
-    "graphql-scalars": "1.20.4"
+    "graphql-scalars": "1.20.4",
+    "jsonwebtoken": "9.0.0"
   },
   "type": "module"
 }

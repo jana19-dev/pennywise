@@ -1,6 +1,7 @@
 import { GraphQLError } from "graphql"
 import { signInWithCredential, GoogleAuthProvider } from "firebase/auth"
 import { auth } from "$lib/utils/firebase"
+import { generateToken } from "$lib/utils/server/authentication"
 
 export default async function handler(parent, args, context) {
   try {
@@ -22,7 +23,13 @@ export default async function handler(parent, args, context) {
       )
     }
 
-    context.reqEvent.cookies.set(`accessToken`, accessToken, {
+    const token = await generateToken({
+      name: user.displayName,
+      email: user.email,
+      image: user.photoURL
+    })
+
+    context.reqEvent.cookies.set(`PENNYWISE_SESSION_ID`, token, {
       path: `/`,
       httpOnly: true,
       sameSite: `lax`,

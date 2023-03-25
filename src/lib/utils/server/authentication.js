@@ -1,24 +1,21 @@
-import { signInWithCredential, GoogleAuthProvider } from "firebase/auth"
-import { auth } from "$lib/utils/firebase"
+import jwt from "jsonwebtoken"
+
+import { JWT_SECRET } from "$env/static/private"
+
+export const generateToken = async (user) => {
+  return jwt.sign(user, JWT_SECRET, { expiresIn: `12h` })
+}
 
 export const getSession = async (req) => {
   try {
-    const accessToken = req.cookies.get(`accessToken`, {
+    const token = req.cookies.get(`PENNYWISE_SESSION_ID`, {
       path: `/`,
       httpOnly: true,
       sameSite: `lax`,
       secure: true
     })
 
-    const credential = GoogleAuthProvider.credential(accessToken)
-
-    const { user } = await signInWithCredential(auth, credential)
-
-    return {
-      name: user.displayName,
-      email: user.email,
-      image: user.photoURL
-    }
+    return token ? jwt.verify(token, JWT_SECRET) : null
   } catch (error) {
     return null
   }
