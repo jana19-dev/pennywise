@@ -6,6 +6,7 @@
 
   import SidebarLink from "$lib/components/sidebar/SidebarLink.svelte"
   import SidebarFooter from "$lib/components/sidebar/SidebarFooter.svelte"
+  import CurrencyView from "$lib/components/ui/CurrencyView.svelte"
 
   import { createQuery } from "@tanstack/svelte-query"
   import { GET_ALL_ACCOUNT_TYPES_LEAN } from "$lib/graphql/client/accountType/queries"
@@ -71,15 +72,7 @@
                       ]
                     }}
                   >
-                    <div
-                      class="inline-flex rounded-md px-2 text-xs font-semibold tabular-nums leading-5"
-                      class:bg-green-100={account.balance >= 0}
-                      class:text-green-800={account.balance >= 0}
-                      class:bg-red-100={account.balance < 0}
-                      class:text-red-800={account.balance < 0}
-                    >
-                      {account.balance}
-                    </div>
+                    <CurrencyView amount={account.balance} />
                   </SidebarLink>
                 </div>
               {/each}

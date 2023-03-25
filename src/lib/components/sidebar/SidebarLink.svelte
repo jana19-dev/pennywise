@@ -41,9 +41,9 @@
   class:focus:bg-indigo-700={!isActive && color === `indigo`}
   aria-current={isActive ? `page` : null}
 >
-  <div class="flex items-center">
+  <div class="flex items-center gap-1">
     <svg
-      class="h-6 w-6 flex-shrink-0"
+      class="-mr-0 h-6 w-6 flex-shrink-0"
       class:ml-2={iconOnly}
       class:mr-3={!iconOnly}
       xmlns="http://www.w3.org/2000/svg"

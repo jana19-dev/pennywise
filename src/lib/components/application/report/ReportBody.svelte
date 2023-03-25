@@ -46,7 +46,7 @@
                 class:text-right={idx !== 0}
                 class:bg-blue-50={isTotalCell}
               >
-                {#if parseFloat(cell) === parseFloat(cell)}
+                {#if idx > 0}
                   <CurrencyView amount={cell} />
                 {:else}
                   <strong>{cell}</strong>
