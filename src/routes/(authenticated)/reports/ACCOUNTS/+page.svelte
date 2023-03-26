@@ -1,7 +1,7 @@
 <script>
   import ReportBody from "$lib/components/application/report/ReportBody.svelte"
 
-  import DateRangePicker from "$lib/components/ui/DateRangePicker.svelte"
+  import DateRangePicker from "$lib/components/application/report/DateRangePicker.svelte"
   import { formatDate } from "@codepiercer/svelte-tailwind/utils/date"
 
   import { createQuery } from "@tanstack/svelte-query"

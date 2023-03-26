@@ -5,7 +5,7 @@
 </script>
 
 <span
-  class="inline-flex items-center rounded-md px-2.5 py-0.5 font-semibold tabular-nums"
+  class="currency-view inline-flex items-center rounded-md px-2.5 py-1 font-semibold tabular-nums"
   class:text-xs={size === `sm`}
   class:text-lg={size === `lg`}
   class:bg-red-50={amount < 0}

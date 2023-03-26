@@ -20,19 +20,20 @@
     "@zerodevx/svelte-toast": "0.9.3",
     "firebase": "9.18.0",
     "graphql-request": "5.2.0",
+    "html2canvas": "1.4.1",
     "husky": "8.0.3",
     "prisma": "4.11.0",
     "svelte-forms-lib": "2.0.1",
-    "yup": "1.0.2",
-    "svelte-frappe-charts": "1.10.0"
+    "svelte-frappe-charts": "1.10.0",
+    "yup": "1.0.2"
   },
   "dependencies": {
     "@apollo/server": "4.5.0",
     "@prisma/client": "4.11.0",
     "date-fns": "2.29.3",
     "graphql": "16.6.0",
-    "graphql-tag": "2.12.6",
     "graphql-scalars": "1.21.2",
+    "graphql-tag": "2.12.6",
     "jsonwebtoken": "9.0.0"
   },
   "type": "module"

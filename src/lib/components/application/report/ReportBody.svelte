@@ -36,7 +36,7 @@
       />
     </div>
   {/if}
-  <div class="overflow-y-auto px-4 pb-4">
+  <div class="overflow-y-auto px-4 pb-4" id="report">
     <TableWrapper>
       <tr slot="header" class="bg-blue-800 text-xs font-semibold">
         {#each $queryResult.data.table.labels as label, idx}
@@ -60,7 +60,11 @@
         >
           {#each row as cell, idx}
             <TableCell>
-              <div class:text-right={idx !== 0} class:text-white={isTotalRow}>
+              <div
+                class:text-right={idx !== 0}
+                class:text-white={isTotalRow}
+                class:-mt-4={isTotalRow}
+              >
                 {#if idx > 0}
                   <CurrencyView amount={cell} />
                 {:else}
