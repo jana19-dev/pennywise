@@ -20,7 +20,7 @@ export default async function handler(parent, args, context) {
   // include fuzzy search filters
   if (search) {
     where.AND = search.split(` `).map((word) => ({
-      OR: [{ name: { contains: word } }]
+      OR: [{ name: { contains: word, mode: `insensitive` } }]
     }))
   }
 
