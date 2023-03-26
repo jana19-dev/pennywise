@@ -22,24 +22,10 @@
       "icons": [{ "src": "/logo.png", "sizes": "192x192" }]
     },
     {
-      "name": "View account balances",
+      "name": "View accounts balance",
       "short_name": "Accounts",
-      "description": "View all accounts in the app",
+      "description": "View accounts balance in the app",
       "url": "/reports/ACCOUNTS?source=pwa",
-      "icons": [{ "src": "/logo.png", "sizes": "192x192" }]
-    },
-    {
-      "name": "View categories",
-      "short_name": "Categories",
-      "description": "View summary by categories",
-      "url": "/reports/CATEGORIES?source=pwa",
-      "icons": [{ "src": "/logo.png", "sizes": "192x192" }]
-    },
-    {
-      "name": "View payees",
-      "short_name": "Payees",
-      "description": "View summary by payees",
-      "url": "/reports/PAYEES?source=pwa",
       "icons": [{ "src": "/logo.png", "sizes": "192x192" }]
     }
   ],
