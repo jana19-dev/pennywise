@@ -20,47 +20,43 @@
 
   const queryClient = useQueryClient()
 
-  const { form, errors, touched, handleChange, handleSubmit, handleReset, updateInitialValues } =
-    createForm({
-      validationSchema: yup.object().shape({
-        name: yup.string().required(),
-        accountTypeId: yup.string().required(),
-        openingDate: yup.string().required(),
-        openingBalance: yup
-          .number()
-          .test(
-            `is-decimal`,
-            `The amount should be a decimal with maximum two digits after comma`,
-            (val) => {
-              if (val != undefined) {
-                return /^-?\d+(\.\d{0,2})?$/.test(val)
-              }
-              return true
+  const { form, errors, touched, handleChange, handleSubmit, handleReset } = createForm({
+    validationSchema: yup.object().shape({
+      name: yup.string().required(),
+      accountTypeId: yup.string().required(),
+      openingDate: yup.string().required(),
+      openingBalance: yup
+        .number()
+        .test(
+          `is-decimal`,
+          `The amount should be a decimal with maximum two digits after comma`,
+          (val) => {
+            if (val != undefined) {
+              return /^-?\d+(\.\d{0,2})?$/.test(val)
             }
-          )
-          .required()
-      }),
-      initialValues: {
-        name: initialValue,
-        accountTypeId: accountType.id,
-        openingDate: new Date(),
-        openingBalance: 0
-      },
-      onSubmit: ({ name, accountTypeId, openingDate, openingBalance }) => {
-        $createAccountMutation.mutate({
-          name,
-          accountTypeId,
-          openingDate: formatDate(openingDate),
-          openingBalance: parseFloat(openingBalance)
-        })
-      }
-    })
+            return true
+          }
+        )
+        .required()
+    }),
+    initialValues: {
+      name: initialValue,
+      accountTypeId: accountType.id,
+      openingDate: new Date(),
+      openingBalance: 0
+    },
+    onSubmit: ({ name, accountTypeId, openingDate, openingBalance }) => {
+      $createAccountMutation.mutate({
+        name,
+        accountTypeId,
+        openingDate: formatDate(openingDate),
+        openingBalance: parseFloat(openingBalance)
+      })
+    }
+  })
 
   $: if (initialValue) {
-    updateInitialValues({
-      ...form.values,
-      name: initialValue
-    })
+    $form[`name`] = initialValue
   }
 
   const createAccountMutation = createMutation(CREATE_ACCOUNT, {

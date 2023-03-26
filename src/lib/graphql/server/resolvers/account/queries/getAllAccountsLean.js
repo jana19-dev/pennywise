@@ -26,7 +26,7 @@ export default async function handler(parent, args, context) {
 
   return context.prisma.account.findMany({
     where,
-    orderBy: { name: `asc` },
+    orderBy: [{ accountType: { priority: `asc` } }, { name: `asc` }],
     select: {
       id: true,
       name: true

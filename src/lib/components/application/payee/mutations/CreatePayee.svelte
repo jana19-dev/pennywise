@@ -26,23 +26,22 @@
     }
   })
 
-  const { form, errors, touched, handleChange, handleSubmit, handleReset, updateInitialValues } =
-    createForm({
-      validationSchema: yup.object().shape({
-        name: yup.string().required().min(3).max(50)
-      }),
-      initialValues: {
-        name: initialValue
-      },
-      onSubmit: ({ name }) => {
-        $createPayeeMutation.mutate({
-          name
-        })
-      }
-    })
+  const { form, errors, touched, handleChange, handleSubmit, handleReset } = createForm({
+    validationSchema: yup.object().shape({
+      name: yup.string().required().min(3).max(50)
+    }),
+    initialValues: {
+      name: initialValue
+    },
+    onSubmit: ({ name }) => {
+      $createPayeeMutation.mutate({
+        name
+      })
+    }
+  })
 
   $: if (initialValue) {
-    updateInitialValues({ name: initialValue })
+    $form[`name`] = initialValue
   }
 
   const onClose = () => {

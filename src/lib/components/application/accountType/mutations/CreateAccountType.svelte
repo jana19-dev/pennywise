@@ -26,26 +26,25 @@
     }
   })
 
-  const { form, errors, touched, handleChange, handleSubmit, handleReset, updateInitialValues } =
-    createForm({
-      validationSchema: yup.object().shape({
-        name: yup.string().required().min(3).max(50),
-        priority: yup.number().typeError(`Order must be a number`)
-      }),
-      initialValues: {
-        name: initialValue,
-        priority: 0
-      },
-      onSubmit: ({ name, priority }) => {
-        $createAccountTypeMutation.mutate({
-          name,
-          priority: parseInt(priority)
-        })
-      }
-    })
+  const { form, errors, touched, handleChange, handleSubmit, handleReset } = createForm({
+    validationSchema: yup.object().shape({
+      name: yup.string().required().min(3).max(50),
+      priority: yup.number().typeError(`Order must be a number`)
+    }),
+    initialValues: {
+      name: initialValue,
+      priority: 0
+    },
+    onSubmit: ({ name, priority }) => {
+      $createAccountTypeMutation.mutate({
+        name,
+        priority: parseInt(priority)
+      })
+    }
+  })
 
   $: if (initialValue) {
-    updateInitialValues({ name: initialValue, priority: 0 })
+    $form[`name`] = initialValue
   }
 
   const onClose = () => {

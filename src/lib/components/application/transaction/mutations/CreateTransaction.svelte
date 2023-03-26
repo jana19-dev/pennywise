@@ -35,54 +35,50 @@
   })
 
   let transactionType = `expense` // expense or income or transfer
-  const { form, errors, touched, handleChange, handleSubmit, handleReset, updateInitialValues } =
-    createForm({
-      validationSchema: yup.object().shape({
-        date: yup.string().required(),
-        accountId: yup.string().required(),
-        categoryId: yup.string(),
-        payeeId: yup.string(),
-        transferAccountId: yup.string(),
-        amount: yup
-          .number()
-          .typeError(
-            `The amount should be a positive decimal with maximum two digits of decimal places`
-          )
-          .test(
-            `is-decimal`,
-            `The amount should be a positive decimal with maximum two digits of decimal places`,
-            (val) => {
-              if (val != undefined) {
-                return /^\d+(\.\d{0,2})?$/.test(val)
-              }
-              return true
+  const { form, errors, touched, handleChange, handleSubmit, handleReset } = createForm({
+    validationSchema: yup.object().shape({
+      date: yup.string().required(),
+      accountId: yup.string().required(),
+      categoryId: yup.string(),
+      payeeId: yup.string(),
+      transferAccountId: yup.string(),
+      amount: yup
+        .number()
+        .typeError(
+          `The amount should be a positive decimal with maximum two digits of decimal places`
+        )
+        .test(
+          `is-decimal`,
+          `The amount should be a positive decimal with maximum two digits of decimal places`,
+          (val) => {
+            if (val != undefined) {
+              return /^\d+(\.\d{0,2})?$/.test(val)
             }
-          )
-          .required(),
-        memo: yup.string()
-      }),
-      initialValues: {
-        date: new Date(),
-        accountId: $page.params.accountId
-      },
-      onSubmit: ({ date, accountId, categoryId, payeeId, transferAccountId, amount, memo }) => {
-        $createTransactionMutation.mutate({
-          date: formatDate(date),
-          accountId,
-          categoryId,
-          payeeId,
-          transferAccountId,
-          amount: transactionType === `income` ? parseFloat(amount) : parseFloat(amount) * -1,
-          memo
-        })
-      }
-    })
+            return true
+          }
+        )
+        .required(),
+      memo: yup.string()
+    }),
+    initialValues: {
+      date: new Date(),
+      accountId: $page.params.accountId
+    },
+    onSubmit: ({ date, accountId, categoryId, payeeId, transferAccountId, amount, memo }) => {
+      $createTransactionMutation.mutate({
+        date: formatDate(date),
+        accountId,
+        categoryId,
+        payeeId,
+        transferAccountId,
+        amount: transactionType === `income` ? parseFloat(amount) : parseFloat(amount) * -1,
+        memo
+      })
+    }
+  })
 
   $: if ($page.params.accountId) {
-    updateInitialValues({
-      ...$form,
-      accountId: $page.params.accountId
-    })
+    $form[`accountId`] = $page.params.accountId
   }
 
   const onClose = () => {
