@@ -18,7 +18,7 @@
   <ErrorAlert>Error: {$queryResult.error.message}</ErrorAlert>
 {:else if $queryResult.data}
   {#if $queryResult.data.chart}
-    <div class="overflow-x-clip">
+    <div class="hidden overflow-x-clip lg:block">
       <Chart
         data={$queryResult.data.chart}
         type="bar"
