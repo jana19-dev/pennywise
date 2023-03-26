@@ -1,7 +1,7 @@
 <script>
   export let dateRange
 
-  import html2canvas from "html2canvas"
+  // import html2canvas from "html2canvas"
 
   import { DateInput, DropdownMenu, Button } from "@codepiercer/svelte-tailwind"
   import ChevronDownIcon from "@codepiercer/svelte-tailwind/icons/ChevronDownIcon.svelte"
@@ -47,44 +47,44 @@
     }
   ]
 
-  const saveAsPng = () => {
-    const report = document.getElementById(`report`)
-    report.style.overflowY = `unset`
-    // document.body.style.overflow = `unset`
+  // const saveAsPng = () => {
+  //   const report = document.getElementById(`report`)
+  //   report.style.overflowY = `unset`
+  //   // document.body.style.overflow = `unset`
 
-    const currencyViews = report.querySelectorAll(`.currency-view`)
-    currencyViews.forEach((currencyView) => {
-      currencyView.style.paddingBottom = `0.75rem`
-    })
-    html2canvas(report, {
-      allowTaint: true,
-      logging: false,
-      windowWidth: window.outerWidth + window.innerWidth,
-      windowHeight: window.outerHeight + window.innerHeight,
-      scrollX: 0,
-      scrollY: 0,
-      useCORS: true,
-      scale: 1,
-      x: 0,
-      y: 0
-    })
-      .then((canvas) => {
-        const a = document.createElement(`a`)
-        a.href = canvas.toDataURL(`image/png`)
-        a.download = `report.png`
-        a.click()
-      })
-      .finally(() => {
-        report.style.overflowY = `auto`
-        currencyViews.forEach((currencyView) => {
-          currencyView.style.paddingBottom = `0.25rem`
-        })
-      })
-  }
+  //   const currencyViews = report.querySelectorAll(`.currency-view`)
+  //   currencyViews.forEach((currencyView) => {
+  //     currencyView.style.paddingBottom = `0.75rem`
+  //   })
+  //   html2canvas(report, {
+  //     allowTaint: true,
+  //     logging: false,
+  //     windowWidth: window.outerWidth + window.innerWidth,
+  //     windowHeight: window.outerHeight + window.innerHeight,
+  //     scrollX: 0,
+  //     scrollY: 0,
+  //     useCORS: true,
+  //     scale: 1,
+  //     x: 0,
+  //     y: 0
+  //   })
+  //     .then((canvas) => {
+  //       const a = document.createElement(`a`)
+  //       a.href = canvas.toDataURL(`image/png`)
+  //       a.download = `report.png`
+  //       a.click()
+  //     })
+  //     .finally(() => {
+  //       report.style.overflowY = `auto`
+  //       currencyViews.forEach((currencyView) => {
+  //         currencyView.style.paddingBottom = `0.25rem`
+  //       })
+  //     })
+  // }
 </script>
 
 <div class="flex flex-col items-center gap-6 lg:flex-row">
-  <Button on:click={saveAsPng}>
+  <!-- <Button on:click={saveAsPng}>
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="h-5 w-5">
       <path
         fill-rule="evenodd"
@@ -93,7 +93,7 @@
       />
     </svg>
     <span class="ml-2">Save as PNG</span>
-  </Button>
+  </Button> -->
   <div class="flex items-center gap-2">
     <DateInput
       noClear

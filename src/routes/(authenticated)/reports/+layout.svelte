@@ -11,7 +11,7 @@
 </script>
 
 <div class="flex h-full w-full flex-col lg:flex-row">
-  <div class="flex p-2">
+  <div class="flex border-r-2 bg-white p-2">
     <div class="flex w-full flex-col gap-2">
       <SelectReportInput
         name="reportName"
