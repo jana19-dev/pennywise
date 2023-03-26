@@ -1,24 +1,15 @@
 <script>
   export let queryResult
-  export let chartOptions = {}
-  export let noAverage = false
 
   import { LoadingAlert, ErrorAlert } from "@codepiercer/svelte-tailwind"
 
   import TableWrapper from "$lib/components/table/TableWrapper.svelte"
+  import TableHeaderCell from "$lib/components/table/TableHeaderCell.svelte"
+  import TableCell from "$lib/components/table/TableCell.svelte"
+
   import CurrencyView from "$lib/components/ui/CurrencyView.svelte"
 
   import Chart from "svelte-frappe-charts"
-
-  let chartRef
-
-  $: if (chartRef) {
-    // set position to sticky
-    const element = document.getElementsByClassName(`chart-container`)[0]
-    const parent = element.parentElement
-    parent.style.position = `sticky`
-    parent.style.top = `0`
-  }
 </script>
 
 {#if $queryResult.isFetching}
@@ -26,38 +17,61 @@
 {:else if $queryResult.isError}
   <ErrorAlert>Error: {$queryResult.error.message}</ErrorAlert>
 {:else if $queryResult.data}
-  <div class="flex w-full flex-col justify-between px-4">
-    <div class="overflow-x-auto pt-6">
-      <TableWrapper>
-        <tr slot="header" class="h-6 bg-blue-300 text-xs font-semibold">
-          {#each $queryResult.data.table.labels as label, idx}
-            <td class="min-w-[6rem] px-3" class:text-right={idx !== 0}>{label}</td>
-          {/each}
-        </tr>
-        {#each $queryResult.data.table.rows as row, idx}
-          {@const isTotalRow = noAverage
-            ? idx === $queryResult.data.table.rows.length - 1
-            : idx >= $queryResult.data.table.rows.length - 1}
-          <tr class="h-10 text-xs" class:bg-blue-50={isTotalRow}>
-            {#each row as cell, idx}
-              {@const isTotalCell = noAverage ? idx >= row.length - 1 : idx >= row.length - 2}
-              <td
-                class="border-x border-b border-gray-200 px-2"
-                class:text-right={idx !== 0}
-                class:bg-blue-50={isTotalCell}
-              >
+  {#if $queryResult.data.chart}
+    <div class="overflow-x-clip">
+      <Chart
+        data={$queryResult.data.chart}
+        type="bar"
+        axisOptions={{
+          xIsSeries: true,
+          xAxisMode: `tick`
+        }}
+        tooltipOptions={{
+          formatTooltipY: (d) =>
+            parseFloat(d)
+              .toFixed(2)
+              .replace(/\B(?=(\d{3})+(?!\d))/g, `,`)
+        }}
+        colors={[`#667EEA`]}
+      />
+    </div>
+  {/if}
+  <div class="overflow-y-auto px-4 pb-4">
+    <TableWrapper>
+      <tr slot="header" class="bg-blue-800 text-xs font-semibold">
+        {#each $queryResult.data.table.labels as label, idx}
+          <TableHeaderCell bg="blue">
+            <div class:text-right={idx !== 0}>
+              {label}
+            </div>
+          </TableHeaderCell>
+        {/each}
+      </tr>
+      {#each $queryResult.data.table.rows as row, idx}
+        {@const isTotalRow = idx === 0}
+        <tr
+          class="h-10 text-xs hover:bg-blue-100"
+          class:bg-blue-800={isTotalRow}
+          class:hover:bg-blue-800={isTotalRow}
+          class:sticky={isTotalRow}
+          class:z-20={isTotalRow}
+          class:top-[3rem]={isTotalRow}
+          class:text-right={isTotalRow}
+        >
+          {#each row as cell, idx}
+            <TableCell>
+              <div class:text-right={idx !== 0} class:text-white={isTotalRow}>
                 {#if idx > 0}
                   <CurrencyView amount={cell} />
                 {:else}
                   <strong>{cell}</strong>
                 {/if}
-              </td>
-            {/each}
-          </tr>
-        {/each}
-      </TableWrapper>
-    </div>
-    <Chart bind:this={chartRef} data={$queryResult.data.chart} {...chartOptions} />
+              </div>
+            </TableCell>
+          {/each}
+        </tr>
+      {/each}
+    </TableWrapper>
   </div>
 {:else}
   <div class="flex h-full w-full flex-col items-center justify-center">

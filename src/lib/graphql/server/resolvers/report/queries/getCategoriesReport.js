@@ -31,14 +31,19 @@ export default async function handler(parent, args, context) {
   }
   const { response } = dateRangeResponse(startDate, args.endDate)
 
-  // get all transactions for the user and group by month and year and then sub-group by account
-  const transactions = await context.prisma.transaction.findMany({
+  // get all transactions for the user and group by month and year and then sub-group by category
+  let transactions = await context.prisma.transaction.findMany({
     where: {
-      userId: authUser.id
+      userId: authUser.id,
+      transferId: {
+        equals: null
+      }
     },
     select: {
       amount: true,
-      accountId: true,
+      payeeId: true,
+      categoryId: true,
+      transferId: true,
       date: true
     },
     orderBy: {
@@ -46,8 +51,13 @@ export default async function handler(parent, args, context) {
     }
   })
 
-  const accountsMap = (
-    await context.prisma.account.findMany({
+  // filter out opening balances
+  transactions = transactions.filter((transaction) => {
+    return !(!transaction.payeeId && !transaction.categoryId && !transaction.transferId)
+  })
+
+  const categoriesMap = (
+    await context.prisma.category.findMany({
       where: {
         userId: authUser.id
       },
@@ -55,17 +65,12 @@ export default async function handler(parent, args, context) {
         id: true,
         name: true
       },
-      orderBy: [
-        {
-          accountType: {
-            priority: `asc`
-          }
-        },
-        { name: `asc` }
-      ]
+      orderBy: {
+        name: `asc`
+      }
     })
-  ).reduce((acc, account) => {
-    acc[account.id] = account.name
+  ).reduce((acc, category) => {
+    acc[category.id] = category.name
     return acc
   }, {})
 
@@ -77,11 +82,11 @@ export default async function handler(parent, args, context) {
 
     // loop through the transactions and add them to the response
     transactionsForDateRange.forEach((transaction) => {
-      const account = accountsMap[transaction.accountId]
-      if (!dateRange[account]) {
-        dateRange[account] = 0
+      const category = categoriesMap[transaction.categoryId]
+      if (!dateRange[category]) {
+        dateRange[category] = 0
       }
-      dateRange[account] = parseFloat(dateRange[account]) + parseFloat(transaction.amount)
+      dateRange[category] = parseFloat(dateRange[category]) + parseFloat(transaction.amount)
     })
   })
 
@@ -101,40 +106,36 @@ export default async function handler(parent, args, context) {
   const chart = {
     labels: response.map((dateRange) => dateRange.day),
     datasets: [
-      ...Object.keys(accountsMap)
-        .map((accountId) => {
-          return {
-            name: accountsMap[accountId],
-            values: response.map((dateRange) => dateRange[accountsMap[accountId]] || 0),
-            chartType: `bar`
-          }
-        })
-        .filter((dataset) => dataset.values.some((value) => value !== 0)),
       {
-        name: `Net Worth`,
+        name: `Net`,
         values: response.map((dateRange) => dateRange.total),
-        chartType: `line`
+        chartType: `bar`
       }
     ]
   }
 
   // construct the table response
   const table = {
-    labels: [`Payee`, ...response.map((dateRange) => dateRange.day), `Current Balance`],
+    labels: [`Category`, ...response.map((dateRange) => dateRange.day), `Average`],
     rows: []
   }
-  Object.keys(accountsMap).forEach((accountId) => {
-    const account = accountsMap[accountId]
-    const row = [account, ...response.map((dateRange) => dateRange[account] || 0), 0]
-    row[row.length - 1] = row.slice(1, row.length - 1).reduce((acc, value) => acc + value, 0) // Total
-    table.rows.push(row)
-  })
   // add the total row
   table.rows.push([
-    `Net Worth`,
+    `Net`,
     ...response.map((dateRange) => dateRange.total),
-    response.reduce((acc, dateRange) => acc + dateRange.total, 0)
+    response.reduce((acc, dateRange) => acc + dateRange.total, 0) / response.length
   ])
+
+  Object.keys(categoriesMap).forEach((categoryId) => {
+    const category = categoriesMap[categoryId]
+    const row = [category, ...response.map((dateRange) => dateRange[category] || 0), 0]
+    // remove rows that are all 0
+    if (row.slice(1, row.length - 1).every((value) => value === 0)) {
+      return
+    }
+    row[row.length - 1] = row[row.length - 2] / response.length // Average
+    table.rows.push(row)
+  })
 
   // check if there is at least one row with a value
   if (table.rows.every((row) => row.slice(1, row.length - 1).every((value) => value === 0))) {

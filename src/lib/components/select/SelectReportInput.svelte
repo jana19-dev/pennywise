@@ -9,10 +9,9 @@
   import { SelectInput } from "@codepiercer/svelte-tailwind"
 
   const options = [
-    { label: `ACCOUNT BALANCES`, value: `ACCOUNT_BALANCES` },
-    { label: `EXPENSE BY CATEGORY`, value: `EXPENSE_BY_CATEGORY` },
-    { label: `EXPENSE BY PAYEE`, value: `EXPENSE_BY_PAYEE` },
-    { label: `INCOME BY PAYEE`, value: `INCOME_BY_PAYEE` }
+    { label: `ACCOUNTS`, value: `ACCOUNTS` },
+    { label: `CATEGORIES`, value: `CATEGORIES` },
+    { label: `PAYEES`, value: `PAYEES` }
   ]
 </script>
 

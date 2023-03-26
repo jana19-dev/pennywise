@@ -1,8 +1,7 @@
 export default /* GraphQL */ `
   type Query {
-    getAccountBalancesReport(startDate: Date, endDate: Date): JSON!
-    getExpenseByCategoryReport(startDate: Date, endDate: Date): JSON!
-    getExpenseByPayeeReport(startDate: Date, endDate: Date): JSON!
-    getIncomeByPayeeReport(startDate: Date, endDate: Date): JSON!
+    getAccountsReport(startDate: Date, endDate: Date): JSON!
+    getCategoriesReport(startDate: Date, endDate: Date): JSON!
+    getPayeesReport(startDate: Date, endDate: Date): JSON!
   }
 `

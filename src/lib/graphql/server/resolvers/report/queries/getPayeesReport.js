@@ -37,9 +37,6 @@ export default async function handler(parent, args, context) {
       userId: authUser.id,
       transferId: {
         equals: null
-      },
-      amount: {
-        lt: 0
       }
     },
     select: {
@@ -89,7 +86,7 @@ export default async function handler(parent, args, context) {
       if (!dateRange[payee]) {
         dateRange[payee] = 0
       }
-      dateRange[payee] = parseFloat(dateRange[payee]) + parseFloat(transaction.amount * -1)
+      dateRange[payee] = parseFloat(dateRange[payee]) + parseFloat(transaction.amount)
     })
   })
 
@@ -109,49 +106,39 @@ export default async function handler(parent, args, context) {
   const chart = {
     labels: response.map((dateRange) => dateRange.day),
     datasets: [
-      ...Object.keys(payeesMap)
-        .map((payeeId) => {
-          return {
-            name: payeesMap[payeeId],
-            values: response.map((dateRange) => dateRange[payeesMap[payeeId]] || 0),
-            chartType: `bar`
-          }
-        })
-        .filter((dataset) => dataset.values.some((value) => value !== 0)),
       {
-        name: `Total`,
+        name: `Net`,
         values: response.map((dateRange) => dateRange.total),
-        chartType: `line`
+        chartType: `bar`
       }
     ]
   }
 
   // construct the table response
   const table = {
-    labels: [`Payee`, ...response.map((dateRange) => dateRange.day), `Total`, `Average`],
+    labels: [`Payee`, ...response.map((dateRange) => dateRange.day), `Average`],
     rows: []
   }
+  // add the total row
+  table.rows.push([
+    `Net`,
+    ...response.map((dateRange) => dateRange.total),
+    response.reduce((acc, dateRange) => acc + dateRange.total, 0) / response.length
+  ])
+
   Object.keys(payeesMap).forEach((payeeId) => {
     const payee = payeesMap[payeeId]
-    const row = [payee, ...response.map((dateRange) => dateRange[payee] * -1 || 0), 0, 0]
+    const row = [payee, ...response.map((dateRange) => dateRange[payee] || 0), 0]
     // remove rows that are all 0
-    if (row.slice(1, row.length - 2).every((value) => value === 0)) {
+    if (row.slice(1, row.length - 1).every((value) => value === 0)) {
       return
     }
-    row[row.length - 2] = row.slice(1, row.length - 1).reduce((acc, value) => acc + value, 0) // Total
     row[row.length - 1] = row[row.length - 2] / response.length // Average
     table.rows.push(row)
   })
-  // add the total row
-  table.rows.push([
-    `Total`,
-    ...response.map((dateRange) => dateRange.total * -1),
-    response.reduce((acc, dateRange) => acc + dateRange.total * -1, 0),
-    response.reduce((acc, dateRange) => acc + dateRange.total * -1, 0) / response.length
-  ])
 
   // check if there is at least one row with a value
-  if (table.rows.every((row) => row.slice(1, row.length - 2).every((value) => value === 0))) {
+  if (table.rows.every((row) => row.slice(1, row.length - 1).every((value) => value === 0))) {
     throw new GraphQLError(`No data for the selected date range`)
   }
 

@@ -1,11 +1,9 @@
-import getAccountBalancesReport from "./getAccountBalancesReport"
-import getExpenseByCategoryReport from "./getExpenseByCategoryReport"
-import getExpenseByPayeeReport from "./getExpenseByPayeeReport"
-import getIncomeByPayeeReport from "./getIncomeByPayeeReport"
+import getAccountsReport from "./getAccountsReport"
+import getCategoriesReport from "./getCategoriesReport"
+import getPayeesReport from "./getPayeesReport"
 
 export default {
-  getAccountBalancesReport,
-  getExpenseByCategoryReport,
-  getExpenseByPayeeReport,
-  getIncomeByPayeeReport
+  getAccountsReport,
+  getCategoriesReport,
+  getPayeesReport
 }

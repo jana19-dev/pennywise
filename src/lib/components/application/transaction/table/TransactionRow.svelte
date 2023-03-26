@@ -27,22 +27,19 @@
     </TableCell>
   {/if}
   {#if transaction.transferTo}
-    <TableCell colspan={2}>
-      <div class="font-semibold">
-        <span
-          >Transfer {#if transaction.amount > 0} from {:else} to {/if}</span
-        >
-        <span
-          class="inline-flex items-center rounded-md bg-purple-100 px-2.5 py-0.5 text-xs text-purple-800"
-          >{transaction.transferTo.account.name}</span
-        >
-      </div>
+    <TableCell>
+      <span
+        >TRANSFER {#if transaction.amount > 0} FROM {:else} TO {/if}</span
+      >
+    </TableCell>
+    <TableCell>
+      {transaction.transferTo.account.name}
     </TableCell>
   {:else if !transaction.transferTo && !transaction.payee && !transaction.category}
     <TableCell colspan={2}>
       <div class="font-semibold">
         <span
-          class="inline-flex items-center rounded-md bg-yellow-100 px-2.5 py-0.5 text-xs text-yellow-800"
+          class="inline-flex items-center rounded-md bg-yellow-100 px-2 py-0.5 text-xs text-yellow-800"
           >Opening Balance</span
         >
       </div>
@@ -55,7 +52,6 @@
       <UpdateTransactionPayee {transaction} isInline />
     </TableCell>
   {/if}
-
   <TableCell>
     <UpdateTransactionMemo {transaction} isInline />
   </TableCell>

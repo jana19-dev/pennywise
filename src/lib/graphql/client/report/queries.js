@@ -1,53 +1,40 @@
 import { graphQLClient, gql, handleError } from "$lib/graphql/client"
 
-export const GET_ACCOUNT_BALANCES_REPORT = ({ queryKey: [, variables] = [] } = {}) =>
+export const GET_ACCOUNTS_REPORT = ({ queryKey: [, variables] = [] } = {}) =>
   graphQLClient
     .request(
       gql`
-        query GET_ACCOUNT_BALANCES_REPORT($startDate: Date, $endDate: Date) {
-          getAccountBalancesReport(startDate: $startDate, endDate: $endDate)
+        query GET_ACCOUNTS_REPORT($startDate: Date, $endDate: Date) {
+          getAccountsReport(startDate: $startDate, endDate: $endDate)
         }
       `,
       variables
     )
-    .then(({ getAccountBalancesReport }) => getAccountBalancesReport)
+    .then(({ getAccountsReport }) => getAccountsReport)
     .catch(handleError)
 
-export const GET_EXPENSE_BY_CATEGORY_REPORT = ({ queryKey: [, variables] = [] } = {}) =>
+export const GET_CATEGORIES_REPORT = ({ queryKey: [, variables] = [] } = {}) =>
   graphQLClient
     .request(
       gql`
-        query GET_EXPENSE_BY_CATEGORY_REPORT($startDate: Date, $endDate: Date) {
-          getExpenseByCategoryReport(startDate: $startDate, endDate: $endDate)
+        query GET_CATEGORIES_REPORT($startDate: Date, $endDate: Date) {
+          getCategoriesReport(startDate: $startDate, endDate: $endDate)
         }
       `,
       variables
     )
-    .then(({ getExpenseByCategoryReport }) => getExpenseByCategoryReport)
+    .then(({ getCategoriesReport }) => getCategoriesReport)
     .catch(handleError)
 
-export const GET_EXPENSE_BY_PAYEE_REPORT = ({ queryKey: [, variables] = [] } = {}) =>
+export const GET_PAYEES_REPORT = ({ queryKey: [, variables] = [] } = {}) =>
   graphQLClient
     .request(
       gql`
-        query GET_EXPENSE_BY_PAYEE_REPORT($startDate: Date, $endDate: Date) {
-          getExpenseByPayeeReport(startDate: $startDate, endDate: $endDate)
+        query GET_PAYEES_REPORT($startDate: Date, $endDate: Date) {
+          getPayeesReport(startDate: $startDate, endDate: $endDate)
         }
       `,
       variables
     )
-    .then(({ getExpenseByPayeeReport }) => getExpenseByPayeeReport)
-    .catch(handleError)
-
-export const GET_INCOME_BY_PAYEE_REPORT = ({ queryKey: [, variables] = [] } = {}) =>
-  graphQLClient
-    .request(
-      gql`
-        query GET_INCOME_BY_PAYEE_REPORT($startDate: Date, $endDate: Date) {
-          getIncomeByPayeeReport(startDate: $startDate, endDate: $endDate)
-        }
-      `,
-      variables
-    )
-    .then(({ getIncomeByPayeeReport }) => getIncomeByPayeeReport)
+    .then(({ getPayeesReport }) => getPayeesReport)
     .catch(handleError)
