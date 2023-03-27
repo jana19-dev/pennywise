@@ -34,6 +34,9 @@ const accounts = (search, searchField, subSearchField) => {
     case `accountType`:
       OR.push({ accountType: { OR: accountTypes(search, subSearchField) } })
       break
+    case `description`:
+      OR.push({ description: { contains: search, mode: `insensitive` } })
+      break
     default:
       OR.push({ name: { contains: search, mode: `insensitive` } })
   }

@@ -31,6 +31,7 @@ model AccountType {
 model Account {
   id            String        @id @default(uuid())
   name          String
+  description   String?
   accountType   AccountType   @relation(fields: [accountTypeId], references: [id])
   accountTypeId String
   user          User          @relation(fields: [userId], references: [id])

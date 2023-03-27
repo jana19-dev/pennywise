@@ -14,7 +14,7 @@ export default async function handler(parent, args, context) {
     }
   })
 
-  const { name, accountTypeId, openingDate, openingBalance } = args
+  const { name, accountTypeId, openingDate, openingBalance, description } = args
 
   const accountExists = await context.prisma.account.findUnique({
     where: {
@@ -41,7 +41,8 @@ export default async function handler(parent, args, context) {
     data: {
       name,
       accountTypeId,
-      userId: authUser.id
+      userId: authUser.id,
+      description
     },
     select: {
       id: true

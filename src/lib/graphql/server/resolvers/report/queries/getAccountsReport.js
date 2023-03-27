@@ -97,18 +97,6 @@ export default async function handler(parent, args, context) {
     delete dateRange.endDate
   })
 
-  // construct the chart response
-  const chart = {
-    labels: response.map((dateRange) => dateRange.day),
-    datasets: [
-      {
-        name: `Net Worth`,
-        values: response.map((dateRange) => dateRange.total),
-        chartType: `bar`
-      }
-    ]
-  }
-
   // construct the table response
   const table = {
     labels: [`Payee`, ...response.map((dateRange) => dateRange.day)],
@@ -128,8 +116,5 @@ export default async function handler(parent, args, context) {
     throw new GraphQLError(`No data for the selected date range`)
   }
 
-  return {
-    chart,
-    table
-  }
+  return table
 }

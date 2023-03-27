@@ -16,7 +16,8 @@
 
   let searchFields = {
     name: ``,
-    accountType: ``
+    accountType: ``,
+    description: ``
   }
 
   $: {
@@ -81,5 +82,16 @@
       handleChange({
         target: { name: `accountType`, value: detail.option.value ? detail.option.label : `` }
       })}
+  />
+</TableHeaderCell>
+<TableHeaderCell>
+  <TextInput
+    name="description"
+    label="Description"
+    class="min-w-[7rem] py-2.5"
+    inputClass="text-xs"
+    color="gray"
+    value={searchFields[`description`]}
+    on:stopTyping={handleChange}
   />
 </TableHeaderCell>

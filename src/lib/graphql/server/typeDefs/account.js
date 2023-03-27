@@ -22,10 +22,12 @@ export default /* GraphQL */ `
       accountTypeId: ID!
       openingDate: Date!
       openingBalance: Float!
+      description: String
     ): JSON!
 
     updateAccountName(id: ID!, name: String!): JSON!
     updateAccountType(id: ID!, accountTypeId: ID!): JSON!
+    updateAccountDescription(id: ID!, description: String): JSON!
 
     deleteAccount(id: ID!): JSON!
   }

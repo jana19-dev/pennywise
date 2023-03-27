@@ -53,7 +53,8 @@ export default async function handler(parent, args, context) {
           id: true,
           name: true
         }
-      }
+      },
+      description: true
     }
   })
 
