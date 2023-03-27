@@ -87,9 +87,7 @@
             <span class="text-gray-600">Transactions</span>
           </div>
 
-          <div
-            class="flex items-center justify-between px-16 py-5 text-center text-sm font-medium "
-          >
+          <div class="flex items-center justify-between px-16 py-5 text-center text-sm font-medium">
             <span class="text-gray-600">Net Worth</span>
             <CurrencyView amount={$userOverviewQueryResult.data.netWorth} size="lg" />
           </div>

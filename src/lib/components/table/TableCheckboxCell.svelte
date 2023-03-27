@@ -4,7 +4,7 @@
 </script>
 
 <td
-  class="relative whitespace-nowrap border-b  border-gray-200 pl-4 pr-3 text-sm font-medium text-gray-900"
+  class="relative whitespace-nowrap border-b border-gray-200 pl-4 pr-3 text-sm font-medium text-gray-900"
 >
   <!-- Selected row marker, only show when row is selected. -->
   {#if isSelected}

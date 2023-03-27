@@ -7,7 +7,7 @@
 >
   <div class="flex w-full flex-col items-center gap-3 text-white lg:ml-28">
     <LoadingSpinnerIcon class="h-16 w-16 text-white" />
-    <h2 class="text-xl font-semibold ">Loading...</h2>
+    <h2 class="text-xl font-semibold">Loading...</h2>
     <p class="">This may take a few seconds.</p>
   </div>
 </div>

@@ -9,7 +9,7 @@
     class:ring-1={!noBorder}
     class:shadow-sm={!noBorder}
   >
-    <table class="min-w-full border-separate " style="border-spacing: 0">
+    <table class="min-w-full border-separate" style="border-spacing: 0">
       <thead class="bg-gray-50">
         <slot name="header" />
       </thead>

@@ -6,7 +6,7 @@
   <title>Login - PennyWise</title>
 </svelte:head>
 
-<div class="min-h-full bg-gray-900 ">
+<div class="min-h-full bg-gray-900">
   <main>
     <div class="relative isolate overflow-hidden">
       <svg
