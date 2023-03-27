@@ -47,7 +47,7 @@ export default async function handler(parent, args, context) {
   // include fuzzy search filters
   if (search) {
     where.AND = search.split(` `).map((word) => ({
-      OR: fuzzySearchBuilder.accounts(word, searchField, subSearchField)
+      OR: fuzzySearchBuilder.transactions(word, searchField, subSearchField)
     }))
   }
 
