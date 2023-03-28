@@ -94,9 +94,9 @@
   isLoading={$updateTransactionAmountMutation.isLoading}
   on:submit={handleSubmit}
   on:close={onClose}
-  displayClass="text-xs"
+  displayClass="text-xs flex w-full justify-end"
 >
-  <div class="ml-auto">
+  <div class="">
     <CurrencyView amount={transaction.amount} />
   </div>
   <div slot="info">
