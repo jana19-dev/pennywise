@@ -18,11 +18,23 @@
 
   let dialog
 
-  $: options =
+  $: categories =
     $queryResult?.data?.map((category) => ({
       label: category.name,
       value: category.id
     })) || []
+
+  $: options = [
+    {
+      label: `TRANSFER TO`,
+      value: `TRANSFER_TO`
+    },
+    {
+      label: `TRANSFER FROM`,
+      value: `TRANSFER_FROM`
+    },
+    ...categories
+  ].sort((a, b) => a.label.localeCompare(b.label))
 </script>
 
 <SelectInput

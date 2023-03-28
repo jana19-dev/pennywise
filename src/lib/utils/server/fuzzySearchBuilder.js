@@ -74,7 +74,13 @@ const transactions = (search, searchField, subSearchField) => {
       OR.push({ date: getDateTimeRange(search) })
       break
     case `category`:
-      OR.push({ category: { OR: categories(search, subSearchField) } })
+      if (search === `TRANSFER TO`) {
+        OR.push({ transferId: { not: null }, amount: { lte: 0 } })
+      } else if (search === `TRANSFER FROM`) {
+        OR.push({ transferId: { not: null }, amount: { gte: 0 } })
+      } else {
+        OR.push({ category: { OR: categories(search, subSearchField) } })
+      }
       break
     case `account`:
       OR.push({ account: { OR: accounts(search, subSearchField) } })

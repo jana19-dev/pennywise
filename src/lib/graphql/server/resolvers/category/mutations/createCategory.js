@@ -16,6 +16,14 @@ export default async function handler(parent, args, context) {
 
   const { name } = args
 
+  if ([`TRANSFER TO`, `TRANSFER FROM`].includes(name.toUpperCase())) {
+    throw new GraphQLError(`This Category name is reserved. Please choose another name.`, {
+      extensions: {
+        code: `409`
+      }
+    })
+  }
+
   const categoryExists = await context.prisma.category.findUnique({
     where: {
       category_name_user_id: {
