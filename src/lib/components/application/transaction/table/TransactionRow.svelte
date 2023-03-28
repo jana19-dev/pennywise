@@ -36,7 +36,11 @@
   }
 </script>
 
-<tr class="h-10" use:actionWhenInViewport>
+<tr
+  class="h-10"
+  use:actionWhenInViewport
+  class:bg-yellow-100={new Date(transaction.date) > new Date()}
+>
   <TableCell>
     <DeleteTransaction {transaction} />
   </TableCell>

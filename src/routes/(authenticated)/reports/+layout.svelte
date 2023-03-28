@@ -5,7 +5,7 @@
   import { Button } from "@codepiercer/svelte-tailwind"
   import SelectReportInput from "$lib/components/select/SelectReportInput.svelte"
 
-  const REPORTS = [`ACCOUNTS`, `CATEGORIES`, `PAYEES`]
+  const REPORTS = [`ACCOUNTS`, `CATEGORIES`, `PAYEES`, `FORECAST`]
 
   $: reportName = $page.url.pathname.split(`/`).pop()
 </script>

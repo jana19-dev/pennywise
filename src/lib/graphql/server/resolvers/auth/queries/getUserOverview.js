@@ -20,11 +20,14 @@ export default async function handler(parent, args, context) {
     context.prisma.account.count({ where }),
     context.prisma.category.count({ where }),
     context.prisma.payee.count({ where }),
-    context.prisma.transaction.count({ where })
+    context.prisma.transaction.count({ where: { ...where, date: { lte: new Date() } } })
   ])
 
   const netWorth = await context.prisma.transaction.aggregate({
-    where,
+    where: {
+      ...where,
+      date: { lte: new Date() }
+    },
     _sum: {
       amount: true
     }

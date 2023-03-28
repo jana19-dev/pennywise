@@ -38,3 +38,16 @@ export const GET_PAYEES_REPORT = ({ queryKey: [, variables] = [] } = {}) =>
     )
     .then(({ getPayeesReport }) => getPayeesReport)
     .catch(handleError)
+
+export const GET_FORECAST_REPORT = ({ queryKey: [, variables] = [] } = {}) =>
+  graphQLClient
+    .request(
+      gql`
+        query GET_FORECAST_REPORT {
+          getForecastReport
+        }
+      `,
+      variables
+    )
+    .then(({ getForecastReport }) => getForecastReport)
+    .catch(handleError)

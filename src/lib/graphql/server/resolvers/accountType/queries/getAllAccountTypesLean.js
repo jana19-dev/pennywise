@@ -47,7 +47,8 @@ export default async function handler(parent, args, context) {
         _sum: { amount: balance }
       } = await context.prisma.transaction.aggregate({
         where: {
-          accountId: account.id
+          accountId: account.id,
+          date: { lte: new Date() }
         },
         _sum: {
           amount: true

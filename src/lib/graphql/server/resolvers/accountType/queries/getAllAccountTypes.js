@@ -64,13 +64,7 @@ export default async function handler(parent, args, context) {
       accounts: {
         select: {
           id: true,
-          name: true,
-          accountType: {
-            select: {
-              id: true,
-              name: true
-            }
-          }
+          name: true
         },
         orderBy: { name: `asc` }
       }

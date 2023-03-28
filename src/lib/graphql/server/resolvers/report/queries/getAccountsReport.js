@@ -34,7 +34,10 @@ export default async function handler(parent, args, context) {
   // get all transactions for the user and group by month and year and then sub-group by account
   const transactions = await context.prisma.transaction.findMany({
     where: {
-      userId: authUser.id
+      userId: authUser.id,
+      date: {
+        lte: new Date()
+      }
     },
     select: {
       amount: true,
@@ -99,7 +102,7 @@ export default async function handler(parent, args, context) {
 
   // construct the table response
   const table = {
-    labels: [`Payee`, ...response.map((dateRange) => dateRange.day)],
+    labels: [`Account`, ...response.map((dateRange) => dateRange.day)],
     rows: []
   }
   // add the total row

@@ -11,7 +11,8 @@
   const options = [
     { label: `ACCOUNTS`, value: `ACCOUNTS` },
     { label: `CATEGORIES`, value: `CATEGORIES` },
-    { label: `PAYEES`, value: `PAYEES` }
+    { label: `PAYEES`, value: `PAYEES` },
+    { label: `FORECAST`, value: `FORECAST` }
   ]
 </script>
 

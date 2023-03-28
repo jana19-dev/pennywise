@@ -35,6 +35,9 @@ export default async function handler(parent, args, context) {
   let transactions = await context.prisma.transaction.findMany({
     where: {
       userId: authUser.id,
+      date: {
+        lte: new Date()
+      },
       transferId: {
         equals: null
       }
