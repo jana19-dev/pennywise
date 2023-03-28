@@ -33,7 +33,7 @@
           class:bg-blue-800={isTotalRow}
           class:hover:bg-blue-800={isTotalRow}
           class:sticky={isTotalRow}
-          class:z-20={isTotalRow}
+          class:z-10={isTotalRow}
           class:top-[3rem]={isTotalRow}
           class:text-right={isTotalRow}
         >
