@@ -7,6 +7,8 @@
   import TransactionHeader from "$lib/components/application/transaction/table/TransactionHeader.svelte"
   import TransactionRow from "$lib/components/application/transaction/table/TransactionRow.svelte"
 
+  import CurrencyView from "$lib/components/ui/CurrencyView.svelte"
+
   import { createInfiniteQuery } from "@tanstack/svelte-query"
   import { GET_ACCOUNT_TRANSACTIONS } from "$lib/graphql/client/transaction/queries"
   import { QUERY_LIMIT } from "$lib/utils/constants"
@@ -51,9 +53,16 @@
 </script>
 
 <TableMetrics {metrics} count={allData.length} {queryResult}>
-  <h1 class="hidden text-xl font-medium leading-6 text-gray-900 sm:truncate lg:flex">
-    {$page.data?.title || ``}
-  </h1>
+  <div class="flex items-center gap-2">
+    <h1 class="hidden text-xl font-medium leading-6 text-gray-900 sm:truncate lg:flex">
+      {$page.data?.title || ``}
+    </h1>
+    <div class="hidden lg:flex">
+      {#if metrics.filteredSum}
+        <CurrencyView amount={metrics.filteredSum} size="lg" />
+      {/if}
+    </div>
+  </div>
 </TableMetrics>
 
 <div class="h-full overflow-y-auto p-2 pt-0" class:pointer-events-none={$queryResult.isLoading}>

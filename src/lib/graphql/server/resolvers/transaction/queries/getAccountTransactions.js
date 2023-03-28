@@ -70,6 +70,16 @@ export default async function handler(parent, args, context) {
   })
   const filteredCountPromise = context.prisma.transaction.count({ where })
 
+  // get sum of filtered transactions
+  const filteredSumPromise = context.prisma.transaction
+    .aggregate({
+      where,
+      _sum: {
+        amount: true
+      }
+    })
+    .then((result) => result._sum.amount)
+
   orderBy.push({ id: `desc` })
   const dataPromise = context.prisma.transaction.findMany({
     where,
@@ -113,15 +123,17 @@ export default async function handler(parent, args, context) {
   })
 
   // wait for all promises to resolve
-  const [allCount, filteredCount, data] = await Promise.all([
+  const [allCount, filteredCount, filteredSum, data] = await Promise.all([
     allCountPromise,
     filteredCountPromise,
+    filteredSumPromise,
     dataPromise
   ])
 
   // add metrics to response
   response.metrics.allCount = allCount
   response.metrics.filteredCount = filteredCount
+  response.metrics.filteredSum = filteredSum
 
   // add data to response
   response.data = data
