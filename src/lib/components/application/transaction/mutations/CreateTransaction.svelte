@@ -41,49 +41,28 @@
       categoryId: yup.string(),
       payeeId: yup.string(),
       transferAccountId: yup.string(),
-      amount: yup.number().when(`transactionType`, {
-        is: (val) => {
-          return val === `transfer`
-        },
-        then: () =>
-          yup
-            .number()
-            .typeError(`The amount should be a decimal with maximum two digits of decimal places`)
-            .test(
-              `is-decimal`,
-              `The amount should be a decimal with maximum two digits of decimal places`,
-              (val) => {
-                if (val != undefined) {
-                  return /^-?\d+(\.\d{0,2})?$/.test(val)
-                }
-                return true
-              }
-            )
-            .required(),
-        otherwise: () =>
-          yup
-            .number()
-            .typeError(
-              `The amount should be a positive decimal with maximum two digits of decimal places`
-            )
-            .test(
-              `is-decimal`,
-              `The amount should be a positive decimal with maximum two digits of decimal places`,
-              (val) => {
-                if (val != undefined) {
-                  return /^\d+(\.\d{0,2})?$/.test(val)
-                }
-                return true
-              }
-            )
-            .required()
-      }),
+      amount: yup
+        .number()
+        .typeError(
+          `The amount should be a positive number with maximum two digits of decimal places`
+        )
+        .test(
+          `is-decimal`,
+          `The amount should be a positive number with maximum two digits of decimal places`,
+          (val) => {
+            if (val != undefined) {
+              return /^\d+(\.\d{0,2})?$/.test(val)
+            }
+            return true
+          }
+        )
+        .required(),
       memo: yup.string()
     }),
     initialValues: {
       date: new Date(),
       accountId: $page.params.accountId,
-      transactionType: `expense`, // expense or income or transfer
+      transactionType: `expense`, // expense or income or transferTo or transferFrom
       transferAccountId: undefined,
       amount: undefined
     },
@@ -94,7 +73,9 @@
         categoryId,
         payeeId,
         transferAccountId,
-        amount: $form.transactionType === `income` ? parseFloat(amount) : parseFloat(amount) * -1,
+        amount: [`income`, `transferFrom`].includes($form.transactionType)
+          ? parseFloat(amount)
+          : parseFloat(amount) * -1,
         memo
       })
     }
@@ -115,6 +96,7 @@
 
 <FormDialog
   bind:dialog
+  size="lg"
   title="Create new transaction"
   error={$createTransactionMutation?.error?.message}
   isLoading={$createTransactionMutation.isLoading}
@@ -149,8 +131,7 @@
       type="number"
       inputProps={{
         step: 0.01,
-        min: $form[`transactionType`] === `transfer` ? undefined : 0,
-        max: $form[`transactionType`] !== `transfer` ? undefined : undefined
+        min: 0
       }}
       name="amount"
       label="Amount"
@@ -161,79 +142,95 @@
       on:change={handleChange}
       on:keyup={handleChange}
       class="flex-1"
-    >
-      <div class="flex items-center gap-1">
-        <Button
-          size="sm"
-          class="py-1 px-1"
-          color="green"
-          variant={$form[`transactionType`] === `income` ? `secondary` : `ghost`}
-          on:click={() => {
-            $form[`transactionType`] = `income`
+    />
+    <div class="flex items-center justify-center gap-2">
+      <Button
+        size="sm"
+        class="py-1 px-1"
+        color="green"
+        variant={$form[`transactionType`] === `income` ? `secondary` : `ghost`}
+        on:click={() => {
+          $form[`transactionType`] = `income`
+        }}
+        >INCOME
+        {#if $form[`transactionType`] === `income`}
+          <CheckIcon />
+        {/if}
+      </Button>
+      <Button
+        size="sm"
+        class="py-1 px-1"
+        color="red"
+        variant={$form[`transactionType`] === `expense` ? `secondary` : `ghost`}
+        on:click={() => {
+          $form[`transactionType`] = `expense`
+        }}
+        >EXPENSE
+        {#if $form[`transactionType`] === `expense`}
+          <CheckIcon />
+        {/if}
+      </Button>
+      <Button
+        size="sm"
+        class="py-1 px-1"
+        color="blue"
+        variant={$form[`transactionType`] === `transferTo` ? `secondary` : `ghost`}
+        on:click={() => {
+          $form[`transactionType`] = `transferTo`
+          $errors[`amount`] = undefined
+        }}
+        >TRANSFER TO
+        {#if $form[`transactionType`] === `transferTo`}
+          <CheckIcon />
+        {/if}
+      </Button>
+      <Button
+        size="sm"
+        class="py-1 px-1"
+        color="blue"
+        variant={$form[`transactionType`] === `transferFrom` ? `secondary` : `ghost`}
+        on:click={() => {
+          $form[`transactionType`] = `transferFrom`
+          $errors[`amount`] = undefined
+        }}
+        >TRANSFER FROM
+        {#if $form[`transactionType`] === `transferFrom`}
+          <CheckIcon />
+        {/if}
+      </Button>
+    </div>
+    {#if [`income`, `expense`].includes($form[`transactionType`])}
+      <div class="flex flex-col gap-8 lg:flex-row">
+        <SelectCategoryInput
+          isRequired
+          direction="top"
+          name="categoryId"
+          label="Category"
+          value={$form[`categoryId`] || ``}
+          error={$errors[`categoryId`]}
+          on:select={({ detail }) => {
+            $form[`categoryId`] = detail.option.value
           }}
-          >INCOME
-          {#if $form[`transactionType`] === `income`}
-            <CheckIcon />
-          {/if}
-        </Button>
-        <Button
-          size="sm"
-          class="py-1 px-1"
-          color="red"
-          variant={$form[`transactionType`] === `expense` ? `secondary` : `ghost`}
-          on:click={() => {
-            $form[`transactionType`] = `expense`
+        />
+        <SelectPayeeInput
+          isRequired
+          direction="top"
+          name="payeeId"
+          label="Payee"
+          value={$form[`payeeId`] || ``}
+          error={$errors[`payeeId`]}
+          on:select={({ detail }) => {
+            $form[`payeeId`] = detail.option.value
           }}
-          >EXPENSE
-          {#if $form[`transactionType`] === `expense`}
-            <CheckIcon />
-          {/if}
-        </Button>
-        <Button
-          size="sm"
-          class="py-1 px-1"
-          color="blue"
-          variant={$form[`transactionType`] === `transfer` ? `secondary` : `ghost`}
-          on:click={() => {
-            $form[`transactionType`] = `transfer`
-            $errors[`amount`] = undefined
-          }}
-          >TRANSFER
-          {#if $form[`transactionType`] === `transfer`}
-            <CheckIcon />
-          {/if}
-        </Button>
+        />
       </div>
-    </TextInput>
-    {#if $form[`transactionType`] !== `transfer`}
-      <SelectCategoryInput
-        isRequired
-        name="categoryId"
-        label="Category"
-        value={$form[`categoryId`] || ``}
-        error={$errors[`categoryId`]}
-        on:select={({ detail }) => {
-          $form[`categoryId`] = detail.option.value
-        }}
-      />
-      <SelectPayeeInput
-        isRequired
-        direction="top"
-        name="payeeId"
-        label="Payee"
-        value={$form[`payeeId`] || ``}
-        error={$errors[`payeeId`]}
-        on:select={({ detail }) => {
-          $form[`payeeId`] = detail.option.value
-        }}
-      />
     {/if}
-    {#if $form[`transactionType`] === `transfer`}
+    {#if [`transferTo`, `transferFrom`].includes($form[`transactionType`])}
       <SelectAccountInput
         direction="top"
         isRequired
         name="transferAccountId"
-        label="To Account"
+        label={$form[`transactionType`] === `transferTo` ? `To Account` : `From Account`}
         value={$form[`transferAccountId`] || ``}
         error={$errors[`transferAccountId`]}
         on:select={({ detail }) => {
