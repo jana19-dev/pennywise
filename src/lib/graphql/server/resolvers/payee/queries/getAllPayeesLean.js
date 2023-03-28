@@ -26,7 +26,16 @@ export default async function handler(parent, args, context) {
 
   return context.prisma.payee.findMany({
     where,
-    orderBy: { name: `asc` },
+    orderBy: [
+      {
+        transactions: {
+          _count: `desc`
+        }
+      },
+      {
+        name: `asc`
+      }
+    ],
     select: {
       id: true,
       name: true
