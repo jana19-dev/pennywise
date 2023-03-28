@@ -61,8 +61,8 @@
     <tr slot="header">
       <TransactionHeader />
     </tr>
-    {#each allData as transaction (transaction.id)}
-      <TransactionRow {transaction} />
+    {#each allData as transaction, index (transaction.id)}
+      <TransactionRow {transaction} isLastItem={allData.length === index + 1} {queryResult} />
     {:else}
       <tr>
         <td colspan="100%">

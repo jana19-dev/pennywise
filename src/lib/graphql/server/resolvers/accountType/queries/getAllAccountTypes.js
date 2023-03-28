@@ -46,6 +46,7 @@ export default async function handler(parent, args, context) {
   })
   const filteredCountPromise = context.prisma.accountType.count({ where })
 
+  orderBy.push({ id: `desc` })
   const dataPromise = context.prisma.accountType.findMany({
     where,
     orderBy,

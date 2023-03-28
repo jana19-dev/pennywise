@@ -1,5 +1,7 @@
 <script>
   export let transaction
+  export let isLastItem = false
+  export let queryResult
 
   import { page } from "$app/stores"
 
@@ -12,9 +14,29 @@
   import UpdateTransactionPayee from "$lib/components/application/transaction/mutations/update/UpdateTransactionPayee.svelte"
   import UpdateTransactionAmount from "$lib/components/application/transaction/mutations/update/UpdateTransactionAmount.svelte"
   import UpdateTransactionMemo from "$lib/components/application/transaction/mutations/update/UpdateTransactionMemo.svelte"
+
+  function actionWhenInViewport(e) {
+    const observer = new IntersectionObserver((entries) => {
+      if (!isLastItem) {
+        observer.unobserve(e)
+      }
+      if (entries[0].isIntersecting) {
+        // element in viewport
+        if (!isLastItem) {
+          observer.unobserve(e)
+        }
+        isLastItem && $queryResult.fetchNextPage()
+      }
+    })
+    if (!isLastItem) {
+      observer.unobserve(e)
+    } else {
+      observer.observe(e)
+    }
+  }
 </script>
 
-<tr class="h-10">
+<tr class="h-10" use:actionWhenInViewport>
   <TableCell>
     <DeleteTransaction {transaction} />
   </TableCell>
