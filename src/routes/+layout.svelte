@@ -14,8 +14,7 @@
       queries: {
         enabled: !!browser,
         retry: false,
-        refetchOnWindowFocus: false,
-        refetchOnMount: false
+        refetchOnWindowFocus: false
       }
     }
   })

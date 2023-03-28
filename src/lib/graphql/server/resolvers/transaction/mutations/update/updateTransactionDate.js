@@ -97,5 +97,20 @@ export default async function handler(parent, args, context) {
     }
   })
 
+  if (transactionExists.transferId) {
+    // update both transactions in the transfer
+    await context.prisma.transaction.update({
+      where: {
+        id: transactionExists.transferId
+      },
+      data: {
+        date
+      },
+      select: {
+        id: true
+      }
+    })
+  }
+
   return true
 }

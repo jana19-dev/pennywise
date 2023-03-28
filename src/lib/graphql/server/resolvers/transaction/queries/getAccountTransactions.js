@@ -22,7 +22,7 @@ export default async function handler(parent, args, context) {
     searchField,
     subSearchField,
     skip = 0,
-    orderBy = [{ date: `desc` }]
+    orderBy = [{ date: `desc`, id: `desc` }]
   } = args
 
   const where = { userId: authUser.id, accountId }
@@ -65,6 +65,7 @@ export default async function handler(parent, args, context) {
   })
   const filteredCountPromise = context.prisma.transaction.count({ where })
 
+  orderBy.push({ id: `desc` })
   const dataPromise = context.prisma.transaction.findMany({
     where,
     orderBy,
