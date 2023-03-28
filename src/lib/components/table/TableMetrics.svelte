@@ -5,7 +5,6 @@
 
   import { Button } from "@codepiercer/svelte-tailwind"
 
-  import RefetchIcon from "$lib/components/icons/RefetchIcon.svelte"
   import LoadMoreIcon from "$lib/components/icons/LoadMoreIcon.svelte"
 </script>
 
@@ -13,7 +12,7 @@
   class="flex items-center justify-between gap-2 bg-blue-50 p-2 text-sm text-blue-500"
   class:pointer-events-none={$queryResult.isLoading || $queryResult.isFetching}
 >
-  <div class="flex flex-col gap-4 lg:flex-1 lg:flex-row">
+  <div class="flex flex-col gap-4 px-2 lg:flex-1 lg:flex-row">
     <div class="flex items-center gap-2">
       <svg
         xmlns="http://www.w3.org/2000/svg"
@@ -53,16 +52,6 @@
       isLoading={$queryResult.isFetchingNextPage}
       ><LoadMoreIcon /><span class="ml-1 hidden lg:block">load more</span>
       <span class="sr-only">load more</span>
-    </Button>
-
-    <Button
-      class="max-w-fit p-1.5"
-      color="blue"
-      variant="secondary"
-      on:click={$queryResult.refetch}
-      isLoading={$queryResult.isRefetching}
-      ><RefetchIcon /><span class="ml-1 hidden lg:block">refetch</span>
-      <span class="sr-only">refetch</span>
     </Button>
   </div>
 </div>
