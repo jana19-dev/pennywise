@@ -14,6 +14,12 @@
 >
   <div class="flex flex-col gap-4 px-2 lg:flex-1 lg:flex-row">
     <div class="flex items-center gap-2">
+      <slot />
+    </div>
+  </div>
+
+  <div class="flex items-center justify-between gap-6">
+    <div class="flex items-center gap-2">
       <svg
         xmlns="http://www.w3.org/2000/svg"
         viewBox="0 0 20 20"
@@ -38,11 +44,6 @@
         </p>
       {/if}
     </div>
-    <slot />
-  </div>
-
-  <div class="flex items-center gap-6">
-    <slot name="toggleColumns" />
     <Button
       class="max-w-fit p-1.5"
       color="blue"

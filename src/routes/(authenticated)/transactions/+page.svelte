@@ -56,11 +56,9 @@
     <h1 class="hidden text-xl font-medium leading-6 text-gray-900 sm:truncate lg:flex">
       {$page.data?.title || ``}
     </h1>
-    <div class="hidden lg:flex">
-      {#if metrics.filteredSum}
-        <CurrencyView amount={metrics.filteredSum} size="lg" />
-      {/if}
-    </div>
+    {#if metrics.filteredSum}
+      <CurrencyView amount={metrics.filteredSum} size="lg" />
+    {/if}
   </div>
 </TableMetrics>
 
