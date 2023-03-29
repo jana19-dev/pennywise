@@ -83,6 +83,27 @@ export default async function handler(parent, args, context) {
     })
   }
 
+  if (transactionExists.transferId) {
+    // make sure both accountIds are different for a transfer
+    const otherTransaction = await context.prisma.transaction.findUnique({
+      where: {
+        id: transactionExists.transferId
+      },
+      select: {
+        id: true,
+        accountId: true
+      }
+    })
+
+    if (otherTransaction.accountId === accountId) {
+      throw new GraphQLError(`You cannot update the account for a transfer to the same account.`, {
+        extensions: {
+          code: `403`
+        }
+      })
+    }
+  }
+
   await context.prisma.transaction.update({
     where: {
       id
@@ -94,6 +115,21 @@ export default async function handler(parent, args, context) {
       id: true
     }
   })
+
+  if (transactionExists.transferId) {
+    // update both transactions in the transfer
+    await context.prisma.transaction.update({
+      where: {
+        id: transactionExists.transferId
+      },
+      data: {
+        transferId: transactionExists.id
+      },
+      select: {
+        id: true
+      }
+    })
+  }
 
   return true
 }
