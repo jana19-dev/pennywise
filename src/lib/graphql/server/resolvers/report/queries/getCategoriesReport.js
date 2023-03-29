@@ -124,7 +124,11 @@ export default async function handler(parent, args, context) {
     if (row.slice(1, row.length - 1).every((value) => value === 0)) {
       return
     }
-    row[row.length - 1] = row[row.length - 2] / response.length // Average
+    // calculate the average
+    row[row.length - 1] = parseFloat(
+      parseFloat(row.slice(1, row.length - 1).reduce((acc, value) => acc + value, 0)) /
+        parseFloat(row.length - 2)
+    ).toFixed(2)
     table.rows.push(row)
   })
 
