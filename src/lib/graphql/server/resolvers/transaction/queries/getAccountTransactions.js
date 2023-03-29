@@ -80,7 +80,7 @@ export default async function handler(parent, args, context) {
     })
     .then((result) => result._sum.amount)
 
-  orderBy.push({ id: `desc` })
+  orderBy.push({ id: `asc` })
   const dataPromise = context.prisma.transaction.findMany({
     where,
     orderBy,

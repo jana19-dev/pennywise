@@ -151,6 +151,7 @@
         variant={$form[`transactionType`] === `income` ? `secondary` : `ghost`}
         on:click={() => {
           $form[`transactionType`] = `income`
+          $form[`transferAccountId`] = undefined
         }}
         >INCOME
         {#if $form[`transactionType`] === `income`}
@@ -164,6 +165,7 @@
         variant={$form[`transactionType`] === `expense` ? `secondary` : `ghost`}
         on:click={() => {
           $form[`transactionType`] = `expense`
+          $form[`transferAccountId`] = undefined
         }}
         >EXPENSE
         {#if $form[`transactionType`] === `expense`}
@@ -177,7 +179,8 @@
         variant={$form[`transactionType`] === `transferTo` ? `secondary` : `ghost`}
         on:click={() => {
           $form[`transactionType`] = `transferTo`
-          $errors[`amount`] = undefined
+          $form[`categoryId`] = undefined
+          $form[`payeeId`] = undefined
         }}
         >TRANSFER TO
         {#if $form[`transactionType`] === `transferTo`}
@@ -191,7 +194,8 @@
         variant={$form[`transactionType`] === `transferFrom` ? `secondary` : `ghost`}
         on:click={() => {
           $form[`transactionType`] = `transferFrom`
-          $errors[`amount`] = undefined
+          $form[`categoryId`] = undefined
+          $form[`payeeId`] = undefined
         }}
         >TRANSFER FROM
         {#if $form[`transactionType`] === `transferFrom`}
