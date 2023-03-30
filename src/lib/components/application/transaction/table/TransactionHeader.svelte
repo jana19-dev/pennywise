@@ -75,23 +75,21 @@
     </div>
   </DateInput>
 </TableHeaderCell>
-{#if !$page.params.accountId}
-  <TableHeaderCell>
-    <SelectAccountInput
-      name="account"
-      class="min-w-[9rem]"
-      label="Account"
-      hideIcon
-      inputClass="text-xs py-1.5"
-      color="gray"
-      value={searchFields[`account`]}
-      on:select={({ detail }) =>
-        handleChange({
-          target: { name: `account`, value: detail.option.value ? detail.option.label : `` }
-        })}
-    />
-  </TableHeaderCell>
-{/if}
+<TableHeaderCell>
+  <SelectAccountInput
+    name="account"
+    class="min-w-[9rem]"
+    label="Account"
+    hideIcon
+    inputClass="text-xs py-1.5"
+    color="gray"
+    value={searchFields[`account`]}
+    on:select={({ detail }) =>
+      handleChange({
+        target: { name: `account`, value: detail.option.value ? detail.option.label : `` }
+      })}
+  />
+</TableHeaderCell>
 <TableHeaderCell>
   <SelectCategoryInput
     name="category"
