@@ -26,6 +26,7 @@ model AccountType {
   accounts Account[]
 
   @@unique([name, userId], name: "account_type_name_user_id")
+  @@index([userId])
 }
 
 model Account {
@@ -59,6 +60,7 @@ model Payee {
   transactions Transaction[]
 
   @@unique([name, userId], name: "payee_name_user_id")
+  @@index([userId])
 }
 
 model Transaction {
@@ -77,4 +79,11 @@ model Transaction {
   userId       String
   memo         String?
   amount       Float
+
+  @@index([userId, accountId])
+  @@index([payeeId])
+  @@index([userId])
+  @@index([categoryId])
+  @@index([accountId])
+  @@index([userId, date])
 }
