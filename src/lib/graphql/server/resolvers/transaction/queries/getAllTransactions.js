@@ -15,13 +15,7 @@ export default async function handler(parent, args, context) {
     }
   })
 
-  const {
-    search,
-    searchField,
-    subSearchField,
-    skip = 0,
-    orderBy = [{ date: `desc` }, { id: `desc` }]
-  } = args
+  const { search, searchField, subSearchField, skip = 0, orderBy = [{ date: `desc` }] } = args
 
   const where = { userId: authUser.id }
 
@@ -61,7 +55,14 @@ export default async function handler(parent, args, context) {
     })
     .then((result) => result._sum.amount)
 
-  orderBy.push({ id: `asc` })
+  orderBy.push({
+    createdAt: `desc`
+  })
+  orderBy.push({
+    payee: {
+      name: `desc`
+    }
+  })
   const dataPromise = context.prisma.transaction.findMany({
     where,
     orderBy,

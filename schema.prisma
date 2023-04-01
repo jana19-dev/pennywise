@@ -79,6 +79,7 @@ model Transaction {
   userId       String
   memo         String?
   amount       Float
+  createdAt    DateTime     @default(now())
 
   @@index([userId, accountId])
   @@index([payeeId])

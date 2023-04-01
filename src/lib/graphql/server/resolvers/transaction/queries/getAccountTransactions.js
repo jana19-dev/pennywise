@@ -22,7 +22,7 @@ export default async function handler(parent, args, context) {
     searchField,
     subSearchField,
     skip = 0,
-    orderBy = [{ date: `desc`, id: `desc` }]
+    orderBy = [{ date: `desc` }]
   } = args
 
   const where = { userId: authUser.id, accountId }
@@ -80,7 +80,14 @@ export default async function handler(parent, args, context) {
     })
     .then((result) => result._sum.amount)
 
-  orderBy.push({ id: `asc` })
+  orderBy.push({
+    createdAt: `desc`
+  })
+  orderBy.push({
+    payee: {
+      name: `desc`
+    }
+  })
   const dataPromise = context.prisma.transaction.findMany({
     where,
     orderBy,
