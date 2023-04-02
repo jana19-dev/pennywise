@@ -2,6 +2,8 @@
   export let transaction
   export let isInline = false
 
+  import { format } from "date-fns"
+
   import { createForm } from "svelte-forms-lib"
   import * as yup from "yup"
 
@@ -73,4 +75,6 @@
   on:submit={handleSubmit}
   on:close={onClose}
   displayClass="text-xs"
-/>
+>
+  {format(new Date(transaction.date.slice(0, -1)), `ccc, MMM dd, yyyy`)}
+</DateEditDialog>
