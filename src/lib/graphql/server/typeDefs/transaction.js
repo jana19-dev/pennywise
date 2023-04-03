@@ -21,6 +21,8 @@ export default /* GraphQL */ `
       searchField: String
       subSearchField: String
     ): JSON!
+
+    getRecentTransaction(payeeId: ID, isTransfer: Boolean): JSON
   }
 
   type Mutation {

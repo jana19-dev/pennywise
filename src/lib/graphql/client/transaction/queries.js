@@ -51,3 +51,16 @@ export const GET_ACCOUNT_TRANSACTIONS = ({ queryKey: [, variables] = [], pagePar
     )
     .then(({ getAccountTransactions }) => getAccountTransactions)
     .catch(handleError)
+
+export const GET_RECENT_TRANSACTION = ({ queryKey: [, variables] = [] } = {}) =>
+  graphQLClient
+    .request(
+      gql`
+        query GET_RECENT_TRANSACTION($payeeId: ID, $isTransfer: Boolean) {
+          getRecentTransaction(payeeId: $payeeId, isTransfer: $isTransfer)
+        }
+      `,
+      variables
+    )
+    .then(({ getRecentTransaction }) => getRecentTransaction)
+    .catch(handleError)

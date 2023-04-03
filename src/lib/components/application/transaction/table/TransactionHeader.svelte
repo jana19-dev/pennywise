@@ -12,6 +12,7 @@
   import SelectPayeeInput from "$lib/components/select/SelectPayeeInput.svelte"
 
   import CreateTransaction from "$lib/components/application/transaction/mutations/CreateTransaction.svelte"
+  import CreateTransfer from "$lib/components/application/transaction/mutations/CreateTransfer.svelte"
 
   $: activeSearch = $page.url.searchParams.get(`search`)
   $: activeSearchField = $page.url.searchParams.get(`searchField`)
@@ -57,7 +58,10 @@
 </script>
 
 <TableHeaderCell>
-  <CreateTransaction />
+  <div class="flex items-center gap-2">
+    <CreateTransaction />
+    <CreateTransfer />
+  </div>
 </TableHeaderCell>
 <TableHeaderCell>
   <DateInput
