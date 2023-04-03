@@ -161,10 +161,10 @@
           $queryResult.refetch().then((res) => {
             if (res.data?.categoryId) {
               $form[`categoryId`] = res.data.categoryId
-              $form[`amount`] = res.data.amount < 0 ? res.data.amount * -1 : res.data.amount
               $form.transactionType = res.data.amount < 0 ? `expense` : `income`
-              // focus on the amount input
-              document.getElementById(`amount`).focus()
+              // focus on the amount input and select the entire value for easy replacement
+              const amountInput = document.getElementById(`amount`)
+              amountInput.focus()
             }
           })
         }}
