@@ -56,12 +56,12 @@ export default async function handler(parent, args, context) {
     .then((result) => result._sum.amount)
 
   orderBy.push({
-    createdAt: `desc`
-  })
-  orderBy.push({
     payee: {
       name: `desc`
     }
+  })
+  orderBy.push({
+    createdAt: `desc`
   })
   const dataPromise = context.prisma.transaction.findMany({
     where,

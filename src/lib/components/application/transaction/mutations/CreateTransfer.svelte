@@ -81,7 +81,7 @@
         date: formatDate(date),
         accountId,
         transferAccountId,
-        amount,
+        amount: parseFloat(amount) * -1,
         memo
       })
     }
@@ -91,8 +91,8 @@
     $form[`transferAccountId`] = undefined
     $form[`accountId`] = $page.params.accountId
     if ($queryResult.data) {
-      if ($queryResult.data?.accountId === $page.params.accountId && $queryResult.data.amount > 0) {
-        $form[`accountId`] = $queryResult.data.transfer?.accountId
+      if ($queryResult.data?.accountId !== $page.params.accountId && $queryResult.data.amount > 0) {
+        $form[`accountId`] = $page.params.accountId
         $form[`transferAccountId`] = $queryResult.data?.accountId
       } else {
         $form[`transferAccountId`] = $page.params.accountId

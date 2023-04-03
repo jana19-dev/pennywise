@@ -130,7 +130,9 @@
         isTouched={$touched[`date`]}
         value={$form[`date`]}
         error={$errors[`date`]}
-        on:pickDate={({ detail }) => ($form[`date`] = detail.date)}
+        on:pickDate={({ detail }) => {
+          $form[`date`] = detail.date
+        }}
       />
 
       <SelectAccountInput
@@ -162,9 +164,8 @@
             if (res.data?.categoryId) {
               $form[`categoryId`] = res.data.categoryId
               $form.transactionType = res.data.amount < 0 ? `expense` : `income`
-              // focus on the amount input and select the entire value for easy replacement
-              const amountInput = document.getElementById(`amount`)
-              amountInput.focus()
+              // focus on the amount input
+              document.getElementById(`amount`).focus()
             }
           })
         }}
