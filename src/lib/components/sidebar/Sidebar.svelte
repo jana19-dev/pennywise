@@ -61,17 +61,19 @@
                 >{accountType.name}</span
               >
               {#each accountType.accounts as account (account.id)}
-                <div class="flex items-center">
-                  <SidebarLink
-                    color="indigo"
-                    link={{
-                      label: account.name,
-                      href: `/transactions/${account.id}`
-                    }}
-                  >
-                    <CurrencyView amount={account.balance} isSidebar />
-                  </SidebarLink>
-                </div>
+                {#if account.balance != 0}
+                  <div class="flex items-center">
+                    <SidebarLink
+                      color="indigo"
+                      link={{
+                        label: account.name,
+                        href: `/transactions/${account.id}`
+                      }}
+                    >
+                      <CurrencyView amount={account.balance} isSidebar />
+                    </SidebarLink>
+                  </div>
+                {/if}
               {/each}
             {/if}
           {/each}
