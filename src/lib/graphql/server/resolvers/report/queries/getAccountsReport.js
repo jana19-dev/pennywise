@@ -84,7 +84,9 @@ export default async function handler(parent, args, context) {
       if (!dateRange[account]) {
         dateRange[account] = 0
       }
-      dateRange[account] = parseFloat(dateRange[account]) + parseFloat(transaction.amount)
+      dateRange[account] = parseFloat(
+        parseFloat(dateRange[account]) + parseFloat(transaction.amount)
+      ).toFixed(2)
     })
   })
 
@@ -93,8 +95,9 @@ export default async function handler(parent, args, context) {
     dateRange.total = Object.keys(dateRange)
       .filter((key) => key !== `startDate` && key !== `endDate` && key !== `day`)
       .reduce((acc, key) => {
-        return acc + dateRange[key]
+        return parseFloat(acc) + parseFloat(dateRange[key])
       }, 0)
+      .toFixed(2)
     // delete the startDate and endDate
     delete dateRange.startDate
     delete dateRange.endDate
@@ -114,8 +117,17 @@ export default async function handler(parent, args, context) {
     table.rows.push(row)
   })
 
+  // remove rows that are all 0
+  table.rows = table.rows.filter((row) =>
+    row.slice(1, row.length - 1).some((value) => parseFloat(value) !== 0)
+  )
+
   // check if there is at least one row with a value
-  if (table.rows.every((row) => row.slice(1, row.length - 1).every((value) => value === 0))) {
+  if (
+    table.rows.every((row) =>
+      row.slice(1, row.length - 1).every((value) => parseFloat(value) === 0)
+    )
+  ) {
     throw new GraphQLError(`No data for the selected date range`)
   }
 
