@@ -15,5 +15,5 @@
       </h1>
     </div>
   </div>
-  <ReportBody {queryResult} />
+  <ReportBody {queryResult} isForecast />
 </div>

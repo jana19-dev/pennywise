@@ -172,5 +172,12 @@ export default async function handler(parent, args, context) {
   // remove rows with all zeros
   table.rows = table.rows.filter((row) => row.slice(2, row.length).some((value) => value !== 0))
 
-  return table
+  return {
+    table,
+    context: {
+      months: response.map((dateRange) => dateRange.day),
+      rows: table.rows.slice(1).map((row) => row[0]),
+      identifier: `account`
+    }
+  }
 }

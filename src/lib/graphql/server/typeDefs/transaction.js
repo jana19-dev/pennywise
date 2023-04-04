@@ -23,6 +23,8 @@ export default /* GraphQL */ `
     ): JSON!
 
     getRecentTransaction(payeeId: ID, isTransfer: Boolean): JSON
+
+    getMonthlyTransactions(month: String!, account: String, category: String, payee: String): JSON!
   }
 
   type Mutation {

@@ -131,5 +131,12 @@ export default async function handler(parent, args, context) {
     throw new GraphQLError(`No data for the selected date range`)
   }
 
-  return table
+  return {
+    table,
+    context: {
+      months: response.map((dateRange) => dateRange.day),
+      rows: table.rows.slice(1).map((row) => row[0]),
+      identifier: `account`
+    }
+  }
 }
