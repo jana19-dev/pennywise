@@ -68,7 +68,7 @@
     name="date"
     label="Date"
     type="date"
-    class="min-w-[7rem] py-2"
+    class="min-w-[9rem] py-2"
     inputClass="text-xs"
     color="gray"
     value={searchFields[`date`]}
