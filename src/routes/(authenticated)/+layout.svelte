@@ -14,7 +14,7 @@
 
   <div class="flex flex-1 flex-col overflow-hidden">
     <header
-      class="flex items-center justify-between border-b-2 border-gray-100 py-2 px-3 lg:hidden"
+      class="flex items-center justify-between border-b-2 border-gray-100 px-3 py-2 lg:hidden"
     >
       <SidebarToggle />
 

@@ -4,7 +4,7 @@
   import { twMerge } from "tailwind-merge"
 </script>
 
-<div class={twMerge(`absolute top-0 right-0 -mt-2 -mr-2 flex`, $$props.class)}>
+<div class={twMerge(`absolute right-0 top-0 -mr-2 -mt-2 flex`, $$props.class)}>
   <span class="absolute inline-flex animate-ping">
     <span
       class="inline-flex h-4 w-4 rounded-full opacity-75"

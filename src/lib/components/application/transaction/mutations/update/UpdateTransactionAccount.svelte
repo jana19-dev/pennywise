@@ -65,7 +65,7 @@
   on:submit={handleSubmit}
   on:close={onClose}
 >
-  <span>{transaction.account?.name || `-`}</span>
+  <a href="/transactions/{transaction.account.id}">{transaction.account.name || `-`}</a>
   <div slot="input">
     <SelectAccountInput
       isRequired

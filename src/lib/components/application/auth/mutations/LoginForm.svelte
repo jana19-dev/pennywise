@@ -43,16 +43,16 @@
 
 <div class="flex flex-col flex-wrap items-center gap-4 rounded-lg p-2">
   {#if isRedirecting}
-    <p class="-mt-2 -mb-2 text-left text-sm text-gray-200">Taking you to your dashboard...</p>
+    <p class="-mb-2 -mt-2 text-left text-sm text-gray-200">Taking you to your dashboard...</p>
   {/if}
   <Button
     on:click={onLogin}
     variant="ghost"
     isDisabled={$loginMutation.isLoading || isRedirecting}
-    class="!hover:bg-[#4285F4]/90 !focus:ring-[#4285F4]/50 mr-2 mb-2 inline-flex w-fit items-center rounded-lg !bg-[#4285F4] px-5 py-2.5 text-center text-sm font-medium !text-white  focus:outline-none focus:ring-4"
+    class="!hover:bg-[#4285F4]/90 !focus:ring-[#4285F4]/50 mb-2 mr-2 inline-flex w-fit items-center rounded-lg !bg-[#4285F4] px-5 py-2.5 text-center text-sm font-medium !text-white  focus:outline-none focus:ring-4"
   >
     <svg
-      class="mr-3 -ml-1 h-7 w-7"
+      class="-ml-1 mr-3 h-7 w-7"
       aria-hidden="true"
       focusable="false"
       data-prefix="fab"

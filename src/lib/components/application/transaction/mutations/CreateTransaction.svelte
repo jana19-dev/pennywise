@@ -204,7 +204,7 @@
       <div class="flex items-center justify-center gap-2">
         <Button
           size="sm"
-          class="py-1 px-1"
+          class="px-1 py-1"
           color="green"
           variant={$form[`transactionType`] === `income` ? `secondary` : `ghost`}
           on:click={() => {
@@ -217,7 +217,7 @@
         </Button>
         <Button
           size="sm"
-          class="py-1 px-1"
+          class="px-1 py-1"
           color="red"
           variant={$form[`transactionType`] === `expense` ? `secondary` : `ghost`}
           on:click={() => {

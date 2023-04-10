@@ -1,6 +1,6 @@
 {
   "name": "pennywise",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "private": true,
   "scripts": {
     "dev": "TZ=UTC vite dev --host",
@@ -14,11 +14,11 @@
     "studio": "prisma studio"
   },
   "devDependencies": {
-    "@codepiercer/svelte-tailwind": "0.8.20",
+    "@codepiercer/svelte-tailwind": "0.8.22",
     "@sveltejs/adapter-auto": "2.0.0",
-    "@tanstack/svelte-query": "4.27.0",
+    "@tanstack/svelte-query": "4.29.1",
     "@zerodevx/svelte-toast": "0.9.3",
-    "firebase": "9.19.0",
+    "firebase": "9.19.1",
     "graphql-request": "5.2.0",
     "husky": "8.0.3",
     "prisma": "4.12.0",
@@ -26,7 +26,7 @@
     "yup": "1.0.2"
   },
   "dependencies": {
-    "@apollo/server": "4.5.0",
+    "@apollo/server": "4.6.0",
     "@prisma/client": "4.12.0",
     "date-fns": "2.29.3",
     "graphql": "16.6.0",
