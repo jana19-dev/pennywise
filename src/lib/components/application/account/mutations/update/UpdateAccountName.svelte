@@ -72,4 +72,6 @@
   on:submit={handleSubmit}
   on:close={onClose}
   displayClass="text-xs"
-/>
+>
+  <a href="/transactions/{account.id}">{account.name || `-`}</a>
+</TextEditDialog>
