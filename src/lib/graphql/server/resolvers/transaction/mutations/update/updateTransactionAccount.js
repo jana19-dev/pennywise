@@ -45,11 +45,7 @@ export default async function handler(parent, args, context) {
     })
   }
 
-  if (
-    !transactionExists.transferId &&
-    !transactionExists.payeeId &&
-    !transactionExists.categoryId
-  ) {
+  if (!transactionExists.transferId && !transactionExists.payeeId && !transactionExists.categoryId) {
     throw new GraphQLError(`You cannot update the account for an opening balance transaction.`, {
       extensions: {
         code: `403`

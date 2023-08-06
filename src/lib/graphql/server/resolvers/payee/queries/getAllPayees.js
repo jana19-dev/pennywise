@@ -58,11 +58,7 @@ export default async function handler(parent, args, context) {
   })
 
   // wait for all promises to resolve
-  const [allCount, filteredCount, data] = await Promise.all([
-    allCountPromise,
-    filteredCountPromise,
-    dataPromise
-  ])
+  const [allCount, filteredCount, data] = await Promise.all([allCountPromise, filteredCountPromise, dataPromise])
 
   // add metrics to response
   response.metrics.allCount = allCount

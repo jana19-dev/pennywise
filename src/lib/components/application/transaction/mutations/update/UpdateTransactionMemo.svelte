@@ -10,7 +10,7 @@
   import { INVALIDATE_QUERIES_FROM_MUTATION } from "$lib/utils/client/cacheInvalidation"
   import toast from "$lib/utils/client/toast"
 
-  import { TextEditDialog } from "@codepiercer/svelte-tailwind"
+  import { TextEditDialog } from "$lib/components/ui"
 
   const queryClient = useQueryClient()
 
@@ -20,28 +20,26 @@
     onSuccess: () => {
       toast.success(`Successfully updated`)
       queryClient.invalidateQueries({
-        predicate: ({ queryKey }) =>
-          INVALIDATE_QUERIES_FROM_MUTATION[`UPDATE_TRANSACTION_MEMO`].includes(queryKey[0])
+        predicate: ({ queryKey }) => INVALIDATE_QUERIES_FROM_MUTATION[`UPDATE_TRANSACTION_MEMO`].includes(queryKey[0])
       })
       setTimeout(onClose)
     }
   })
 
-  const { errors, touched, handleChange, handleSubmit, handleReset, updateInitialValues } =
-    createForm({
-      validationSchema: yup.object().shape({
-        memo: yup.string()
-      }),
-      initialValues: {
-        memo: transaction.memo
-      },
-      onSubmit: ({ memo }) => {
-        $updateCategoryMemoMutation.mutate({
-          id: transaction.id,
-          memo
-        })
-      }
-    })
+  const { errors, touched, handleChange, handleSubmit, handleReset, updateInitialValues } = createForm({
+    validationSchema: yup.object().shape({
+      memo: yup.string()
+    }),
+    initialValues: {
+      memo: transaction.memo
+    },
+    onSubmit: ({ memo }) => {
+      $updateCategoryMemoMutation.mutate({
+        id: transaction.id,
+        memo
+      })
+    }
+  })
 
   const onClose = () => {
     handleReset()

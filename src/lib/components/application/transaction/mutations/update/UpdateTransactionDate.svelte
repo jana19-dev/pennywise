@@ -11,9 +11,9 @@
   import { UPDATE_TRANSACTION_DATE } from "$lib/graphql/client/transaction/mutations"
   import { INVALIDATE_QUERIES_FROM_MUTATION } from "$lib/utils/client/cacheInvalidation"
 
-  import { formatDate } from "@codepiercer/svelte-tailwind/utils/date"
+  import { formatDate } from "$lib/utils/client/date"
 
-  import { DateEditDialog } from "@codepiercer/svelte-tailwind"
+  import { DateEditDialog } from "$lib/components/ui"
   import toast from "$lib/utils/client/toast"
 
   const queryClient = useQueryClient()
@@ -23,8 +23,7 @@
   const updateTransactionDateMutation = createMutation(UPDATE_TRANSACTION_DATE, {
     onSuccess: () => {
       queryClient.invalidateQueries({
-        predicate: ({ queryKey }) =>
-          INVALIDATE_QUERIES_FROM_MUTATION[`UPDATE_TRANSACTION_DATE`].includes(queryKey[0])
+        predicate: ({ queryKey }) => INVALIDATE_QUERIES_FROM_MUTATION[`UPDATE_TRANSACTION_DATE`].includes(queryKey[0])
       })
       toast.success(`Successfully updated`)
       setTimeout(onClose)

@@ -2,7 +2,7 @@
   export let queryResult
   export let isForecast = false
 
-  import { LoadingAlert, ErrorAlert } from "@codepiercer/svelte-tailwind"
+  import { LoadingAlert, ErrorAlert } from "$lib/components/ui"
 
   import TableWrapper from "$lib/components/table/TableWrapper.svelte"
   import TableHeaderCell from "$lib/components/table/TableHeaderCell.svelte"
@@ -63,6 +63,8 @@
                 on:keyup={i > 0 && idx > 0 && !isForecast
                   ? (e) => onViewTransactions(e, { x: i - 1, y: idx - 1 })
                   : null}
+                role="button"
+                tabindex="0"
                 class:text-right={i !== 0}
                 class:text-white={isTotalRow}
                 class:-mt-4={isTotalRow}

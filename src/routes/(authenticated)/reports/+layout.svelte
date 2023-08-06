@@ -2,7 +2,7 @@
   import { page } from "$app/stores"
   import { goto } from "$app/navigation"
 
-  import { Button } from "@codepiercer/svelte-tailwind"
+  import { Button } from "$lib/components/ui"
   import SelectReportInput from "$lib/components/select/SelectReportInput.svelte"
 
   const REPORTS = [`ACCOUNTS`, `CATEGORIES`, `PAYEES`, `FORECAST`]

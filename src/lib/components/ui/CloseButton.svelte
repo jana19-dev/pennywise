@@ -1,5 +1,5 @@
 <script>
-  import { Button } from "@codepiercer/svelte-tailwind"
+  import { Button } from "$lib/components/ui"
 
   import XMarkIcon from "$lib/components/icons/XMarkIcon.svelte"
 </script>

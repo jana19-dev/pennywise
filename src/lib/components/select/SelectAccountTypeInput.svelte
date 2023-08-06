@@ -6,8 +6,8 @@
   export let error = null
   export let direction = `bottom`
 
-  import { Button, SelectInput } from "@codepiercer/svelte-tailwind"
-  import PlusIcon from "@codepiercer/svelte-tailwind/icons/PlusIcon.svelte"
+  import { Button, SelectInput } from "$lib/components/ui"
+  import PlusIcon from "$lib/components/icons/PlusIcon.svelte"
 
   import CreateAccountType from "$lib/components/application/accountType/mutations/CreateAccountType.svelte"
 
@@ -35,17 +35,16 @@
   error={$queryResult.error?.message || error}
   isLoading={$queryResult.isLoading}
   {...$$props}
-  let:searchValue
   on:select
 >
   <slot />
   <slot name="label" slot="label">
     {label}
   </slot>
-  <CreateAccountType slot="addNew" bind:dialog initialValue={searchValue}>
-    <Button variant="outlined" on:click={dialog.show} size="sm"
-      ><PlusIcon class="-ml-2" />
-      new: {searchValue}</Button
-    >
+  <CreateAccountType slot="addNew" let:searchValue bind:dialog initialValue={searchValue}>
+    <Button variant="outlined" on:click={dialog.show} size="sm">
+      <PlusIcon class="-ml-2" />
+      new: {searchValue}
+    </Button>
   </CreateAccountType>
 </SelectInput>

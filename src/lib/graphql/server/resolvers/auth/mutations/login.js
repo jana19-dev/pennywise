@@ -2,6 +2,7 @@ import { GraphQLError } from "graphql"
 import { signInWithCredential, GoogleAuthProvider } from "firebase/auth"
 import { auth } from "$lib/utils/firebase"
 import { generateToken } from "$lib/utils/server/authentication"
+import { dev } from "$app/environment"
 
 export default async function handler(parent, args, context) {
   try {
@@ -33,7 +34,7 @@ export default async function handler(parent, args, context) {
       path: `/`,
       httpOnly: true,
       sameSite: `lax`,
-      secure: true
+      secure: !dev
     })
 
     return user

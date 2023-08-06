@@ -1,8 +1,8 @@
 <script>
   export let accountType
 
-  import { Button } from "@codepiercer/svelte-tailwind"
-  import PlusIcon from "@codepiercer/svelte-tailwind/icons/PlusIcon.svelte"
+  import { Button } from "$lib/components/ui"
+  import PlusIcon from "$lib/components/icons/PlusIcon.svelte"
 
   import TableCellCountBadge from "$lib/components/table/TableCellCountBadge.svelte"
 

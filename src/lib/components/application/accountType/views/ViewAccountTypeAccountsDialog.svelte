@@ -4,7 +4,7 @@
 
   import { SvelteToast } from "@zerodevx/svelte-toast"
 
-  import { Dialog } from "@codepiercer/svelte-tailwind"
+  import { Dialog } from "$lib/components/ui"
 
   import CloseButton from "$lib/components/ui/CloseButton.svelte"
   import TableWrapper from "$lib/components/table/TableWrapper.svelte"

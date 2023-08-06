@@ -2,7 +2,7 @@
   import { page } from "$app/stores"
   import { browser } from "$app/environment"
 
-  import { Button, FormDialog, TextInput, DateInput } from "@codepiercer/svelte-tailwind"
+  import { Button, FormDialog, TextInput, DateInput } from "$lib/components/ui"
   import SwitchIcon from "$lib/components/icons/SwitchIcon.svelte"
 
   import SelectAccountInput from "$lib/components/select/SelectAccountInput.svelte"
@@ -16,7 +16,7 @@
   import { INVALIDATE_QUERIES_FROM_MUTATION } from "$lib/utils/client/cacheInvalidation"
   import toast from "$lib/utils/client/toast"
 
-  import { formatDate } from "@codepiercer/svelte-tailwind/utils/date"
+  import { formatDate } from "$lib/utils/client/date"
 
   const queryClient = useQueryClient()
 
@@ -40,8 +40,7 @@
     onSuccess: () => {
       toast.success(`Successfully created the transaction`)
       queryClient.invalidateQueries({
-        predicate: ({ queryKey }) =>
-          INVALIDATE_QUERIES_FROM_MUTATION[`CREATE_TRANSACTION`].includes(queryKey[0])
+        predicate: ({ queryKey }) => INVALIDATE_QUERIES_FROM_MUTATION[`CREATE_TRANSACTION`].includes(queryKey[0])
       })
       setTimeout(onClose)
     }
@@ -54,9 +53,7 @@
       transferAccountId: yup.string(),
       amount: yup
         .number()
-        .typeError(
-          `The amount should be a positive number with maximum two digits of decimal places`
-        )
+        .typeError(`The amount should be a positive number with maximum two digits of decimal places`)
         .test(
           `is-decimal`,
           `The amount should be a positive number with maximum two digits of decimal places`,
@@ -150,12 +147,7 @@
           $form[`accountId`] = detail.option.value
         }}
       />
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        viewBox="0 0 20 20"
-        fill="currentColor"
-        class="h-5 w-5"
-      >
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="h-5 w-5">
         <path
           fill-rule="evenodd"
           d="M3 10a.75.75 0 01.75-.75h10.638L10.23 5.29a.75.75 0 111.04-1.08l5.5 5.25a.75.75 0 010 1.08l-5.5 5.25a.75.75 0 11-1.04-1.08l4.158-3.96H3.75A.75.75 0 013 10z"

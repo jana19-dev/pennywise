@@ -46,11 +46,7 @@ export default async function handler(parent, args, context) {
     })
   }
 
-  if (
-    !transactionExists.transferId &&
-    !transactionExists.payeeId &&
-    !transactionExists.categoryId
-  ) {
+  if (!transactionExists.transferId && !transactionExists.payeeId && !transactionExists.categoryId) {
     // this is an opening balance transaction: make sure the updating date is the min date of all transactions for this account
     const [firstNormalTransaction] = await context.prisma.transaction.findMany({
       where: {

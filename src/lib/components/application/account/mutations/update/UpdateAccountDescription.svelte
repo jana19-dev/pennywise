@@ -9,7 +9,7 @@
   import { UPDATE_ACCOUNT_DESCRIPTION } from "$lib/graphql/client/account/mutations"
   import { INVALIDATE_QUERIES_FROM_MUTATION } from "$lib/utils/client/cacheInvalidation"
 
-  import { TextEditDialog } from "@codepiercer/svelte-tailwind"
+  import { TextEditDialog } from "$lib/components/ui"
   import toast from "$lib/utils/client/toast"
 
   const queryClient = useQueryClient()
@@ -27,21 +27,20 @@
     }
   })
 
-  const { errors, touched, handleChange, handleSubmit, handleReset, updateInitialValues } =
-    createForm({
-      validationSchema: yup.object().shape({
-        description: yup.string()
-      }),
-      initialValues: {
-        description: account.description
-      },
-      onSubmit: ({ description }) => {
-        $updateAccountDescriptionMutation.mutate({
-          id: account.id,
-          description
-        })
-      }
-    })
+  const { errors, touched, handleChange, handleSubmit, handleReset, updateInitialValues } = createForm({
+    validationSchema: yup.object().shape({
+      description: yup.string()
+    }),
+    initialValues: {
+      description: account.description
+    },
+    onSubmit: ({ description }) => {
+      $updateAccountDescriptionMutation.mutate({
+        id: account.id,
+        description
+      })
+    }
+  })
 
   const onClose = () => {
     handleReset()

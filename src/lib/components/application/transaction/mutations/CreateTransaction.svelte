@@ -2,8 +2,8 @@
   import { tick } from "svelte"
   import { page } from "$app/stores"
 
-  import { Button, FormDialog, TextInput, DateInput } from "@codepiercer/svelte-tailwind"
-  import PlusIcon from "@codepiercer/svelte-tailwind/icons/PlusIcon.svelte"
+  import { Button, FormDialog, TextInput, DateInput } from "$lib/components/ui"
+  import PlusIcon from "$lib/components/icons/PlusIcon.svelte"
   import CheckIcon from "$lib/components/icons/CheckIcon.svelte"
 
   import SelectAccountInput from "$lib/components/select/SelectAccountInput.svelte"
@@ -19,7 +19,7 @@
   import { INVALIDATE_QUERIES_FROM_MUTATION } from "$lib/utils/client/cacheInvalidation"
   import toast from "$lib/utils/client/toast"
 
-  import { formatDate } from "@codepiercer/svelte-tailwind/utils/date"
+  import { formatDate } from "$lib/utils/client/date"
 
   const queryClient = useQueryClient()
 
@@ -29,8 +29,7 @@
     onSuccess: () => {
       toast.success(`Successfully created the transaction`)
       queryClient.invalidateQueries({
-        predicate: ({ queryKey }) =>
-          INVALIDATE_QUERIES_FROM_MUTATION[`CREATE_TRANSACTION`].includes(queryKey[0])
+        predicate: ({ queryKey }) => INVALIDATE_QUERIES_FROM_MUTATION[`CREATE_TRANSACTION`].includes(queryKey[0])
       })
       setTimeout(onClose)
     }
@@ -44,9 +43,7 @@
       payeeId: yup.string(),
       amount: yup
         .number()
-        .typeError(
-          `The amount should be a positive number with maximum two digits of decimal places`
-        )
+        .typeError(`The amount should be a positive number with maximum two digits of decimal places`)
         .test(
           `is-decimal`,
           `The amount should be a positive number with maximum two digits of decimal places`,
@@ -72,9 +69,7 @@
         accountId,
         categoryId,
         payeeId,
-        amount: [`income`].includes($form.transactionType)
-          ? parseFloat(amount)
-          : parseFloat(amount) * -1,
+        amount: [`income`].includes($form.transactionType) ? parseFloat(amount) : parseFloat(amount) * -1,
         memo
       })
     }
@@ -210,7 +205,8 @@
           on:click={() => {
             $form[`transactionType`] = `income`
           }}
-          >INCOME
+        >
+          INCOME
           {#if $form[`transactionType`] === `income`}
             <CheckIcon />
           {/if}
@@ -223,7 +219,8 @@
           on:click={() => {
             $form[`transactionType`] = `expense`
           }}
-          >EXPENSE
+        >
+          EXPENSE
           {#if $form[`transactionType`] === `expense`}
             <CheckIcon />
           {/if}

@@ -5,7 +5,7 @@
   import { createForm } from "svelte-forms-lib"
   import * as yup from "yup"
 
-  import { SelectInputEditDialog } from "@codepiercer/svelte-tailwind"
+  import { SelectInputEditDialog } from "$lib/components/ui"
   import SelectAccountInput from "$lib/components/select/SelectAccountInput.svelte"
 
   import { createMutation, useQueryClient } from "@tanstack/svelte-query"

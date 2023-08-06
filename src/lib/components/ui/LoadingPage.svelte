@@ -1,5 +1,5 @@
 <script>
-  import LoadingSpinnerIcon from "@codepiercer/svelte-tailwind/icons/LoadingSpinnerIcon.svelte"
+  import LoadingSpinnerIcon from "$lib/components/icons/LoadingSpinnerIcon.svelte"
 </script>
 
 <div

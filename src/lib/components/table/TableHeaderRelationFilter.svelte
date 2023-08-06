@@ -10,9 +10,9 @@
   import { goto } from "$app/navigation"
   import { page } from "$app/stores"
 
-  import { TextInput, DropdownMenu, Button } from "@codepiercer/svelte-tailwind"
-  import ChevronDownIcon from "@codepiercer/svelte-tailwind/icons/ChevronDownIcon.svelte"
-  import CheckOutlineIcon from "@codepiercer/svelte-tailwind/icons/CheckOutlineIcon.svelte"
+  import { TextInput, DropdownMenu, Button } from "$lib/components/ui"
+  import ChevronDownIcon from "$lib/components/icons/ChevronDownIcon.svelte"
+  import CheckOutlineIcon from "$lib/components/icons/CheckOutlineIcon.svelte"
 
   filters = {
     null: {
@@ -76,9 +76,7 @@
     const { name, option } = detail
     // check if option.value is a uuid; if so, use option.label instead
     if (
-      option.value.match(
-        /^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-5][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}$/
-      )
+      option.value.match(/^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-5][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}$/)
     ) {
       handleSubSearchFieldValueChange({
         target: {
@@ -136,17 +134,12 @@
   on:pickDate={handleDateChange}
   color="gray"
 >
-  <DropdownMenu
-    let:menuItemProps
-    let:triggerProps
-    color="gray"
-    let:onOpen
-    let:closeMenu
-    placement="bottom-left"
-  >
+  <DropdownMenu color="gray" let:closeMenu placement="bottom-left">
     <Button
       slot="trigger"
+      let:onOpen
       on:click={onOpen}
+      let:triggerProps
       {...triggerProps}
       color="gray"
       variant="ghost"
@@ -155,7 +148,7 @@
       <span class="sr-only">Filter by</span>
       <ChevronDownIcon />
     </Button>
-    <div slot="content" class="min-w-[12rem]">
+    <div slot="content" let:menuItemProps class="min-w-[12rem]">
       <div class="flex flex-col gap-2 bg-white p-1" role="none">
         {#each Object.keys(filters) as filter (filter + searchField)}
           {@const isSelected = activeSubSearchField === filter}
@@ -168,7 +161,8 @@
             variant="ghost"
             color="gray"
             class="items-center justify-between py-0.5"
-            >{filters[filter].label}
+          >
+            {filters[filter].label}
             {#if isSelected}
               <CheckOutlineIcon class="text-yellow-700" />
             {/if}

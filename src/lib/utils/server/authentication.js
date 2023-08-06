@@ -1,4 +1,5 @@
 import jwt from "jsonwebtoken"
+import { dev } from "$app/environment"
 
 import { JWT_SECRET } from "$env/static/private"
 
@@ -12,7 +13,7 @@ export const getSession = async (req) => {
       path: `/`,
       httpOnly: true,
       sameSite: `lax`,
-      secure: true
+      secure: !dev
     })
 
     return token ? jwt.verify(token, JWT_SECRET) : null

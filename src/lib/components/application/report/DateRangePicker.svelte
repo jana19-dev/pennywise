@@ -1,10 +1,10 @@
 <script>
   export let dateRange
 
-  import { DateInput, DropdownMenu, Button } from "@codepiercer/svelte-tailwind"
-  import ChevronDownIcon from "@codepiercer/svelte-tailwind/icons/ChevronDownIcon.svelte"
+  import { DateInput, DropdownMenu, Button } from "$lib/components/ui"
+  import ChevronDownIcon from "$lib/components/icons/ChevronDownIcon.svelte"
 
-  import { formatDate } from "@codepiercer/svelte-tailwind/utils/date"
+  import { formatDate } from "$lib/utils/client/date"
 
   const today = formatDate(new Date())
 
@@ -16,9 +16,7 @@
     },
     {
       label: `Last 3 Months`,
-      startDate: formatDate(
-        new Date(new Date(new Date().setDate(1)).setMonth(new Date().getMonth() - 2))
-      ),
+      startDate: formatDate(new Date(new Date(new Date().setDate(1)).setMonth(new Date().getMonth() - 2))),
       endDate: formatDate(new Date(new Date()))
     },
     {
@@ -29,18 +27,10 @@
     {
       label: `Last Year`,
       startDate: formatDate(
-        new Date(
-          new Date(new Date(new Date().setDate(1)).setMonth(0)).setFullYear(
-            new Date().getFullYear() - 1
-          )
-        )
+        new Date(new Date(new Date(new Date().setDate(1)).setMonth(0)).setFullYear(new Date().getFullYear() - 1))
       ),
       endDate: formatDate(
-        new Date(
-          new Date(new Date(new Date().setDate(31)).setMonth(11)).setFullYear(
-            new Date().getFullYear() - 1
-          )
-        )
+        new Date(new Date(new Date(new Date().setDate(31)).setMonth(11)).setFullYear(new Date().getFullYear() - 1))
       )
     }
   ]
@@ -58,9 +48,7 @@
         dateRange.startDate = detail.date || today
       }}
       options={{
-        maxDate: formatDate(
-          new Date(new Date().setDate(new Date(dateRange.endDate).getDate() - 30))
-        )
+        maxDate: formatDate(new Date(new Date().setDate(new Date(dateRange.endDate).getDate() - 30)))
       }}
       class="min-w-[10rem]"
     />
@@ -76,17 +64,11 @@
       options={{ minDate: dateRange.startDate, maxDate: today }}
       class="min-w-[10rem]"
     />
-    <DropdownMenu
-      let:menuItemProps
-      let:triggerProps
-      color="gray"
-      let:onOpen
-      let:closeMenu
-      placement="bottom-left"
-      class="mt-12"
-    >
+    <DropdownMenu color="gray" let:closeMenu placement="bottom-left" class="mt-12">
       <Button
         slot="trigger"
+        let:triggerProps
+        let:onOpen
         on:click={onOpen}
         {...triggerProps}
         color="blue"
@@ -96,7 +78,7 @@
         <span class="sr-only">Quick Ranges</span>
         <ChevronDownIcon />
       </Button>
-      <div slot="content" class="min-w-[12rem]">
+      <div slot="content" let:menuItemProps class="min-w-[12rem]">
         <div class="flex flex-col gap-2 bg-white p-1" role="none">
           {#each quickRanges as { label, ...range }}
             <Button
@@ -108,7 +90,8 @@
               variant="ghost"
               color="gray"
               class="items-center justify-between py-0.5"
-              >{label}
+            >
+              {label}
             </Button>
           {/each}
         </div>

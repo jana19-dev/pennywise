@@ -69,18 +69,8 @@ export const GET_MONTHLY_TRANSACTIONS = ({ queryKey: [, variables] = [] } = {}) 
   graphQLClient
     .request(
       gql`
-        query GET_MONTHLY_TRANSACTIONS(
-          $month: String!
-          $account: String
-          $category: String
-          $payee: String
-        ) {
-          getMonthlyTransactions(
-            month: $month
-            account: $account
-            category: $category
-            payee: $payee
-          )
+        query GET_MONTHLY_TRANSACTIONS($month: String!, $account: String, $category: String, $payee: String) {
+          getMonthlyTransactions(month: $month, account: $account, category: $category, payee: $payee)
         }
       `,
       variables

@@ -4,16 +4,14 @@
   export let count = null
   export let label
 
-  import { Button } from "@codepiercer/svelte-tailwind"
-  import PlusIcon from "@codepiercer/svelte-tailwind/icons/PlusIcon.svelte"
+  import { Button } from "$lib/components/ui"
+  import PlusIcon from "$lib/components/icons/PlusIcon.svelte"
 </script>
 
 <div class="inline-flex w-full items-center rounded-md shadow-sm">
   <Button
     isDisabled={count === 0}
-    class={onAddNew
-      ? `w-full justify-start rounded-r-none p-0`
-      : `w-full justify-start rounded-md p-0`}
+    class={onAddNew ? `w-full justify-start rounded-r-none p-0` : `w-full justify-start rounded-md p-0`}
     variant="outlined"
     color="gray"
     on:click={onView}

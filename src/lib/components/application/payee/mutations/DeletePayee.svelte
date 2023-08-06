@@ -1,8 +1,8 @@
 <script>
   export let payee
 
-  import { FormDialog, Button } from "@codepiercer/svelte-tailwind"
-  import TrashIcon from "@codepiercer/svelte-tailwind/icons/TrashIcon.svelte"
+  import { FormDialog, Button } from "$lib/components/ui"
+  import TrashIcon from "$lib/components/icons/TrashIcon.svelte"
 
   import { createMutation, useQueryClient } from "@tanstack/svelte-query"
   import { DELETE_PAYEE } from "$lib/graphql/client/payee/mutations"
@@ -17,8 +17,7 @@
     onSuccess: () => {
       toast.success(`Successfully deleted the payee`)
       queryClient.invalidateQueries({
-        predicate: ({ queryKey }) =>
-          INVALIDATE_QUERIES_FROM_MUTATION[`DELETE_PAYEE`].includes(queryKey[0])
+        predicate: ({ queryKey }) => INVALIDATE_QUERIES_FROM_MUTATION[`DELETE_PAYEE`].includes(queryKey[0])
       })
       setTimeout(onClose)
     }

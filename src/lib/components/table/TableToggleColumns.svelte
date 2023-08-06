@@ -1,20 +1,15 @@
 <script>
   export let columns = []
 
-  import { DropdownMenu, Button } from "@codepiercer/svelte-tailwind"
+  import { DropdownMenu, Button } from "$lib/components/ui"
   import { hiddenColumnsStore } from "$lib/stores"
 </script>
 
-<DropdownMenu
-  let:menuItemProps
-  let:triggerProps
-  color="gray"
-  let:onOpen
-  let:closeMenu
-  placement="bottom-left"
->
+<DropdownMenu color="gray" placement="bottom-left">
   <Button
     slot="trigger"
+    let:onOpen
+    let:triggerProps
     on:click={onOpen}
     {...triggerProps}
     color="blue"
@@ -28,7 +23,7 @@
       />
     </svg>
   </Button>
-  <div slot="content" class="min-w-[12rem] p-1.5">
+  <div slot="content" let:menuItemProps class="min-w-[12rem] p-1.5">
     <div class="flex flex-col gap-2 bg-white" role="none">
       {#each columns as column}
         {@const isHidden = $hiddenColumnsStore.includes(column)}

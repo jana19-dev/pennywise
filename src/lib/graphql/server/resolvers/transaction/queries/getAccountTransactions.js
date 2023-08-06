@@ -16,14 +16,7 @@ export default async function handler(parent, args, context) {
     }
   })
 
-  const {
-    accountId,
-    search,
-    searchField,
-    subSearchField,
-    skip = 0,
-    orderBy = [{ date: `desc` }]
-  } = args
+  const { accountId, search, searchField, subSearchField, skip = 0, orderBy = [{ date: `desc` }] } = args
 
   const where = { userId: authUser.id, accountId }
 

@@ -3,7 +3,7 @@
 
   import { onMount } from "svelte"
 
-  import { Dialog, LoadingAlert, ErrorAlert } from "@codepiercer/svelte-tailwind"
+  import { Dialog, LoadingAlert, ErrorAlert } from "$lib/components/ui"
   import CloseButton from "$lib/components/ui/CloseButton.svelte"
 
   import TableWrapper from "$lib/components/table/TableWrapper.svelte"
@@ -46,14 +46,14 @@
     </div>
     {#each Object.entries(context) as [key, value]}
       <div class="flex items-center">
-        <span
-          class="inline-flex items-center rounded-md px-2.5 py-0.5 text-sm font-medium uppercase text-gray-800"
-          >{key}:</span
-        >
+        <span class="inline-flex items-center rounded-md px-2.5 py-0.5 text-sm font-medium uppercase text-gray-800">
+          {key}:
+        </span>
         <span
           class="inline-flex items-center rounded-md bg-yellow-100 px-2.5 py-0.5 text-sm font-medium uppercase text-yellow-800"
-          >{value}</span
         >
+          {value}
+        </span>
       </div>
     {/each}
     <CloseButton on:click={dialog.hide} />
@@ -83,9 +83,13 @@
           </TableCell>
           {#if transaction.transferTo}
             <TableCell>
-              <span
-                >TRANSFER {#if transaction.amount > 0} FROM {:else} TO {/if}</span
-              >
+              <span>
+                TRANSFER {#if transaction.amount > 0}
+                  FROM
+                {:else}
+                  TO
+                {/if}
+              </span>
             </TableCell>
             <TableCell>
               {transaction.transferTo.account.name}
@@ -93,10 +97,9 @@
           {:else if !transaction.transferTo && !transaction.payee && !transaction.category}
             <TableCell colspan={2}>
               <div class="font-semibold">
-                <span
-                  class="inline-flex items-center rounded-md bg-yellow-100 px-2 py-0.5 text-xs text-yellow-800"
-                  >Opening Balance</span
-                >
+                <span class="inline-flex items-center rounded-md bg-yellow-100 px-2 py-0.5 text-xs text-yellow-800">
+                  Opening Balance
+                </span>
               </div>
             </TableCell>
           {:else}
@@ -122,7 +125,10 @@
             {:else if $queryResult.isError}
               <ErrorAlert>Error: {$queryResult.error.message}</ErrorAlert>
             {:else}
-              <ErrorAlert>No <strong>transactions</strong> found</ErrorAlert>
+              <ErrorAlert>
+                No <strong>transactions</strong>
+                 found
+              </ErrorAlert>
             {/if}
           </td>
         </tr>

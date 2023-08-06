@@ -115,8 +115,7 @@ export default async function handler(parent, args, context) {
     `Net`,
     ...response.map((dateRange) => dateRange.total),
     parseFloat(
-      parseFloat(response.reduce((acc, dateRange) => acc + dateRange.total, 0)) /
-        parseFloat(response.length)
+      parseFloat(response.reduce((acc, dateRange) => acc + dateRange.total, 0)) / parseFloat(response.length)
     ).toFixed(2)
   ])
 
@@ -129,8 +128,7 @@ export default async function handler(parent, args, context) {
     }
     // calculate the average
     row[row.length - 1] = parseFloat(
-      parseFloat(row.slice(1, row.length - 1).reduce((acc, value) => acc + value, 0)) /
-        parseFloat(row.length - 2)
+      parseFloat(row.slice(1, row.length - 1).reduce((acc, value) => acc + value, 0)) / parseFloat(row.length - 2)
     ).toFixed(2)
     table.rows.push(row)
   })

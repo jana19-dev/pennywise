@@ -6,7 +6,7 @@
   export let error = null
   export let direction = `bottom`
 
-  import { SelectInput } from "@codepiercer/svelte-tailwind"
+  import { SelectInput } from "$lib/components/ui"
 
   const options = [
     { label: `ACCOUNTS`, value: `ACCOUNTS` },
@@ -16,17 +16,7 @@
   ]
 </script>
 
-<SelectInput
-  {name}
-  {label}
-  {value}
-  {error}
-  {options}
-  {isRequired}
-  {direction}
-  {...$$props}
-  on:select
->
+<SelectInput {name} {label} {value} {error} {options} {isRequired} {direction} {...$$props} on:select>
   <slot />
   <slot name="label" slot="label">
     {label}

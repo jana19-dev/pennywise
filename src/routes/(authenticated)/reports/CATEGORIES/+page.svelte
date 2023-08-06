@@ -2,7 +2,7 @@
   import ReportBody from "$lib/components/application/report/ReportBody.svelte"
 
   import DateRangePicker from "$lib/components/application/report/DateRangePicker.svelte"
-  import { formatDate } from "@codepiercer/svelte-tailwind/utils/date"
+  import { formatDate } from "$lib/utils/client/date"
 
   import { createQuery } from "@tanstack/svelte-query"
   import { GET_CATEGORIES_REPORT } from "$lib/graphql/client/report/queries"

@@ -27,6 +27,8 @@
   class="flex cursor-pointer items-center gap-1"
   on:click|preventDefault={handleSort}
   on:keyup={handleSort}
+  role="button"
+  tabindex="0"
 >
   <slot>{label}</slot>
   {#if isThisFieldActive}

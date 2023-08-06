@@ -15,13 +15,7 @@ export default async function handler(parent, args, context) {
     }
   })
 
-  const {
-    search,
-    searchField,
-    subSearchField,
-    skip = 0,
-    orderBy = [{ priority: `asc` }, { name: `asc` }]
-  } = args
+  const { search, searchField, subSearchField, skip = 0, orderBy = [{ priority: `asc` }, { name: `asc` }] } = args
 
   const where = { userId: authUser.id }
 
@@ -72,11 +66,7 @@ export default async function handler(parent, args, context) {
   })
 
   // wait for all promises to resolve
-  const [allCount, filteredCount, data] = await Promise.all([
-    allCountPromise,
-    filteredCountPromise,
-    dataPromise
-  ])
+  const [allCount, filteredCount, data] = await Promise.all([allCountPromise, filteredCountPromise, dataPromise])
 
   // add metrics to response
   response.metrics.allCount = allCount

@@ -1,7 +1,7 @@
 <script>
   import { page } from "$app/stores"
 
-  import { Dialog, Button, LoadingAlert, ErrorAlert } from "@codepiercer/svelte-tailwind"
+  import { Dialog, Button, LoadingAlert, ErrorAlert } from "$lib/components/ui"
 
   import CurrencyView from "$lib/components/ui/CurrencyView.svelte"
 
@@ -13,12 +13,7 @@
   let dialog
 </script>
 
-<Button
-  on:click={dialog.show}
-  color="blue"
-  variant="ghost"
-  class="my-1 w-full justify-between gap-2 !bg-blue-900 px-4"
->
+<Button on:click={dialog.show} color="blue" variant="ghost" class="my-1 w-full justify-between gap-2 !bg-blue-900 px-4">
   <img
     class="inline-block h-8 w-8 rounded-full"
     src={$page.data.session.user.image}
@@ -98,8 +93,6 @@
 
   <div slot="footer" class="flex justify-between">
     <Button on:click={dialog.hide} variant="outlined" color="gray" class="gap-2 px-4">Close</Button>
-    <Button href="/logout" data-sveltekit-preload-data="tap" color="red" class="gap-2 px-4">
-      Logout
-    </Button>
-  </div></Dialog
->
+    <Button href="/logout" data-sveltekit-preload-data="tap" color="red" class="gap-2 px-4">Logout</Button>
+  </div>
+</Dialog>

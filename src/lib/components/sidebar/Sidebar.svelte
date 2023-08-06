@@ -2,7 +2,7 @@
   import { isSidebarOpenStore } from "$lib/stores"
   import { afterNavigate } from "$app/navigation"
 
-  import { Button, LoadingAlert, ErrorAlert } from "@codepiercer/svelte-tailwind"
+  import { Button, LoadingAlert, ErrorAlert } from "$lib/components/ui"
 
   import SidebarLink from "$lib/components/sidebar/SidebarLink.svelte"
   import SidebarFooter from "$lib/components/sidebar/SidebarFooter.svelte"
@@ -11,10 +11,7 @@
   import { createQuery } from "@tanstack/svelte-query"
   import { GET_ALL_ACCOUNT_TYPES_LEAN } from "$lib/graphql/client/accountType/queries"
 
-  const accountTypesQueryResult = createQuery(
-    [`GET_ALL_ACCOUNT_TYPES_LEAN`],
-    GET_ALL_ACCOUNT_TYPES_LEAN
-  )
+  const accountTypesQueryResult = createQuery([`GET_ALL_ACCOUNT_TYPES_LEAN`], GET_ALL_ACCOUNT_TYPES_LEAN)
 
   afterNavigate(() => {
     $isSidebarOpenStore = false
@@ -27,6 +24,8 @@
   class="fixed inset-0 z-20 opacity-50 transition-opacity lg:hidden"
   on:click={() => ($isSidebarOpenStore = false)}
   on:keyup={() => ($isSidebarOpenStore = false)}
+  role="button"
+  tabindex="0"
 />
 <div
   class:translate-x-0={$isSidebarOpenStore}
@@ -58,8 +57,9 @@
             {#if accountType.accounts.length > 0}
               <span
                 class="inline-flex w-fit items-center rounded bg-yellow-600/40 px-2 py-0.5 text-xs font-medium text-white"
-                >{accountType.name}</span
               >
+                {accountType.name}
+              </span>
               {#each accountType.accounts as account (account.id)}
                 {#if account.balance != 0}
                   <div class="flex items-center">

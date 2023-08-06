@@ -2,7 +2,7 @@
   export let transaction
   export let isInline = false
 
-  import { Button } from "@codepiercer/svelte-tailwind"
+  import { Button } from "$lib/components/ui"
   import CheckIcon from "$lib/components/icons/CheckIcon.svelte"
 
   import { createForm } from "svelte-forms-lib"
@@ -13,7 +13,7 @@
   import { INVALIDATE_QUERIES_FROM_MUTATION } from "$lib/utils/client/cacheInvalidation"
   import toast from "$lib/utils/client/toast"
 
-  import { TextEditDialog } from "@codepiercer/svelte-tailwind"
+  import { TextEditDialog } from "$lib/components/ui"
   import CurrencyView from "$lib/components/ui/CurrencyView.svelte"
 
   const queryClient = useQueryClient()
@@ -24,44 +24,40 @@
   const updateTransactionAmountMutation = createMutation(UPDATE_TRANSACTION_AMOUNT, {
     onSuccess: () => {
       queryClient.invalidateQueries({
-        predicate: ({ queryKey }) =>
-          INVALIDATE_QUERIES_FROM_MUTATION[`UPDATE_TRANSACTION_AMOUNT`].includes(queryKey[0])
+        predicate: ({ queryKey }) => INVALIDATE_QUERIES_FROM_MUTATION[`UPDATE_TRANSACTION_AMOUNT`].includes(queryKey[0])
       })
       toast.success(`Successfully updated`)
       setTimeout(onClose)
     }
   })
 
-  const { errors, touched, handleChange, handleSubmit, handleReset, updateInitialValues } =
-    createForm({
-      validationSchema: yup.object().shape({
-        amount: yup
-          .number()
-          .typeError(
-            `The amount should be a positive decimal with maximum two digits of decimal places`
-          )
-          .test(
-            `is-decimal`,
-            `The amount should be a positive decimal with maximum two digits of decimal places`,
-            (val) => {
-              if (val != undefined) {
-                return /^\d+(\.\d{0,2})?$/.test(val)
-              }
-              return true
+  const { errors, touched, handleChange, handleSubmit, handleReset, updateInitialValues } = createForm({
+    validationSchema: yup.object().shape({
+      amount: yup
+        .number()
+        .typeError(`The amount should be a positive decimal with maximum two digits of decimal places`)
+        .test(
+          `is-decimal`,
+          `The amount should be a positive decimal with maximum two digits of decimal places`,
+          (val) => {
+            if (val != undefined) {
+              return /^\d+(\.\d{0,2})?$/.test(val)
             }
-          )
-          .required()
-      }),
-      initialValues: {
-        amount: transaction.amount >= 0 ? transaction.amount : transaction.amount * -1
-      },
-      onSubmit: ({ amount }) => {
-        $updateTransactionAmountMutation.mutate({
-          id: transaction.id,
-          amount: isIncome ? parseFloat(amount) : parseFloat(amount) * -1
-        })
-      }
-    })
+            return true
+          }
+        )
+        .required()
+    }),
+    initialValues: {
+      amount: transaction.amount >= 0 ? transaction.amount : transaction.amount * -1
+    },
+    onSubmit: ({ amount }) => {
+      $updateTransactionAmountMutation.mutate({
+        id: transaction.id,
+        amount: isIncome ? parseFloat(amount) : parseFloat(amount) * -1
+      })
+    }
+  })
 
   const onClose = () => {
     handleReset()
@@ -109,7 +105,8 @@
           on:click={() => {
             isIncome = true
           }}
-          >INCOME
+        >
+          INCOME
           {#if isIncome}
             <CheckIcon />
           {/if}
@@ -121,16 +118,21 @@
           on:click={() => {
             isIncome = false
           }}
-          >EXPENSE
+        >
+          EXPENSE
           {#if !isIncome}
             <CheckIcon />
           {/if}
         </Button>
       {/if}
       {#if transaction.transferTo}
-        <Button size="sm" color="blue" variant="secondary" class="pointer-events-none"
-          >Transfer
-          {#if isIncome} from: {:else} to: {/if}
+        <Button size="sm" color="blue" variant="secondary" class="pointer-events-none">
+          Transfer
+          {#if isIncome}
+            from:
+          {:else}
+            to:
+          {/if}
           {#if isIncome}
             {transaction.account.name}
           {:else}

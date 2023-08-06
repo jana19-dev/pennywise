@@ -1,5 +1,5 @@
 <script>
-  import { Button } from "@codepiercer/svelte-tailwind"
+  import { Button } from "$lib/components/ui"
 </script>
 
 <div class="prose flex h-screen max-w-none flex-col items-center justify-center">

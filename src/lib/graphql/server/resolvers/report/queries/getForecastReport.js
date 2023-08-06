@@ -123,12 +123,7 @@ export default async function handler(parent, args, context) {
 
   // construct the table response
   const table = {
-    labels: [
-      `Account`,
-      `Current Balance`,
-      ...response.map((dateRange) => dateRange.day),
-      `Forecasted Balance`
-    ],
+    labels: [`Account`, `Current Balance`, ...response.map((dateRange) => dateRange.day), `Forecasted Balance`],
     rows: []
   }
 

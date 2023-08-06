@@ -3,8 +3,8 @@
   export let accountType = {}
   export let initialValue = ``
 
-  import { Button, FormDialog, DateInput, TextInput } from "@codepiercer/svelte-tailwind"
-  import PlusIcon from "@codepiercer/svelte-tailwind/icons/PlusIcon.svelte"
+  import { Button, FormDialog, DateInput, TextInput } from "$lib/components/ui"
+  import PlusIcon from "$lib/components/icons/PlusIcon.svelte"
 
   import SelectAccountTypeInput from "$lib/components/select/SelectAccountTypeInput.svelte"
 
@@ -16,7 +16,7 @@
   import { INVALIDATE_QUERIES_FROM_MUTATION } from "$lib/utils/client/cacheInvalidation"
   import toast from "$lib/utils/client/toast"
 
-  import { formatDate } from "@codepiercer/svelte-tailwind/utils/date"
+  import { formatDate } from "$lib/utils/client/date"
 
   const queryClient = useQueryClient()
 
@@ -27,16 +27,12 @@
       openingDate: yup.string().required(),
       openingBalance: yup
         .number()
-        .test(
-          `is-decimal`,
-          `The amount should be a decimal with maximum two digits after comma`,
-          (val) => {
-            if (val != undefined) {
-              return /^-?\d+(\.\d{0,2})?$/.test(val)
-            }
-            return true
+        .test(`is-decimal`, `The amount should be a decimal with maximum two digits after comma`, (val) => {
+          if (val != undefined) {
+            return /^-?\d+(\.\d{0,2})?$/.test(val)
           }
-        )
+          return true
+        })
         .required()
     }),
     initialValues: {
@@ -63,8 +59,7 @@
     onSuccess: () => {
       toast.success(`Successfully created the account`)
       queryClient.invalidateQueries({
-        predicate: ({ queryKey }) =>
-          INVALIDATE_QUERIES_FROM_MUTATION[`CREATE_ACCOUNT_TYPE`].includes(queryKey[0])
+        predicate: ({ queryKey }) => INVALIDATE_QUERIES_FROM_MUTATION[`CREATE_ACCOUNT_TYPE`].includes(queryKey[0])
       })
       setTimeout(onClose)
     }
@@ -85,7 +80,7 @@
 
 <FormDialog
   bind:dialog
-  title="Crate new {accountType?.name || ''} account"
+  title="Crate new {accountType?.name || ``} account"
   error={$createAccountMutation?.error?.message}
   isLoading={$createAccountMutation.isLoading}
   on:submit={handleSubmit}

@@ -1,5 +1,5 @@
 <script>
-  import { LoadingAlert, ErrorAlert } from "@codepiercer/svelte-tailwind"
+  import { LoadingAlert, ErrorAlert } from "$lib/components/ui"
 
   import TableWrapper from "$lib/components/table/TableWrapper.svelte"
   import TableMetrics from "$lib/components/table/TableMetrics.svelte"
@@ -70,12 +70,14 @@
           {:else if $queryResult.isError}
             <ErrorAlert>Error: {$queryResult.error.message}</ErrorAlert>
           {:else}
-            <ErrorAlert
-              >No <strong>accounts</strong> found
+            <ErrorAlert>
+              No <strong>accounts</strong>
+              found
               {#if search && searchField}
                 with
-                <strong>{searchField}{subSearchField && `->${subSearchField}`} </strong>
-                having <strong>{search} </strong>
+                <strong>{searchField}{subSearchField && `->${subSearchField}`}</strong>
+                having
+                <strong>{search}</strong>
               {/if}
             </ErrorAlert>
           {/if}

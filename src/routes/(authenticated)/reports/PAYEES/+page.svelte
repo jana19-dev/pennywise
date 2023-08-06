@@ -2,7 +2,7 @@
   import ReportBody from "$lib/components/application/report/ReportBody.svelte"
 
   import DateRangePicker from "$lib/components/application/report/DateRangePicker.svelte"
-  import { formatDate } from "@codepiercer/svelte-tailwind/utils/date"
+  import { formatDate } from "$lib/utils/client/date"
 
   import { createQuery } from "@tanstack/svelte-query"
   import { GET_PAYEES_REPORT } from "$lib/graphql/client/report/queries"
@@ -27,9 +27,7 @@
 <div class="flex min-h-full flex-col overflow-auto bg-white">
   <div class="mb-4 rounded-md p-4 shadow-md">
     <div class="flex flex-col items-center justify-between gap-4 lg:flex-row">
-      <h1 class="hidden gap-2 text-2xl font-semibold tracking-tight text-gray-900 lg:inline-flex">
-        Summary by Payee
-      </h1>
+      <h1 class="hidden gap-2 text-2xl font-semibold tracking-tight text-gray-900 lg:inline-flex">Summary by Payee</h1>
       <DateRangePicker bind:dateRange />
     </div>
   </div>

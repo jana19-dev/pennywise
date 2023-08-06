@@ -2,7 +2,7 @@
   import { goto } from "$app/navigation"
   import { page } from "$app/stores"
 
-  import { TextInput } from "@codepiercer/svelte-tailwind"
+  import { TextInput } from "$lib/components/ui"
 
   import TableHeaderCell from "$lib/components/table/TableHeaderCell.svelte"
   import TableHeaderSort from "$lib/components/table/TableHeaderSort.svelte"
@@ -33,9 +33,7 @@
   const handleChange = (e, searchParamsString) => {
     e.target.value = e.target.value.trim()
     const { name, value } = e.target
-    const searchParams = new URLSearchParams(
-      searchParamsString || $page.url.searchParams.toString()
-    )
+    const searchParams = new URLSearchParams(searchParamsString || $page.url.searchParams.toString())
     searchParams.set(`searchField`, name)
     searchParams.set(`search`, value)
     if (value === ``) {

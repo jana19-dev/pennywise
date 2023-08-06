@@ -2,8 +2,8 @@
   export let initialValue = ``
   export let dialog
 
-  import { Button, FormDialog, TextInput } from "@codepiercer/svelte-tailwind"
-  import PlusIcon from "@codepiercer/svelte-tailwind/icons/PlusIcon.svelte"
+  import { Button, FormDialog, TextInput } from "$lib/components/ui"
+  import PlusIcon from "$lib/components/icons/PlusIcon.svelte"
 
   import { createForm } from "svelte-forms-lib"
   import * as yup from "yup"
@@ -19,8 +19,7 @@
     onSuccess: () => {
       toast.success(`Successfully created the account type`)
       queryClient.invalidateQueries({
-        predicate: ({ queryKey }) =>
-          INVALIDATE_QUERIES_FROM_MUTATION[`CREATE_PAYEE`].includes(queryKey[0])
+        predicate: ({ queryKey }) => INVALIDATE_QUERIES_FROM_MUTATION[`CREATE_PAYEE`].includes(queryKey[0])
       })
       setTimeout(onClose)
     }

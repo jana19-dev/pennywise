@@ -39,11 +39,7 @@ export default async function handler(parent, args, context) {
     })
   }
 
-  if (
-    !transactionExists.transferId &&
-    !transactionExists.payeeId &&
-    !transactionExists.categoryId
-  ) {
+  if (!transactionExists.transferId && !transactionExists.payeeId && !transactionExists.categoryId) {
     throw new GraphQLError(
       `You cannot delete an opening balance transaction. Only allowed to update the date, amount or memo. `,
       {

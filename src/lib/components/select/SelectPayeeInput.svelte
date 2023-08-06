@@ -6,8 +6,8 @@
   export let error = null
   export let direction = `bottom`
 
-  import { Button, SelectInput } from "@codepiercer/svelte-tailwind"
-  import PlusIcon from "@codepiercer/svelte-tailwind/icons/PlusIcon.svelte"
+  import { Button, SelectInput } from "$lib/components/ui"
+  import PlusIcon from "$lib/components/icons/PlusIcon.svelte"
 
   import { createQuery } from "@tanstack/svelte-query"
   import { GET_ALL_PAYEES_LEAN } from "$lib/graphql/client/payee/queries"
@@ -35,17 +35,16 @@
   error={$queryResult.error?.message || error}
   isLoading={$queryResult.isLoading}
   {...$$props}
-  let:searchValue
   on:select
 >
   <slot />
   <slot name="label" slot="label">
     {label}
   </slot>
-  <CreatePayee slot="addNew" bind:dialog initialValue={searchValue}>
-    <Button variant="outlined" on:click={dialog.show} size="sm"
-      ><PlusIcon class="-ml-2" />
-      new: {searchValue}</Button
-    >
+  <CreatePayee slot="addNew" let:searchValue bind:dialog initialValue={searchValue}>
+    <Button variant="outlined" on:click={dialog.show} size="sm">
+      <PlusIcon class="-ml-2" />
+      new: {searchValue}
+    </Button>
   </CreatePayee>
 </SelectInput>

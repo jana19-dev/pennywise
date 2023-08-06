@@ -1,8 +1,8 @@
 <script>
   export let transaction
 
-  import { FormDialog, Button } from "@codepiercer/svelte-tailwind"
-  import TrashIcon from "@codepiercer/svelte-tailwind/icons/TrashIcon.svelte"
+  import { FormDialog, Button } from "$lib/components/ui"
+  import TrashIcon from "$lib/components/icons/TrashIcon.svelte"
 
   import CurrencyView from "$lib/components/ui/CurrencyView.svelte"
 
@@ -19,8 +19,7 @@
     onSuccess: () => {
       toast.success(`Successfully deleted the transaction`)
       queryClient.invalidateQueries({
-        predicate: ({ queryKey }) =>
-          INVALIDATE_QUERIES_FROM_MUTATION[`DELETE_TRANSACTION`].includes(queryKey[0])
+        predicate: ({ queryKey }) => INVALIDATE_QUERIES_FROM_MUTATION[`DELETE_TRANSACTION`].includes(queryKey[0])
       })
       setTimeout(onClose)
     }
@@ -67,9 +66,7 @@
     <p class="text-base text-gray-500">Are you sure you want to delete this transaction?</p>
     <div class="-mt-4 flex max-h-20 flex-wrap gap-2 overflow-y-auto">
       <p class="inline-block rounded-md bg-orange-50 p-2 px-2">
-        {transaction.payee?.name || transaction.transferTo?.account?.name}: <CurrencyView
-          amount={transaction.amount}
-        />
+        {transaction.payee?.name || transaction.transferTo?.account?.name}: <CurrencyView amount={transaction.amount} />
       </p>
     </div>
   </div>

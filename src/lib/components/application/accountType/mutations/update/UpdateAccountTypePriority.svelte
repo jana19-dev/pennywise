@@ -10,7 +10,7 @@
   import { INVALIDATE_QUERIES_FROM_MUTATION } from "$lib/utils/client/cacheInvalidation"
   import toast from "$lib/utils/client/toast"
 
-  import { TextEditDialog } from "@codepiercer/svelte-tailwind"
+  import { TextEditDialog } from "$lib/components/ui"
 
   const queryClient = useQueryClient()
 
@@ -27,21 +27,20 @@
     }
   })
 
-  const { errors, touched, handleChange, handleSubmit, handleReset, updateInitialValues } =
-    createForm({
-      validationSchema: yup.object().shape({
-        priority: yup.number()
-      }),
-      initialValues: {
-        priority: accountType.priority
-      },
-      onSubmit: ({ priority }) => {
-        $updateAccountTypePriorityMutation.mutate({
-          id: accountType.id,
-          priority: parseInt(priority)
-        })
-      }
-    })
+  const { errors, touched, handleChange, handleSubmit, handleReset, updateInitialValues } = createForm({
+    validationSchema: yup.object().shape({
+      priority: yup.number()
+    }),
+    initialValues: {
+      priority: accountType.priority
+    },
+    onSubmit: ({ priority }) => {
+      $updateAccountTypePriorityMutation.mutate({
+        id: accountType.id,
+        priority: parseInt(priority)
+      })
+    }
+  })
 
   const onClose = () => {
     handleReset()

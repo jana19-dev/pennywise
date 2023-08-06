@@ -5,7 +5,7 @@
   import { createForm } from "svelte-forms-lib"
   import * as yup from "yup"
 
-  import { SelectInputEditDialog } from "@codepiercer/svelte-tailwind"
+  import { SelectInputEditDialog } from "$lib/components/ui"
   import SelectAccountTypeInput from "$lib/components/select/SelectAccountTypeInput.svelte"
 
   import { createMutation, useQueryClient } from "@tanstack/svelte-query"
@@ -20,8 +20,7 @@
   const updateAccountTypeMutation = createMutation(UPDATE_ACCOUNT_TYPE, {
     onSuccess: () => {
       queryClient.invalidateQueries({
-        predicate: ({ queryKey }) =>
-          INVALIDATE_QUERIES_FROM_MUTATION[`UPDATE_ACCOUNT_TYPE`].includes(queryKey[0])
+        predicate: ({ queryKey }) => INVALIDATE_QUERIES_FROM_MUTATION[`UPDATE_ACCOUNT_TYPE`].includes(queryKey[0])
       })
       toast.success(`Successfully updated`)
       setTimeout(onClose)
