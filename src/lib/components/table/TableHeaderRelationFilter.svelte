@@ -134,7 +134,7 @@
   on:pickDate={handleDateChange}
   color="gray"
 >
-  <DropdownMenu color="gray" let:closeMenu placement="bottom-left">
+  <DropdownMenu color="gray" placement="bottom-left">
     <Button
       slot="trigger"
       let:onOpen
@@ -148,7 +148,7 @@
       <span class="sr-only">Filter by</span>
       <ChevronDownIcon />
     </Button>
-    <div slot="content" let:menuItemProps class="min-w-[12rem]">
+    <div slot="content" let:closeMenu let:menuItemProps class="min-w-[12rem]">
       <div class="flex flex-col gap-2 bg-white p-1" role="none">
         {#each Object.keys(filters) as filter (filter + searchField)}
           {@const isSelected = activeSubSearchField === filter}

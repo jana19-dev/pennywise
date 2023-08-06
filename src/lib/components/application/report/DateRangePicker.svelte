@@ -64,7 +64,7 @@
       options={{ minDate: dateRange.startDate, maxDate: today }}
       class="min-w-[10rem]"
     />
-    <DropdownMenu color="gray" let:closeMenu placement="bottom-left" class="mt-12">
+    <DropdownMenu color="gray" placement="bottom-left" class="mt-12">
       <Button
         slot="trigger"
         let:triggerProps
@@ -78,7 +78,7 @@
         <span class="sr-only">Quick Ranges</span>
         <ChevronDownIcon />
       </Button>
-      <div slot="content" let:menuItemProps class="min-w-[12rem]">
+      <div slot="content" let:closeMenu let:menuItemProps class="min-w-[12rem]">
         <div class="flex flex-col gap-2 bg-white p-1" role="none">
           {#each quickRanges as { label, ...range }}
             <Button
