@@ -22,6 +22,7 @@
     "@tanstack/svelte-query": "4.32.6",
     "@zerodevx/svelte-toast": "0.9.5",
     "autoprefixer": "10.4.14",
+    "csvtojson": "2.0.10",
     "eslint": "8.46.0",
     "eslint-config-prettier": "9.0.0",
     "eslint-plugin-svelte": "2.32.4",
@@ -38,7 +39,7 @@
     "svelte-forms-lib": "2.0.1",
     "tailwind-merge": "1.14.0",
     "tailwindcss": "3.3.3",
-    "vite": "^4.4.8",
+    "vite": "4.4.8",
     "yup": "1.2.0"
   },
   "dependencies": {
