@@ -74,12 +74,12 @@ export default async function handler(parent, args, context) {
     .then((result) => result._sum.amount)
 
   orderBy.push({
+    createdAt: `asc`
+  })
+  orderBy.push({
     payee: {
       name: `desc`
     }
-  })
-  orderBy.push({
-    createdAt: `desc`
   })
   const dataPromise = context.prisma.transaction.findMany({
     where,
@@ -136,7 +136,15 @@ export default async function handler(parent, args, context) {
   response.metrics.filteredSum = filteredSum
 
   // add data to response
-  response.data = data
+  response.data = data.map((transaction, idx) => {
+    const cumulativeSum = data.slice(0, idx).reduce((acc, curr) => acc + curr.amount, 0)
+    return {
+      ...transaction,
+      runningBalance: parseFloat(response.metrics.filteredSum - cumulativeSum)
+        .toFixed(2)
+        .replace(/\B(?=(\d{3})+(?!\d))/g, `,`)
+    }
+  })
 
   return response
 }

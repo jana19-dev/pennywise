@@ -65,10 +65,10 @@
 <div class="h-full overflow-y-auto p-2 pt-0" class:pointer-events-none={$queryResult.isLoading}>
   <TableWrapper>
     <tr slot="header">
-      <TransactionHeader />
+      <TransactionHeader isAccountView={false} />
     </tr>
     {#each allData as transaction, index (transaction.id)}
-      <TransactionRow {transaction} isLastItem={allData.length === index + 1} {queryResult} />
+      <TransactionRow {transaction} isLastItem={allData.length === index + 1} {queryResult} isAccountView={false} />
     {:else}
       <tr>
         <td colspan="100%">

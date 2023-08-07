@@ -1,4 +1,6 @@
 <script>
+  export let isAccountView = true
+
   import { goto } from "$app/navigation"
   import { page } from "$app/stores"
 
@@ -150,3 +152,6 @@
     </div>
   </TextInput>
 </TableHeaderCell>
+{#if isAccountView}
+  <TableHeaderCell>&nbsp;</TableHeaderCell>
+{/if}

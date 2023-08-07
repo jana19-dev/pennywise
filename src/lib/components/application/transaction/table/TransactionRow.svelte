@@ -1,4 +1,5 @@
 <script>
+  export let isAccountView = true
   export let transaction
   export let isLastItem = false
   export let queryResult
@@ -34,11 +35,7 @@
   }
 </script>
 
-<tr
-  class="h-10"
-  use:actionWhenInViewport
-  class:bg-yellow-100={new Date(transaction.date) > new Date()}
->
+<tr class="h-10" use:actionWhenInViewport class:bg-yellow-100={new Date(transaction.date) > new Date()}>
   <TableCell>
     <DeleteTransaction {transaction} />
   </TableCell>
@@ -50,9 +47,13 @@
   </TableCell>
   {#if transaction.transferTo}
     <TableCell>
-      <span
-        >TRANSFER {#if transaction.amount > 0} FROM {:else} TO {/if}</span
-      >
+      <span>
+        TRANSFER {#if transaction.amount > 0}
+          FROM
+        {:else}
+          TO
+        {/if}
+      </span>
     </TableCell>
     <TableCell>
       {transaction.transferTo.account.name}
@@ -60,10 +61,9 @@
   {:else if !transaction.transferTo && !transaction.payee && !transaction.category}
     <TableCell colspan={2}>
       <div class="font-semibold">
-        <span
-          class="inline-flex items-center rounded-md bg-yellow-100 px-2 py-0.5 text-xs text-yellow-800"
-          >Opening Balance</span
-        >
+        <span class="inline-flex items-center rounded-md bg-yellow-100 px-2 py-0.5 text-xs text-yellow-800">
+          Opening Balance
+        </span>
       </div>
     </TableCell>
   {:else}
@@ -80,4 +80,11 @@
   <TableCell>
     <UpdateTransactionAmount {transaction} isInline />
   </TableCell>
+  {#if isAccountView}
+    <TableCell>
+      <p class="text-xs text-gray-500 rounded-md tabular-nums">
+        {transaction.runningBalance}
+      </p>
+    </TableCell>
+  {/if}
 </tr>
