@@ -82,7 +82,7 @@
   </TableCell>
   {#if isAccountView}
     <TableCell>
-      <p class="text-xs text-gray-500 rounded-md tabular-nums">
+      <p class="text-xs text-gray-500 rounded-md tabular-nums text-right">
         {transaction.runningBalance}
       </p>
     </TableCell>
