@@ -50,9 +50,19 @@
 
   $: allData = $queryResult.data?.pages?.map(({ data }) => data).flat() || []
   $: metrics = $queryResult.data?.pages[0]?.metrics || {}
+
+  $: allDataWithRunningBalance = allData.map((transaction, idx) => {
+    const cumulativeSum = allData.slice(0, idx).reduce((acc, curr) => acc + curr.amount, 0)
+    return {
+      ...transaction,
+      runningBalance: parseFloat(metrics.filteredSum - cumulativeSum)
+        .toFixed(2)
+        .replace(/\B(?=(\d{3})+(?!\d))/g, `,`)
+    }
+  })
 </script>
 
-<TableMetrics {metrics} count={allData.length} {queryResult}>
+<TableMetrics {metrics} count={allDataWithRunningBalance.length} {queryResult}>
   <div class="flex items-center gap-2">
     <h1 class="hidden text-xl font-medium leading-6 text-gray-900 sm:truncate lg:flex">
       {$page.data?.title || ``}
@@ -68,8 +78,8 @@
     <tr slot="header">
       <TransactionHeader />
     </tr>
-    {#each allData as transaction, index (transaction.id)}
-      <TransactionRow {transaction} isLastItem={allData.length === index + 1} {queryResult} />
+    {#each allDataWithRunningBalance as transaction, index (transaction.id)}
+      <TransactionRow {transaction} isLastItem={allDataWithRunningBalance.length === index + 1} {queryResult} />
     {:else}
       <tr>
         <td colspan="100%">

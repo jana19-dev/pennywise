@@ -136,15 +136,7 @@ export default async function handler(parent, args, context) {
   response.metrics.filteredSum = filteredSum
 
   // add data to response
-  response.data = data.map((transaction, idx) => {
-    const cumulativeSum = data.slice(0, idx).reduce((acc, curr) => acc + curr.amount, 0)
-    return {
-      ...transaction,
-      runningBalance: parseFloat(response.metrics.filteredSum - cumulativeSum)
-        .toFixed(2)
-        .replace(/\B(?=(\d{3})+(?!\d))/g, `,`)
-    }
-  })
+  response.data = data
 
   return response
 }
