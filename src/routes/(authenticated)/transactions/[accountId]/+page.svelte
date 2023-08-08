@@ -51,15 +51,20 @@
   $: allData = $queryResult.data?.pages?.map(({ data }) => data).flat() || []
   $: metrics = $queryResult.data?.pages[0]?.metrics || {}
 
-  $: allDataWithRunningBalance = allData.map((transaction, idx) => {
-    const cumulativeSum = allData.slice(0, idx).reduce((acc, curr) => acc + curr.amount, 0)
-    return {
-      ...transaction,
-      runningBalance: parseFloat(metrics.filteredSum - cumulativeSum)
-        .toFixed(2)
-        .replace(/\B(?=(\d{3})+(?!\d))/g, `,`)
+  let allDataWithRunningBalance = []
+  $: if (metrics.filteredSum) {
+    allDataWithRunningBalance = []
+    let lastRunningBalance = metrics.filteredSum
+    for (const transaction of allData) {
+      allDataWithRunningBalance.push({
+        ...transaction,
+        runningBalance: parseFloat(lastRunningBalance)
+          .toFixed(2)
+          .replace(/\B(?=(\d{3})+(?!\d))/g, `,`)
+      })
+      lastRunningBalance -= transaction.amount
     }
-  })
+  }
 </script>
 
 <TableMetrics {metrics} count={allDataWithRunningBalance.length} {queryResult}>
