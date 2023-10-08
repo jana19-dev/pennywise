@@ -11,13 +11,7 @@ export const GET_ALL_TRANSACTIONS = ({ queryKey: [, variables] = [], pageParam =
           $searchField: String
           $subSearchField: String
         ) {
-          getAllTransactions(
-            skip: $skip
-            orderBy: $orderBy
-            search: $search
-            searchField: $searchField
-            subSearchField: $subSearchField
-          )
+          getAllTransactions(skip: $skip, orderBy: $orderBy, search: $search, searchField: $searchField, subSearchField: $subSearchField)
         }
       `,
       { ...variables, skip: pageParam }

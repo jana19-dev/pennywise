@@ -75,9 +75,7 @@
   const handleOptionSelect = ({ detail }) => {
     const { name, option } = detail
     // check if option.value is a uuid; if so, use option.label instead
-    if (
-      option.value.match(/^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-5][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}$/)
-    ) {
+    if (option.value.match(/^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-5][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}$/)) {
       handleSubSearchFieldValueChange({
         target: {
           name,
@@ -135,16 +133,7 @@
   color="gray"
 >
   <DropdownMenu color="gray" placement="bottom-left">
-    <Button
-      slot="trigger"
-      let:onOpen
-      on:click={onOpen}
-      let:triggerProps
-      {...triggerProps}
-      color="gray"
-      variant="ghost"
-      class="p-0"
-    >
+    <Button slot="trigger" let:onOpen on:click={onOpen} let:triggerProps {...triggerProps} color="gray" variant="ghost" class="p-0">
       <span class="sr-only">Filter by</span>
       <ChevronDownIcon />
     </Button>

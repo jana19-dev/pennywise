@@ -49,9 +49,7 @@
         <span class="inline-flex items-center rounded-md px-2.5 py-0.5 text-sm font-medium uppercase text-gray-800">
           {key}:
         </span>
-        <span
-          class="inline-flex items-center rounded-md bg-yellow-100 px-2.5 py-0.5 text-sm font-medium uppercase text-yellow-800"
-        >
+        <span class="inline-flex items-center rounded-md bg-yellow-100 px-2.5 py-0.5 text-sm font-medium uppercase text-yellow-800">
           {value}
         </span>
       </div>
@@ -97,9 +95,7 @@
           {:else if !transaction.transferTo && !transaction.payee && !transaction.category}
             <TableCell colspan={2}>
               <div class="font-semibold">
-                <span class="inline-flex items-center rounded-md bg-yellow-100 px-2 py-0.5 text-xs text-yellow-800">
-                  Opening Balance
-                </span>
+                <span class="inline-flex items-center rounded-md bg-yellow-100 px-2 py-0.5 text-xs text-yellow-800">Opening Balance</span>
               </div>
             </TableCell>
           {:else}
@@ -127,7 +123,7 @@
             {:else}
               <ErrorAlert>
                 No <strong>transactions</strong>
-                 found
+                found
               </ErrorAlert>
             {/if}
           </td>

@@ -11,13 +11,7 @@ export const GET_ALL_ACCOUNTS = ({ queryKey: [, variables] = [], pageParam = 0 }
           $searchField: String
           $subSearchField: String
         ) {
-          getAllAccounts(
-            skip: $skip
-            orderBy: $orderBy
-            search: $search
-            searchField: $searchField
-            subSearchField: $subSearchField
-          )
+          getAllAccounts(skip: $skip, orderBy: $orderBy, search: $search, searchField: $searchField, subSearchField: $subSearchField)
         }
       `,
       { ...variables, skip: pageParam }

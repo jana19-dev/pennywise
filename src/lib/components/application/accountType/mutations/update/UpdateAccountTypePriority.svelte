@@ -20,8 +20,7 @@
     onSuccess: () => {
       toast.success(`Successfully updated`)
       queryClient.invalidateQueries({
-        predicate: ({ queryKey }) =>
-          INVALIDATE_QUERIES_FROM_MUTATION[`UPDATE_ACCOUNT_TYPE_PRIORITY`].includes(queryKey[0])
+        predicate: ({ queryKey }) => INVALIDATE_QUERIES_FROM_MUTATION[`UPDATE_ACCOUNT_TYPE_PRIORITY`].includes(queryKey[0])
       })
       setTimeout(onClose)
     }

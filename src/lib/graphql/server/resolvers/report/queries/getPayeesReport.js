@@ -114,9 +114,7 @@ export default async function handler(parent, args, context) {
   table.rows.push([
     `Net`,
     ...response.map((dateRange) => dateRange.total),
-    parseFloat(
-      parseFloat(response.reduce((acc, dateRange) => acc + dateRange.total, 0)) / parseFloat(response.length)
-    ).toFixed(2)
+    parseFloat(parseFloat(response.reduce((acc, dateRange) => acc + dateRange.total, 0)) / parseFloat(response.length)).toFixed(2)
   ])
 
   Object.keys(payeesMap).forEach((payeeId) => {

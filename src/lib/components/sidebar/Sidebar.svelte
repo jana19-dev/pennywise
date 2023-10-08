@@ -55,9 +55,7 @@
         <div class="flex flex-1 flex-col gap-2 px-1">
           {#each $accountTypesQueryResult.data as accountType (accountType.id)}
             {#if accountType.accounts.length > 0}
-              <span
-                class="inline-flex w-fit items-center rounded bg-yellow-600/40 px-2 py-0.5 text-xs font-medium text-white"
-              >
+              <span class="inline-flex w-fit items-center rounded bg-yellow-600/40 px-2 py-0.5 text-xs font-medium text-white">
                 {accountType.name}
               </span>
               {#each accountType.accounts as account (account.id)}

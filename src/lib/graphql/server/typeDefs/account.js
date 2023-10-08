@@ -5,25 +5,13 @@ export default /* GraphQL */ `
   }
 
   type Query {
-    getAllAccounts(
-      skip: Int
-      orderBy: [AccountOrderByInput!]
-      search: String
-      searchField: String
-      subSearchField: String
-    ): JSON!
+    getAllAccounts(skip: Int, orderBy: [AccountOrderByInput!], search: String, searchField: String, subSearchField: String): JSON!
 
     getAllAccountsLean(search: String): JSON!
   }
 
   type Mutation {
-    createAccount(
-      name: String!
-      accountTypeId: ID!
-      openingDate: Date!
-      openingBalance: Float!
-      description: String
-    ): JSON!
+    createAccount(name: String!, accountTypeId: ID!, openingDate: Date!, openingBalance: Float!, description: String): JSON!
 
     updateAccountName(id: ID!, name: String!): JSON!
     updateAccountType(id: ID!, accountTypeId: ID!): JSON!

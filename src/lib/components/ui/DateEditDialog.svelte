@@ -87,19 +87,7 @@
 </div>
 
 <FormDialog bind:dialog title={`Update ${label}`} error={serverError} {isLoading} on:close={onClose} on:submit>
-  <DateInputInline
-    on:pickDate
-    {color}
-    {type}
-    {label}
-    {name}
-    {error}
-    {value}
-    {isRequired}
-    {placeholder}
-    {inputClass}
-    {options}
-  />
+  <DateInputInline on:pickDate {color} {type} {label} {name} {error} {value} {isRequired} {placeholder} {inputClass} {options} />
   <slot name="info" />
 </FormDialog>
 

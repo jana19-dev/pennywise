@@ -14,11 +14,7 @@
 </script>
 
 <Button on:click={dialog.show} color="blue" variant="ghost" class="my-1 w-full justify-between gap-2 !bg-blue-900 px-4">
-  <img
-    class="inline-block h-8 w-8 rounded-full"
-    src={$page.data.session.user.image}
-    alt={$page.data.session.user.name}
-  />
+  <img class="inline-block h-8 w-8 rounded-full" src={$page.data.session.user.image} alt={$page.data.session.user.name} />
   <span class="flex flex-col gap-1 text-right text-xs">
     <p class="text-md font-semibold text-gray-50">
       {$page.data.session.user.name}
@@ -37,11 +33,7 @@
         <div class="sm:flex sm:items-center sm:justify-between">
           <div class="sm:flex sm:space-x-5">
             <div class="flex-shrink-0">
-              <img
-                class="mx-auto h-20 w-20 rounded-full"
-                src={$page.data.session.user.image}
-                alt={$page.data.session.user.name}
-              />
+              <img class="mx-auto h-20 w-20 rounded-full" src={$page.data.session.user.image} alt={$page.data.session.user.name} />
             </div>
             <div class="mt-4 text-center sm:mt-0 sm:pt-1 sm:text-left">
               <p class="text-xl font-bold text-gray-900 sm:text-2xl">

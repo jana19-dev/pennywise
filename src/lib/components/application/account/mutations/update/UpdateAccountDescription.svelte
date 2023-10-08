@@ -19,8 +19,7 @@
   const updateAccountDescriptionMutation = createMutation(UPDATE_ACCOUNT_DESCRIPTION, {
     onSuccess: () => {
       queryClient.invalidateQueries({
-        predicate: ({ queryKey }) =>
-          INVALIDATE_QUERIES_FROM_MUTATION[`UPDATE_ACCOUNT_DESCRIPTION`].includes(queryKey[0])
+        predicate: ({ queryKey }) => INVALIDATE_QUERIES_FROM_MUTATION[`UPDATE_ACCOUNT_DESCRIPTION`].includes(queryKey[0])
       })
       toast.success(`Successfully updated`)
       setTimeout(onClose)

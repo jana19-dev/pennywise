@@ -11,13 +11,7 @@ export const GET_ALL_CATEGORIES = ({ queryKey: [, variables] = [], pageParam = 0
           $searchField: String
           $subSearchField: String
         ) {
-          getAllCategories(
-            skip: $skip
-            orderBy: $orderBy
-            search: $search
-            searchField: $searchField
-            subSearchField: $subSearchField
-          )
+          getAllCategories(skip: $skip, orderBy: $orderBy, search: $search, searchField: $searchField, subSearchField: $subSearchField)
         }
       `,
       { ...variables, skip: pageParam }

@@ -56,11 +56,8 @@ let remainingTransactions = [...transactionsFromSystem]
 for (const transactionFromCSV of transactionsFromCSV) {
   const transactionFromSystem = remainingTransactions.find((transactionFromSystem) => {
     const isSameAmountExpense =
-      Math.abs(
-        parseFloat(
-          typeof transactionFromCSV.Cardholder === `string` ? transactionFromCSV.Amount : transactionFromCSV.Cardholder
-        )
-      ) == Math.abs(parseFloat(transactionFromSystem.amount))
+      Math.abs(parseFloat(typeof transactionFromCSV.Cardholder === `string` ? transactionFromCSV.Amount : transactionFromCSV.Cardholder)) ==
+      Math.abs(parseFloat(transactionFromSystem.amount))
     return isSameAmountExpense
   })
   if (!transactionFromSystem) {

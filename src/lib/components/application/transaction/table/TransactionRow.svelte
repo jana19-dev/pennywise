@@ -61,9 +61,7 @@
   {:else if !transaction.transferTo && !transaction.payee && !transaction.category}
     <TableCell colspan={2}>
       <div class="font-semibold">
-        <span class="inline-flex items-center rounded-md bg-yellow-100 px-2 py-0.5 text-xs text-yellow-800">
-          Opening Balance
-        </span>
+        <span class="inline-flex items-center rounded-md bg-yellow-100 px-2 py-0.5 text-xs text-yellow-800">Opening Balance</span>
       </div>
     </TableCell>
   {:else}
@@ -82,7 +80,7 @@
   </TableCell>
   {#if isAccountView}
     <TableCell>
-      <p class="text-xs text-gray-500 rounded-md tabular-nums text-right">
+      <p class="rounded-md text-right text-xs tabular-nums text-gray-500">
         {transaction.runningBalance}
       </p>
     </TableCell>

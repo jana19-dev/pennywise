@@ -12,5 +12,7 @@
   class:border-blue-800={bg === `blue`}
   class:border-gray-200={bg === `white`}
   class:text-gray-900={bg === `white`}
-  class:text-white={bg === `blue`}><slot /></th
+  class:text-white={bg === `blue`}
 >
+  <slot />
+</th>

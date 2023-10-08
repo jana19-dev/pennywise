@@ -23,21 +23,10 @@
   }
 </script>
 
-<div
-  class="flex cursor-pointer items-center gap-1"
-  on:click|preventDefault={handleSort}
-  on:keyup={handleSort}
-  role="button"
-  tabindex="0"
->
+<div class="flex cursor-pointer items-center gap-1" on:click|preventDefault={handleSort} on:keyup={handleSort} role="button" tabindex="0">
   <slot>{label}</slot>
   {#if isThisFieldActive}
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      viewBox="0 0 20 20"
-      fill="currentColor"
-      class="h-4 w-4 rounded-md bg-yellow-200"
-    >
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="h-4 w-4 rounded-md bg-yellow-200">
       {#if activeOrderBy !== orderByField}
         <path
           fill-rule="evenodd"

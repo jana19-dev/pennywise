@@ -76,14 +76,7 @@
   </div>
 
   {#if isVisible}
-    <Button
-      class={isInline ? `absolute right-0` : ``}
-      size="small"
-      variant="outlined"
-      on:click={dialog.show}
-      {color}
-      {isDisabled}
-    >
+    <Button class={isInline ? `absolute right-0` : ``} size="small" variant="outlined" on:click={dialog.show} {color} {isDisabled}>
       <PencilSquareIcon />
       <span class="sr-only">Edit</span>
     </Button>
@@ -100,20 +93,7 @@
   class={twMerge(`min-h-[14rem]`, dialogClass)}
 >
   <slot name="input">
-    <SelectInput
-      on:select
-      {isLoading}
-      {error}
-      {value}
-      {name}
-      {color}
-      {isRequired}
-      {label}
-      {options}
-      {inputClass}
-      {hideIcon}
-      {isDisabled}
-    />
+    <SelectInput on:select {isLoading} {error} {value} {name} {color} {isRequired} {label} {options} {inputClass} {hideIcon} {isDisabled} />
   </slot>
   <slot name="info" />
 </FormDialog>

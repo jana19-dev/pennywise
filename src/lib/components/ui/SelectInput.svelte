@@ -121,20 +121,8 @@
   }
 </script>
 
-<div
-  use:clickOutside
-  on:clickOutside={onClose}
-  {style}
-  class={classes}
-  on:keydown={onKeyDown}
-  role="button"
-  tabindex="0"
->
-  <label
-    for={id}
-    class="absolute -top-2 left-2 z-10 -mt-px inline-block bg-white px-1 text-xs font-medium"
-    class:isRequired
-  >
+<div use:clickOutside on:clickOutside={onClose} {style} class={classes} on:keydown={onKeyDown} role="button" tabindex="0">
+  <label for={id} class="absolute -top-2 left-2 z-10 -mt-px inline-block bg-white px-1 text-xs font-medium" class:isRequired>
     <slot name="label">{label}</slot>
   </label>
   <div class="relative">
@@ -160,9 +148,7 @@
             return
           }
           if (isOptionsOpen && e.key === `Enter`) {
-            const matchingOptions = options.filter((option) =>
-              option.label.toLowerCase().includes(searchValue.toLowerCase())
-            )
+            const matchingOptions = options.filter((option) => option.label.toLowerCase().includes(searchValue.toLowerCase()))
             if (matchingOptions.length === 1) {
               onSelect(matchingOptions[0])
               return

@@ -40,12 +40,9 @@ export default async function handler(parent, args, context) {
   })
 
   if (transactions.length > 0) {
-    throw new GraphQLError(
-      `You cannot delete a payee that has transactions. Please delete the associated transactions first.`,
-      {
-        extensions: { code: 403 }
-      }
-    )
+    throw new GraphQLError(`You cannot delete a payee that has transactions. Please delete the associated transactions first.`, {
+      extensions: { code: 403 }
+    })
   }
 
   await context.prisma.payee.delete({

@@ -4,13 +4,7 @@ export default /* GraphQL */ `
   }
 
   type Query {
-    getAllPayees(
-      skip: Int
-      orderBy: [PayeeOrderByInput!]
-      search: String
-      searchField: String
-      subSearchField: String
-    ): JSON!
+    getAllPayees(skip: Int, orderBy: [PayeeOrderByInput!], search: String, searchField: String, subSearchField: String): JSON!
 
     getAllPayeesLean(search: String): JSON!
   }

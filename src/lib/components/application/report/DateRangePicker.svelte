@@ -26,12 +26,8 @@
     },
     {
       label: `Last Year`,
-      startDate: formatDate(
-        new Date(new Date(new Date(new Date().setDate(1)).setMonth(0)).setFullYear(new Date().getFullYear() - 1))
-      ),
-      endDate: formatDate(
-        new Date(new Date(new Date(new Date().setDate(31)).setMonth(11)).setFullYear(new Date().getFullYear() - 1))
-      )
+      startDate: formatDate(new Date(new Date(new Date(new Date().setDate(1)).setMonth(0)).setFullYear(new Date().getFullYear() - 1))),
+      endDate: formatDate(new Date(new Date(new Date(new Date().setDate(31)).setMonth(11)).setFullYear(new Date().getFullYear() - 1)))
     }
   ]
 </script>
@@ -65,16 +61,7 @@
       class="min-w-[10rem]"
     />
     <DropdownMenu color="gray" placement="bottom-left" class="mt-12">
-      <Button
-        slot="trigger"
-        let:triggerProps
-        let:onOpen
-        on:click={onOpen}
-        {...triggerProps}
-        color="blue"
-        variant="outlined"
-        class="p-1"
-      >
+      <Button slot="trigger" let:triggerProps let:onOpen on:click={onOpen} {...triggerProps} color="blue" variant="outlined" class="p-1">
         <span class="sr-only">Quick Ranges</span>
         <ChevronDownIcon />
       </Button>

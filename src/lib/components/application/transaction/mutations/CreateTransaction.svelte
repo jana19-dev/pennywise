@@ -44,16 +44,12 @@
       amount: yup
         .number()
         .typeError(`The amount should be a positive number with maximum two digits of decimal places`)
-        .test(
-          `is-decimal`,
-          `The amount should be a positive number with maximum two digits of decimal places`,
-          (val) => {
-            if (val != undefined) {
-              return /^\d+(\.\d{0,2})?$/.test(val)
-            }
-            return true
+        .test(`is-decimal`, `The amount should be a positive number with maximum two digits of decimal places`, (val) => {
+          if (val != undefined) {
+            return /^\d+(\.\d{0,2})?$/.test(val)
           }
-        )
+          return true
+        })
         .required(),
       memo: yup.string()
     }),

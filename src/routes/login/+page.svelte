@@ -14,29 +14,14 @@
         aria-hidden="true"
       >
         <defs>
-          <pattern
-            id="983e3e4c-de6d-4c3f-8d64-b9761d1534cc"
-            width="200"
-            height="200"
-            x="50%"
-            y="-1"
-            patternUnits="userSpaceOnUse"
-          >
+          <pattern id="983e3e4c-de6d-4c3f-8d64-b9761d1534cc" width="200" height="200" x="50%" y="-1" patternUnits="userSpaceOnUse">
             <path d="M.5 200V.5H200" fill="none" />
           </pattern>
         </defs>
         <svg x="50%" y="-1" class="overflow-visible fill-gray-800/20">
-          <path
-            d="M-200 0h201v201h-201Z M600 0h201v201h-201Z M-400 600h201v201h-201Z M200 800h201v201h-201Z"
-            stroke-width="0"
-          />
+          <path d="M-200 0h201v201h-201Z M600 0h201v201h-201Z M-400 600h201v201h-201Z M200 800h201v201h-201Z" stroke-width="0" />
         </svg>
-        <rect
-          width="100%"
-          height="100%"
-          stroke-width="0"
-          fill="url(#983e3e4c-de6d-4c3f-8d64-b9761d1534cc)"
-        />
+        <rect width="100%" height="100%" stroke-width="0" fill="url(#983e3e4c-de6d-4c3f-8d64-b9761d1534cc)" />
       </svg>
       <svg
         viewBox="0 0 1108 632"
@@ -69,14 +54,14 @@
             <a href="https://jana19.dev/" class="inline-flex space-x-6">
               <span
                 class="rounded-full bg-indigo-500/10 px-3 py-1 text-sm font-semibold leading-6 text-indigo-400 ring-1 ring-inset ring-indigo-500/20"
-                >jana19.dev</span
               >
+                jana19.dev
+              </span>
             </a>
           </div>
           <h1 class="mt-10 text-4xl font-bold tracking-tight text-white sm:text-6xl">PennyWise</h1>
           <p class="mt-6 text-lg leading-8 text-gray-300">
-            Get more out of your money with PennyWise - Your personal finance tracker and budgeting
-            buddy.
+            Get more out of your money with PennyWise - Your personal finance tracker and budgeting buddy.
           </p>
           <div class="mt-10 flex items-center gap-x-6">
             <LoginForm />

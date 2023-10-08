@@ -39,10 +39,7 @@
     .map(([key, value]) => `${key}: ${value}`)
     .join(`;`)
 
-  const classes = twMerge(
-    `relative rounded-md border px-1 py-[0.7rem] shadow-sm h-fit w-auto wrapper min-w-[7rem]`,
-    $$props.class
-  )
+  const classes = twMerge(`relative rounded-md border px-1 py-[0.7rem] shadow-sm h-fit w-auto wrapper min-w-[7rem]`, $$props.class)
 
   const onOpen = () => {
     dialog.show()

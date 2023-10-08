@@ -5,13 +5,7 @@ export default /* GraphQL */ `
   }
 
   type Query {
-    getAllAccountTypes(
-      skip: Int
-      orderBy: [AccountTypeOrderByInput!]
-      search: String
-      searchField: String
-      subSearchField: String
-    ): JSON!
+    getAllAccountTypes(skip: Int, orderBy: [AccountTypeOrderByInput!], search: String, searchField: String, subSearchField: String): JSON!
 
     getAllAccountTypesLean(search: String): JSON!
   }

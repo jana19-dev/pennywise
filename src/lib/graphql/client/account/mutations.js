@@ -4,13 +4,7 @@ export const CREATE_ACCOUNT = async (variables) =>
   graphQLClient
     .request(
       gql`
-        mutation CREATE_ACCOUNT(
-          $name: String!
-          $accountTypeId: ID!
-          $openingDate: Date!
-          $openingBalance: Float!
-          $description: String
-        ) {
+        mutation CREATE_ACCOUNT($name: String!, $accountTypeId: ID!, $openingDate: Date!, $openingBalance: Float!, $description: String) {
           createAccount(
             name: $name
             accountTypeId: $accountTypeId

@@ -18,10 +18,9 @@ export default async function handler(parent, args, context) {
     })
 
     if (!userExists) {
-      throw new GraphQLError(
-        `You are not authorized to access this application. Please visit https://jana19.dev for more information.`,
-        { extensions: { code: 401 } }
-      )
+      throw new GraphQLError(`You are not authorized to access this application. Please visit https://jana19.dev for more information.`, {
+        extensions: { code: 401 }
+      })
     }
 
     const token = await generateToken({

@@ -66,14 +66,7 @@
   </div>
 
   {#if isVisible}
-    <Button
-      class={isInline ? `absolute right-0` : ``}
-      size="small"
-      variant="outlined"
-      on:click={dialog.show}
-      {color}
-      {isDisabled}
-    >
+    <Button class={isInline ? `absolute right-0` : ``} size="small" variant="outlined" on:click={dialog.show} {color} {isDisabled}>
       <PencilSquareIcon />
       <span class="sr-only">Edit</span>
     </Button>

@@ -79,14 +79,7 @@
   </div>
 
   {#if isVisible}
-    <Button
-      class={isInline ? `absolute right-0` : ``}
-      size="small"
-      variant="outlined"
-      on:click={dialog.show}
-      {color}
-      {isDisabled}
-    >
+    <Button class={isInline ? `absolute right-0` : ``} size="small" variant="outlined" on:click={dialog.show} {color} {isDisabled}>
       <PencilSquareIcon />
       <span class="sr-only">Edit</span>
     </Button>
@@ -103,19 +96,7 @@
   class={twMerge(`min-h-[16rem]`, dialogClass)}
 >
   <slot name="input">
-    <MultiSelectInput
-      on:select
-      {isLoading}
-      {error}
-      {values}
-      {name}
-      {color}
-      {isRequired}
-      {label}
-      {options}
-      {inputClass}
-      {hideIcon}
-    />
+    <MultiSelectInput on:select {isLoading} {error} {values} {name} {color} {isRequired} {label} {options} {inputClass} {hideIcon} />
   </slot>
   <slot name="info" />
 </FormDialog>

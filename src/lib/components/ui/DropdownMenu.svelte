@@ -112,10 +112,7 @@
       <slot
         name="content"
         menuItemProps={{
-          class: twMerge(
-            `menu-item block rounded-md px-4 py-3 m-1 text-sm focus:outline-none active:bg-gray-100`,
-            menuItemClasses
-          ),
+          class: twMerge(`menu-item block rounded-md px-4 py-3 m-1 text-sm focus:outline-none active:bg-gray-100`, menuItemClasses),
           tabindex: `-1`,
           role: `menuitem`
         }}

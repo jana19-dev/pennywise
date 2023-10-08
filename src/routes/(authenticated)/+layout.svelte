@@ -13,9 +13,7 @@
   <Sidebar />
 
   <div class="flex flex-1 flex-col overflow-hidden">
-    <header
-      class="flex items-center justify-between border-b-2 border-gray-100 px-3 py-2 lg:hidden"
-    >
+    <header class="flex items-center justify-between border-b-2 border-gray-100 px-3 py-2 lg:hidden">
       <SidebarToggle />
 
       <div class="min-w-0 lg:flex-1">

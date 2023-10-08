@@ -150,12 +150,7 @@ export default async function handler(parent, args, context) {
     const forecastedAccountBalance = response.reduce((acc, dateRange) => {
       return acc + dateRange[account] || 0
     }, currentAccountBalance)
-    const row = [
-      account,
-      currentAccountBalance,
-      ...response.map((dateRange) => dateRange[account] || 0),
-      forecastedAccountBalance
-    ]
+    const row = [account, currentAccountBalance, ...response.map((dateRange) => dateRange[account] || 0), forecastedAccountBalance]
     table.rows.push(row)
   })
 

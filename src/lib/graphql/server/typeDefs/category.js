@@ -4,13 +4,7 @@ export default /* GraphQL */ `
   }
 
   type Query {
-    getAllCategories(
-      skip: Int
-      orderBy: [CategoryOrderByInput!]
-      search: String
-      searchField: String
-      subSearchField: String
-    ): JSON!
+    getAllCategories(skip: Int, orderBy: [CategoryOrderByInput!], search: String, searchField: String, subSearchField: String): JSON!
 
     getAllCategoriesLean(search: String): JSON!
   }

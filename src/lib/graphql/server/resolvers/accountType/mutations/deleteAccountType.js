@@ -40,12 +40,9 @@ export default async function handler(parent, args, context) {
   })
 
   if (accounts.length > 0) {
-    throw new GraphQLError(
-      `You cannot delete an account type that has accounts. Please delete the associated accounts first.`,
-      {
-        extensions: { code: 403 }
-      }
-    )
+    throw new GraphQLError(`You cannot delete an account type that has accounts. Please delete the associated accounts first.`, {
+      extensions: { code: 403 }
+    })
   }
 
   await context.prisma.accountType.delete({

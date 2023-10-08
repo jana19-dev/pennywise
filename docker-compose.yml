@@ -1,13 +1,26 @@
 services:
   app:
-    image: node:18
+    image: node:20
     volumes:
       - .:/app
     working_dir: /app
-    command: bash
+    command: "bash"
     tty: true
     stdin_open: true
     environment:
       - PORT=3005
     ports:
       - 3005:3005
+    depends_on:
+      - prisma-studio
+
+  prisma-studio:
+    image: node:20
+    volumes:
+      - ./schema.prisma:/app/schema.prisma
+    working_dir: /app
+    command: "npx prisma studio --port 3001"
+    env_file:
+      - .env
+    ports:
+      - 3001:3001

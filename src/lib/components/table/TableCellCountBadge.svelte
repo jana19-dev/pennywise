@@ -12,5 +12,7 @@
   class:bg-yellow-100={count > 0 && color === `yellow`}
   class:text-yellow-800={count > 0 && color === `yellow`}
   class:bg-blue-100={count > 0 && color === `blue`}
-  class:text-blue-800={count > 0 && color === `blue`}>{count}</span
+  class:text-blue-800={count > 0 && color === `blue`}
 >
+  {count}
+</span>

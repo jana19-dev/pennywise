@@ -5,13 +5,7 @@ export default /* GraphQL */ `
   }
 
   type Query {
-    getAllTransactions(
-      skip: Int
-      orderBy: [TransactionOrderByInput!]
-      search: String
-      searchField: String
-      subSearchField: String
-    ): JSON!
+    getAllTransactions(skip: Int, orderBy: [TransactionOrderByInput!], search: String, searchField: String, subSearchField: String): JSON!
 
     getAccountTransactions(
       accountId: ID!
@@ -28,15 +22,7 @@ export default /* GraphQL */ `
   }
 
   type Mutation {
-    createTransaction(
-      date: Date!
-      accountId: ID!
-      categoryId: ID
-      payeeId: ID
-      transferAccountId: ID
-      amount: Float!
-      memo: String
-    ): JSON!
+    createTransaction(date: Date!, accountId: ID!, categoryId: ID, payeeId: ID, transferAccountId: ID, amount: Float!, memo: String): JSON!
 
     updateTransactionDate(id: ID!, date: Date!): JSON!
     updateTransactionAccount(id: ID!, accountId: ID!): JSON!

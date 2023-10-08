@@ -57,12 +57,8 @@
             <TableCell>
               <div
                 class:cursor-pointer={i > 0 && idx > 0 && !isForecast}
-                on:click={i > 0 && idx > 0 && !isForecast
-                  ? (e) => onViewTransactions(e, { x: i - 1, y: idx - 1 })
-                  : null}
-                on:keyup={i > 0 && idx > 0 && !isForecast
-                  ? (e) => onViewTransactions(e, { x: i - 1, y: idx - 1 })
-                  : null}
+                on:click={i > 0 && idx > 0 && !isForecast ? (e) => onViewTransactions(e, { x: i - 1, y: idx - 1 }) : null}
+                on:keyup={i > 0 && idx > 0 && !isForecast ? (e) => onViewTransactions(e, { x: i - 1, y: idx - 1 }) : null}
                 role="button"
                 tabindex="0"
                 class:text-right={i !== 0}

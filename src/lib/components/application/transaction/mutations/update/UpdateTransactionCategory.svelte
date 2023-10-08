@@ -20,8 +20,7 @@
   const updateTransactionCategoryMutation = createMutation(UPDATE_TRANSACTION_CATEGORY, {
     onSuccess: () => {
       queryClient.invalidateQueries({
-        predicate: ({ queryKey }) =>
-          INVALIDATE_QUERIES_FROM_MUTATION[`UPDATE_TRANSACTION_CATEGORY`].includes(queryKey[0])
+        predicate: ({ queryKey }) => INVALIDATE_QUERIES_FROM_MUTATION[`UPDATE_TRANSACTION_CATEGORY`].includes(queryKey[0])
       })
       toast.success(`Successfully updated`)
       setTimeout(onClose)

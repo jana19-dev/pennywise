@@ -38,9 +38,7 @@
     {/if}
     <div class="flex justify-end gap-4">
       <Button on:click={onClose} variant="outlined" isDisabled={isLoading}>Close</Button>
-      <Button form={id} {isLoading} {isDisabled} type="submit" color={submitColor}
-        >{submitLabel}</Button
-      >
+      <Button form={id} {isLoading} {isDisabled} type="submit" color={submitColor}>{submitLabel}</Button>
     </div>
   </div>
 </Dialog>

@@ -11,13 +11,7 @@ export const GET_ALL_ACCOUNT_TYPES = ({ queryKey: [, variables] = [], pageParam 
           $searchField: String
           $subSearchField: String
         ) {
-          getAllAccountTypes(
-            skip: $skip
-            orderBy: $orderBy
-            search: $search
-            searchField: $searchField
-            subSearchField: $subSearchField
-          )
+          getAllAccountTypes(skip: $skip, orderBy: $orderBy, search: $search, searchField: $searchField, subSearchField: $subSearchField)
         }
       `,
       { ...variables, skip: pageParam }
