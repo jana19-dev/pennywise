@@ -9,7 +9,7 @@
 
   const today = formatDate(new Date())
   let dateRange = {
-    startDate: formatDate(new Date(new Date(new Date().setDate(1)).setMonth(0))), // set to start of year
+    startDate: formatDate(new Date(new Date(new Date().setDate(1)).setMonth(new Date().getMonth() - 3))), // set to start of 3 months ago
     endDate: today
   }
   $: queryResult = createQuery(
