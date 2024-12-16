@@ -1,0 +1,25 @@
+{
+  "name": "Existing Docker Compose (Extend)",
+  "dockerComposeFile": ["../docker-compose.yml", "docker-compose.yml"],
+  "service": "app",
+  "workspaceFolder": "/workspaces/${localWorkspaceFolderBasename}",
+  "runServices": ["app"],
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "svelte.svelte-vscode",
+        "bradlc.vscode-tailwindcss",
+        "esbenp.prettier-vscode",
+        "rvest.vs-code-prettier-eslint",
+        "Prisma.prisma",
+        "ms-playwright.playwright",
+        "dbaeumer.vscode-eslint",
+        "naumovs.color-highlight",
+        "streetsidesoftware.code-spell-checker",
+        "MaxvanderSchee.web-accessibility",
+        "mikestead.dotenv",
+        "Codeium.codeium"
+      ]
+    }
+  }
+}
