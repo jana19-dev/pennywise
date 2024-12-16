@@ -1,4 +1,4 @@
-FROM node:23-alpine AS build
+FROM node:20-alpine3.17 AS build
 
 ARG VCS_REF
 LABEL org.label-schema.vcs-ref=$VCS_REF
@@ -20,7 +20,7 @@ RUN rm -rf node_modules
 RUN npm install --force --omit=dev --ignore-scripts
 
 # Copy the build output to the image
-FROM node:23-alpine
+FROM node:20-alpine3.17
 
 COPY --from=build /app/node_modules /app/node_modules
 COPY --from=build /app/.prisma /app/node_modules/.prisma
