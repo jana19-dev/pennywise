@@ -1,9 +1,30 @@
 services:
   app:
-    image: node:23
+    image: node:24
     volumes:
       - .:/app
     working_dir: /app
-    command: "bash"
+    command: 'bash'
     tty: true
     stdin_open: true
+    depends_on:
+      - adminer
+
+  db:
+    image: postgres:latest
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 1234
+      POSTGRES_DB: pennywise
+    volumes:
+      - db:/var/lib/postgresql/data
+
+  adminer:
+    image: adminer:4
+    ports:
+      - 3005:8080
+    depends_on:
+      - db
+
+volumes:
+  db:

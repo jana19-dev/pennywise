@@ -1,90 +1,10 @@
+// =============== Generator & Datasource ===============
 generator client {
-  provider = "prisma-client-js"
+  provider = "prisma-client"
+  output   = "node_modules/.prisma/client"
 }
 
 datasource db {
-  provider = "cockroachdb"
+  provider = "postgresql"
   url      = env("DATABASE_URL")
-}
-
-model User {
-  id           String        @id @default(uuid())
-  email        String        @unique
-  accountTypes AccountType[]
-  accounts     Account[]
-  categories   Category[]
-  payees       Payee[]
-  transactions Transaction[]
-}
-
-model AccountType {
-  id       String    @id @default(uuid())
-  name     String
-  priority Int       @default(99)
-  user     User      @relation(fields: [userId], references: [id])
-  userId   String
-  accounts Account[]
-
-  @@unique([name, userId], name: "account_type_name_user_id")
-  @@index([userId])
-}
-
-model Account {
-  id            String        @id @default(uuid())
-  name          String
-  description   String?
-  accountType   AccountType   @relation(fields: [accountTypeId], references: [id])
-  accountTypeId String
-  user          User          @relation(fields: [userId], references: [id])
-  userId        String
-  transactions  Transaction[]
-
-  @@unique([name, userId, accountTypeId], name: "account_name_user_id_account_type_id")
-}
-
-model Category {
-  id           String        @id @default(uuid())
-  name         String
-  user         User          @relation(fields: [userId], references: [id])
-  userId       String
-  transactions Transaction[]
-
-  @@unique([name, userId], name: "category_name_user_id")
-}
-
-model Payee {
-  id           String        @id @default(uuid())
-  name         String
-  user         User          @relation(fields: [userId], references: [id])
-  userId       String
-  transactions Transaction[]
-
-  @@unique([name, userId], name: "payee_name_user_id")
-  @@index([userId])
-}
-
-model Transaction {
-  id           String       @id @default(uuid())
-  date         DateTime     @default(now())
-  category     Category?    @relation(fields: [categoryId], references: [id])
-  categoryId   String?
-  account      Account      @relation(fields: [accountId], references: [id])
-  accountId    String
-  payee        Payee?       @relation(fields: [payeeId], references: [id])
-  payeeId      String?
-  transferTo   Transaction? @relation("Transfer", fields: [transferId], references: [id])
-  transferFrom Transaction? @relation("Transfer")
-  transferId   String?      @unique
-  user         User         @relation(fields: [userId], references: [id])
-  userId       String
-  memo         String?
-  amount       Float
-  createdAt    DateTime     @default(now())
-
-  @@index([userId, accountId])
-  @@index([payeeId])
-  @@index([userId])
-  @@index([categoryId])
-  @@index([accountId])
-  @@index([userId, date])
 }

@@ -1,26 +1,23 @@
-FROM node:20-alpine3.17 AS build
-
-ARG VCS_REF
-LABEL org.label-schema.vcs-ref=$VCS_REF
+FROM node:24-alpine AS build
 
 # install dependencies
 WORKDIR /app
-COPY package.json ./
-RUN npm i --force --ignore-scripts
+COPY package-lock.json ./
+RUN npm i --ignore-scripts
 
 # Copy all local files into the image.
 COPY . .
 
 # Build the dependencies
-RUN npm run prisma:generate
+RUN npm run prisma-generate
 COPY .env.example .env
 RUN npm run build
 RUN cp -rf node_modules/.prisma ./.prisma
 RUN rm -rf node_modules
-RUN npm install --force --omit=dev --ignore-scripts
+RUN npm install --omit=dev --ignore-scripts
 
 # Copy the build output to the image
-FROM node:20-alpine3.17
+FROM node:24-alpine
 
 COPY --from=build /app/node_modules /app/node_modules
 COPY --from=build /app/.prisma /app/node_modules/.prisma

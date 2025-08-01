@@ -1,45 +1,17 @@
-<script>
-  import "../app.postcss"
+<script lang="ts">
+	import '../app.css'
 
-  import { SvelteToast } from "@zerodevx/svelte-toast"
+	import { ModeWatcher } from 'mode-watcher'
+	import { Toaster } from '$lib/components/ui/sonner'
 
-  import { navigating } from "$app/stores"
-  import LoadingPage from "$lib/components/ui/LoadingPage.svelte"
-
-  import { browser } from "$app/environment"
-  import { QueryClient, QueryClientProvider } from "@tanstack/svelte-query"
-
-  const queryClient = new QueryClient({
-    defaultOptions: {
-      queries: {
-        enabled: !!browser,
-        retry: false,
-        refetchOnWindowFocus: false
-      }
-    }
-  })
+	let { children } = $props()
 </script>
 
-{#if $navigating}
-  <LoadingPage />
-{/if}
+<ModeWatcher />
+<Toaster position="top-right" richColors />
 
-<QueryClientProvider client={queryClient}>
-  <slot />
-</QueryClientProvider>
+<svelte:head>
+	<title>Pennywise</title>
+</svelte:head>
 
-{#if browser}
-  <SvelteToast />
-{/if}
-
-<style>
-  :root {
-    --toastContainerTop: 0.5rem;
-    --toastContainerRight: auto;
-    --toastContainerBottom: auto;
-    --toastContainerLeft: calc(50vw - 8rem);
-    --toastPadding: 0;
-    --toastMsgPadding: 0;
-    --toastBackground: none;
-  }
-</style>
+{@render children()}
