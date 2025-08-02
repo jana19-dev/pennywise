@@ -1,17 +1,12 @@
 <script lang="ts">
-	import '../app.css'
+import "../app.css"
+import favicon from "$lib/assets/favicon.svg"
 
-	import { ModeWatcher } from 'mode-watcher'
-	import { Toaster } from '$lib/components/ui/sonner'
-
-	let { children } = $props()
+const { children } = $props()
 </script>
 
-<ModeWatcher />
-<Toaster position="top-right" richColors />
-
 <svelte:head>
-	<title>Pennywise</title>
+	<link rel="icon" href={favicon} />
 </svelte:head>
 
-{@render children()}
+{@render children?.()}

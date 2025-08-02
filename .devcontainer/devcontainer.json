@@ -9,13 +9,12 @@
 			"extensions": [
 				"svelte.svelte-vscode",
 				"bradlc.vscode-tailwindcss",
-				"esbenp.prettier-vscode",
 				"Prisma.prisma",
-				"dbaeumer.vscode-eslint",
 				"naumovs.color-highlight",
 				"streetsidesoftware.code-spell-checker",
 				"MaxvanderSchee.web-accessibility",
-				"mikestead.dotenv"
+				"mikestead.dotenv",
+				"biomejs.biome"
 			]
 		}
 	}

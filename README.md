@@ -1,64 +1,38 @@
-# Pennywise
+# sv
 
-## 💰 Description
+Everything you need to build a Svelte project, powered by [`sv`](https://github.com/sveltejs/cli).
 
-**Pennywise** is a personal and shared budgeting application that helps users track expenses, manage shared transactions, and settle balances flexibly. It supports multi-user collaboration, monthly budgeting, and detailed financial reporting.
+## Creating a project
 
-## 🧱 Tech Stack
+If you're seeing this, you've probably already done this step. Congrats!
 
-- [SvelteKit](https://kit.svelte.dev/)
-- [Prisma](https://www.prisma.io/)
-- PostgreSQL
-- Redis (for real-time updates)
-- Docker / Docker Compose
+```sh
+# create a new project in the current directory
+npx sv create
 
----
-
-## ⚙️ Environment Variables
-
-Create a `.env` file and add the following:
-
-```bash
-DATABASE_URL=postgresql://user:password@localhost:5432/pennywise
-REDIS_URL=redis://localhost:6379
+# create a new project in my-app
+npx sv create my-app
 ```
 
----
+## Developing
 
-## 🚀 Development
+Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
 
-Use the included Docker Compose setup to run the app and all dependencies locally:
-
-```bash
-docker compose run --service-ports --rm app
+```sh
 npm run dev
+
+# or start the server and open the app in a new browser tab
+npm run dev -- --open
 ```
 
-- The app runs on **port 5173** by default.
-- PostgreSQL and Redis services are included and auto-started.
+## Building
 
----
+To create a production version of your app:
 
-## 🧪 Prisma (DB)
-
-If you make changes to the Prisma schema, run:
-
-```bash
-npm run prisma
+```sh
+npm run build
 ```
 
----
+You can preview the production build with `npm run preview`.
 
-## 🔧 Linting and Formatting
-
-Husky is configured to run format and lint checks on commits for staged files. You can also run it manually:
-
-```bash
-npm run lint:fix
-```
-
----
-
-## 🛠️ Building the Application
-
-The app uses the [adapter-node](https://kit.svelte.dev/docs/adapter-node) and Dockerfile for server deployment:
+> To deploy your app, you may need to install an [adapter](https://svelte.dev/docs/kit/adapters) for your target environment.

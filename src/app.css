@@ -1,6 +1,6 @@
-@import 'tailwindcss';
+@import "tailwindcss";
 
-@import 'tw-animate-css';
+@import "tw-animate-css";
 
 @custom-variant dark (&:is(.dark *));
 
@@ -118,40 +118,4 @@
 	body {
 		@apply bg-background text-foreground;
 	}
-
-	/* Custom scrollbar styling */
-	::-webkit-scrollbar {
-		width: 0.3125rem;
-	}
-
-	::-webkit-scrollbar-track {
-		background: transparent;
-	}
-
-	::-webkit-scrollbar-thumb {
-		background: hsl(var(--border));
-		border-radius: 0.3125rem;
-	}
-
-	* {
-		scrollbar-width: thin;
-		scrollbar-color: hsl(var(--border)) transparent;
-	}
-}
-
-@layer utilities {
-	/* Chrome, Safari and Opera */
-	.no-scrollbar::-webkit-scrollbar {
-		display: none;
-	}
-
-	.no-scrollbar {
-		-ms-overflow-style: none; /* IE and Edge */
-		scrollbar-width: none; /* Firefox */
-	}
-}
-
-html,
-body {
-	/* @apply flex h-full w-full flex-col overflow-hidden; */
 }

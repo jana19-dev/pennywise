@@ -1,6 +1,6 @@
 services:
   app:
-    image: node:24
+    image: jana19/pnpm:24
     volumes:
       - .:/app
     working_dir: /app
@@ -9,9 +9,10 @@ services:
     stdin_open: true
     depends_on:
       - adminer
+      - redis
 
   db:
-    image: postgres:latest
+    image: postgres:17
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: 1234
@@ -26,5 +27,9 @@ services:
     depends_on:
       - db
 
+  redis:
+    image: redis:7
+
 volumes:
   db:
+  redis:
