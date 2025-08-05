@@ -2,6 +2,9 @@ Pennywise Development Plan (Step-by-Step Implementation Guide)
 
 Checklist of Major Development Steps (for progress tracking):
 	•	Project Initialization & Tooling Setup – SvelteKit project, pnpm, Tailwind, Prisma, Firebase, Biome, Husky, etc.
+	• Use the latest SvelteKit Async & Remote Functions – Enable experimental async components and remote functions for more intuitive data loading and mutations.
+		- https://svelte.dev/docs/kit/remote-functions
+		- https://svelte.dev/docs/svelte/await-expressions
 	•	Database Schema with Prisma – Design models (User, Account, Category, Transaction, Participant, Settlement, Budget, etc.) and run migrations.
 	•	Authentication (Firebase OAuth) – Integrate Google Sign-In, set up SvelteKit hooks for session, and protect routes.
 	•	Layout & Navigation Shell – Create persistent sidebar nav (accounts list, sections), responsive design, theme toggle.
@@ -21,7 +24,6 @@ Checklist of Major Development Steps (for progress tracking):
 	•	Savings Goals Feature – Allow users to create savings goals (target amount by due date) and track progress towards each goal.
 	•	UI/UX Enhancements – Improve interface: use dialog modals for forms, always-visible summary bar of key info, snappier interactions.
 	•	Reports & Charts – Add visual reports (spending trends, category breakdown, net worth over time) using shadcn-svelte chart components.
-	•	Upgrade to SvelteKit Async & Remote Functions – Enable experimental async components and remote functions for more intuitive data loading and mutations ￼.
 	•	Final Testing, Optimization & Deployment – Thorough testing, performance tuning, PWA setup, Docker containerization, and deployment.
 
 ⸻
@@ -40,7 +42,7 @@ Set up the project and development tools:
 2. Database Schema with Prisma
 
 Design the database schema using Prisma, covering all core entities. Edit schema.prisma to define models for each concept, then run migrations:
-	•	User: Fields: id (UUID or auto-increment int), firebaseUid (string, to link with Firebase Auth user), name, email, createdAt (DateTime). The firebaseUid is important to map the Firebase authenticated user to our local user data.
+	•	User: Fields: id (UUID or auto-increment int), googleId (string, to link with Google OAuth user), name, email, createdAt (DateTime). The googleId is important to map the Google authenticated user to our local user data.
 	•	Account: Represents a financial account (cash, bank account, credit card, investment account, etc.). Fields: id, userId (relation to User), name, type (enum: e.g. CASH, BANK, CREDIT_CARD, INVESTMENT), currency (string, e.g. “USD”, “CAD”), initialBalance (Decimal), and perhaps currentBalance (Decimal). We might also include fields like creditLimit (for credit cards) or statementDay and statementDueDay for credit cycle info. Relations: user relation (many accounts per user), and possibly transactions relation (one-to-many). Note: We will consider later if we want to update currentBalance on each transaction or compute on the fly. Initially, we might maintain it for quick display.
 	•	Hiding accounts: Anticipating a feature to hide or archive accounts, we can include a boolean field isHidden (default false) to mark accounts that should be excluded from summary views. (If not added now, we can add it in a later migration when implementing the hide feature in the UI.)
 	•	Category: Represents a transaction category (e.g. Groceries, Rent, Salary). Fields: id, userId (the owner user; categories are user-specific), name, and optionally type (enum or boolean to distinguish income vs expense categories, if useful). Relations: many categories per user.
@@ -63,7 +65,7 @@ Implement Firebase Authentication for user login and ensure SvelteKit recognizes
 	•	Firebase Setup: Create a Firebase project in the Firebase console. Enable Google Sign-In as a provider under Authentication. Obtain the Firebase config keys (apiKey, authDomain, projectId, etc.) and include them in the app (e.g., in a client-side config or .env for sensitive parts). Also set up a Firebase Service Account if using the Admin SDK on the server (this will provide credentials JSON for server-side verification).
 	•	Auth UI: Create a login page (/login route). Include a “Sign in with Google” button. Use Firebase Web SDK in the client: initialize Firebase app with config, then use signInWithPopup or signInWithRedirect for GoogleAuthProvider. This will handle the Google OAuth flow and sign the user in on the client side, obtaining a Firebase ID Token (JWT) for the user.
 	•	SvelteKit Hooks for Auth: Use SvelteKit’s hooks (src/hooks.server.ts) to establish server-side auth on each request. Specifically, on each request, check if the client has sent a session cookie or authorization header containing the Firebase ID Token. If so, use Firebase Admin SDK (or Firebase’s REST API) to verify the token’s signature and decode it. This yields the Firebase uid and user info. With that, look up or create a corresponding User in our database:
-	•	On first login, create a new User record (with firebaseUid = uid, name, email from token) and store its ID.
+	•	On first login, create a new User record (with googleId = uid, name, email from token) and store its ID.
 	•	Store the user’s ID in the session (depending on SvelteKit version, this could be in event.locals or using cookie session). We can set an HttpOnly cookie with a session ID or the token, or since the token can serve as auth, we might just keep verifying it each time (though that’s slightly expensive – a session cookie signed by our server might be better after initial verify).
 	•	For simplicity, we might use the Firebase ID token on each request (sent via Authorization header by the client after login) and verify it in the handle hook, then set event.locals.user with our DB user info.
 	•	Protecting Routes: Use SvelteKit’s load functions or handle hook to redirect unauthorized users. For example, in hooks.server.ts, if event.locals.user is not set (not logged in) and the route is a private page, you can throw a redirect to /login. Alternatively, use +page.server.js load to check locals.user and redirect. The layout can also check and redirect if user is missing.

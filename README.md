@@ -1,38 +1,111 @@
-# sv
+# Pennywise 💰
 
-Everything you need to build a Svelte project, powered by [`sv`](https://github.com/sveltejs/cli).
+A modern personal finance tracker built with SvelteKit 5, designed to help you manage expenses, budgets, and shared bills with friends and family.
 
-## Creating a project
+## ✨ Features
 
-If you're seeing this, you've probably already done this step. Congrats!
+- **📊 Dashboard**: Overview of your financial health with key metrics
+- **💳 Account Management**: Track multiple accounts (bank, credit, cash, investments)
+- **📝 Transaction Tracking**: Record and categorize all your expenses and income
+- **💰 Budget Planning**: Set monthly budgets and track spending against them
+- **👥 Split Bills**: Share expenses with friends and settle up easily
+- **📈 Reports & Charts**: Visual insights into your spending patterns
+- **🔐 Secure Authentication**: Google OAuth integration
+- **📱 Responsive Design**: Works seamlessly on desktop and mobile
+- **🎨 Modern UI**: Built with shadcn-svelte components and Tailwind CSS
 
-```sh
-# create a new project in the current directory
-npx sv create
+## 🚀 Tech Stack
 
-# create a new project in my-app
-npx sv create my-app
+- **Framework**: SvelteKit 5 with Svelte Runes
+- **Styling**: Tailwind CSS v4 + shadcn-svelte components
+- **Database**: PostgreSQL with Prisma ORM
+- **Authentication**: Google OAuth via jose
+- **Package Manager**: pnpm
+- **Code Quality**: Biome for linting and formatting
+- **Deployment**: Docker with Node.js adapter
+
+## 🛠️ Development
+
+### Prerequisites
+
+- Node.js 24+
+- pnpm
+- PostgreSQL database
+- Google OAuth credentials
+
+### Getting Started
+
+1. **Clone the repository**
+   ```bash
+   git clone https://github.com/jana19-dev/pennywise.git
+   cd pennywise
+   ```
+
+2. **Install dependencies**
+   ```bash
+   pnpm install
+   ```
+
+3. **Set up environment variables**
+   ```bash
+   cp .env.example .env
+   # Edit .env with your database URL and OAuth credentials
+   ```
+
+4. **Set up the database**
+   ```bash
+   pnpm db:push
+   ```
+
+5. **Start the development server**
+   ```bash
+   pnpm dev
+   ```
+
+   The app will be available at `http://localhost:5173`
+
+### Available Scripts
+
+- `pnpm dev` - Start development server
+- `pnpm build` - Build for production
+- `pnpm preview` - Preview production build
+- `pnpm check` - Run type checking
+- `pnpm lint` - Lint code with Biome
+- `pnpm lint:fix` - Lint and fix code with Biome
+- `pnpm prisma` - Push database schema changes
+
+
+## 🐳 Deployment
+
+The project includes Docker configuration for easy deployment:
+
+```bash
+# Build the Docker image
+docker build -t pennywise .
+
+# Run with Docker Compose
+docker-compose up -d
 ```
 
-## Developing
+## 🤝 Contributing
 
-Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
+1. Fork the repository
+2. Create a feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
 
-```sh
-npm run dev
+## 📄 License
 
-# or start the server and open the app in a new browser tab
-npm run dev -- --open
-```
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
-## Building
+## 🙏 Acknowledgments
 
-To create a production version of your app:
+- Built with [SvelteKit](https://kit.svelte.dev/)
+- UI components from [shadcn-svelte](https://shadcn-svelte.com/)
+- Icons from [Lucide](https://lucide.dev/)
+- Inspired by modern fintech applications
 
-```sh
-npm run build
-```
+---
 
-You can preview the production build with `npm run preview`.
-
-> To deploy your app, you may need to install an [adapter](https://svelte.dev/docs/kit/adapters) for your target environment.
+**Note**: For detailed setup instructions and development guidelines, check the `/wiki` folder in this repository.

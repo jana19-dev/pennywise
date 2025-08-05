@@ -1,0 +1,339 @@
+// This is your Prisma schema file
+// Learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider   = "prisma-client-js"
+  output     = "../node_modules/.prisma/client"
+  // Using the new no-rust engine configuration
+  engineType = "binary"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// User model - links with Google OAuth
+model User {
+  id        String   @id @default(cuid())
+  googleId  String   @unique
+  name      String
+  email     String   @unique
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Relations
+  accounts                Account[]
+  categories              Category[]
+  transactions            Transaction[]
+  transactionParticipants TransactionParticipant[]
+  budgets                 Budget[]
+  scheduledTransactions   ScheduledTransaction[]
+  savingsGoals            SavingsGoal[]
+  payeeRules              PayeeRule[]
+  settlementsFrom         Settlement[]             @relation("SettlementFrom")
+  settlementsTo           Settlement[]             @relation("SettlementTo")
+
+  @@map("users")
+}
+
+// Account types enum
+enum AccountType {
+  CASH
+  BANK
+  CREDIT_CARD
+  INVESTMENT
+  LOAN
+  SAVINGS
+
+  @@map("account_types")
+}
+
+// Account model - represents financial accounts
+model Account {
+  id             String      @id @default(cuid())
+  userId         String
+  name           String
+  type           AccountType
+  currency       String      @default("USD")
+  initialBalance Decimal     @default(0) @db.Decimal(12, 2)
+  currentBalance Decimal     @default(0) @db.Decimal(12, 2)
+  creditLimit    Decimal?    @db.Decimal(12, 2)
+  statementDay   Int? // Day of month for statement (credit cards)
+  isHidden       Boolean     @default(false)
+  isDefault      Boolean     @default(false)
+  createdAt      DateTime    @default(now())
+  updatedAt      DateTime    @updatedAt
+
+  // Relations
+  user                  User                   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  transactions          Transaction[]
+  scheduledTransactions ScheduledTransaction[]
+  settlements           Settlement[]
+  investmentHoldings    InvestmentHolding[]
+
+  @@index([userId])
+  @@index([userId, isHidden])
+  @@map("accounts")
+}
+
+// Category model - for categorizing transactions
+model Category {
+  id        String   @id @default(cuid())
+  userId    String
+  name      String
+  type      String   @default("EXPENSE") // EXPENSE or INCOME
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Relations
+  user                    User                     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  transactionParticipants TransactionParticipant[]
+  budgets                 Budget[]
+  scheduledTransactions   ScheduledTransaction[]
+  payeeRules              PayeeRule[]
+
+  @@unique([userId, name])
+  @@index([userId])
+  @@map("categories")
+}
+
+// Transaction types enum
+enum TransactionType {
+  INCOME
+  EXPENSE
+  TRANSFER
+
+  @@map("transaction_types")
+}
+
+// Transaction model - top-level transaction record
+model Transaction {
+  id        String          @id @default(cuid())
+  payerId   String // User who paid (for shared expenses)
+  accountId String
+  amount    Decimal         @db.Decimal(12, 2)
+  currency  String          @default("USD")
+  date      DateTime
+  payee     String?
+  memo      String?
+  type      TransactionType @default(EXPENSE)
+  createdAt DateTime        @default(now())
+  updatedAt DateTime        @updatedAt
+
+  // Relations
+  payer        User                     @relation(fields: [payerId], references: [id], onDelete: Cascade)
+  account      Account                  @relation(fields: [accountId], references: [id], onDelete: Cascade)
+  participants TransactionParticipant[]
+
+  @@index([payerId])
+  @@index([accountId])
+  @@index([date])
+  @@index([payerId, date])
+  @@map("transactions")
+}
+
+// Participant status enum
+enum ParticipantStatus {
+  PENDING
+  SETTLED
+
+  @@map("participant_status")
+}
+
+// TransactionParticipant model - individual shares of transactions
+model TransactionParticipant {
+  id            String             @id @default(cuid())
+  transactionId String
+  userId        String
+  categoryId    String?
+  amount        Decimal            @db.Decimal(12, 2)
+  status        ParticipantStatus? @default(PENDING)
+  settlementId  String?
+  createdAt     DateTime           @default(now())
+  updatedAt     DateTime           @updatedAt
+
+  // Relations
+  transaction Transaction @relation(fields: [transactionId], references: [id], onDelete: Cascade)
+  user        User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  category    Category?   @relation(fields: [categoryId], references: [id], onDelete: SetNull)
+  settlement  Settlement? @relation(fields: [settlementId], references: [id], onDelete: SetNull)
+
+  @@index([userId])
+  @@index([transactionId])
+  @@index([categoryId])
+  @@index([status])
+  @@index([userId, status])
+  @@map("transaction_participants")
+}
+
+// Settlement model - records debt settlements between users
+model Settlement {
+  id         String   @id @default(cuid())
+  fromUserId String
+  toUserId   String
+  date       DateTime
+  amount     Decimal  @db.Decimal(12, 2)
+  accountId  String? // Account used for the settlement
+  note       String?
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  // Relations
+  fromUser     User                     @relation("SettlementFrom", fields: [fromUserId], references: [id], onDelete: Cascade)
+  toUser       User                     @relation("SettlementTo", fields: [toUserId], references: [id], onDelete: Cascade)
+  account      Account?                 @relation(fields: [accountId], references: [id], onDelete: SetNull)
+  participants TransactionParticipant[]
+
+  @@index([fromUserId])
+  @@index([toUserId])
+  @@index([date])
+  @@map("settlements")
+}
+
+// Budget model - monthly budget allocations per category
+model Budget {
+  id              String   @id @default(cuid())
+  userId          String
+  categoryId      String
+  year            Int
+  month           Int // 1-12
+  allocatedAmount Decimal  @db.Decimal(12, 2)
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  // Relations
+  user     User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  category Category @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, categoryId, year, month])
+  @@index([userId])
+  @@index([userId, year, month])
+  @@map("budgets")
+}
+
+// Scheduled transaction frequency enum
+enum ScheduledFrequency {
+  DAILY
+  WEEKLY
+  BIWEEKLY
+  MONTHLY
+  YEARLY
+
+  @@map("scheduled_frequencies")
+}
+
+// ScheduledTransaction model - recurring transactions
+model ScheduledTransaction {
+  id          String             @id @default(cuid())
+  userId      String
+  description String
+  amount      Decimal            @db.Decimal(12, 2)
+  accountId   String
+  categoryId  String?
+  frequency   ScheduledFrequency
+  nextDate    DateTime
+  endDate     DateTime?
+  autoAdd     Boolean            @default(false)
+  isActive    Boolean            @default(true)
+  createdAt   DateTime           @default(now())
+  updatedAt   DateTime           @updatedAt
+
+  // Relations
+  user     User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  account  Account   @relation(fields: [accountId], references: [id], onDelete: Cascade)
+  category Category? @relation(fields: [categoryId], references: [id], onDelete: SetNull)
+
+  @@index([userId])
+  @@index([nextDate])
+  @@index([userId, nextDate])
+  @@map("scheduled_transactions")
+}
+
+// SavingsGoal model - savings goals tracking
+model SavingsGoal {
+  id            String    @id @default(cuid())
+  userId        String
+  name          String
+  targetAmount  Decimal   @db.Decimal(12, 2)
+  currentAmount Decimal   @default(0) @db.Decimal(12, 2)
+  targetDate    DateTime?
+  accountId     String? // Optional linked account
+  priority      Int?
+  isCompleted   Boolean   @default(false)
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  // Relations
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([userId, isCompleted])
+  @@map("savings_goals")
+}
+
+// PayeeRule model - auto-categorization rules
+model PayeeRule {
+  id         String   @id @default(cuid())
+  userId     String
+  pattern    String // Text or regex to match payee
+  categoryId String
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  // Relations
+  user     User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  category Category @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@map("payee_rules")
+}
+
+// Investment asset types enum
+enum AssetType {
+  STOCK
+  ETF
+  CRYPTO
+  BOND
+  COMMODITY
+  OTHER
+
+  @@map("asset_types")
+}
+
+// InvestmentHolding model - tracks investment positions
+model InvestmentHolding {
+  id          String    @id @default(cuid())
+  accountId   String
+  assetType   AssetType
+  symbol      String
+  name        String?
+  quantity    Decimal   @db.Decimal(18, 8)
+  buyInPrice  Decimal?  @db.Decimal(12, 2)
+  lastPrice   Decimal?  @db.Decimal(12, 2)
+  lastUpdated DateTime?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  // Relations
+  account Account @relation(fields: [accountId], references: [id], onDelete: Cascade)
+
+  @@unique([accountId, symbol])
+  @@index([accountId])
+  @@map("investment_holdings")
+}
+
+// FXRate model - foreign exchange rates for currency conversion
+model FXRate {
+  id           String   @id @default(cuid())
+  fromCurrency String
+  toCurrency   String
+  rate         Decimal  @db.Decimal(10, 6)
+  date         DateTime
+  createdAt    DateTime @default(now())
+
+  @@unique([fromCurrency, toCurrency, date])
+  @@index([fromCurrency, toCurrency])
+  @@index([date])
+  @@map("fx_rates")
+}
