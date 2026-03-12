@@ -1,55 +1,14 @@
 <script>
   import { page } from "$app/stores"
 
-  import { Button } from "$lib/components/ui"
-
-  import { createMutation } from "@tanstack/svelte-query"
-  import { LOGIN } from "$lib/graphql/client/auth/mutations"
-
-  import { signInWithPopup, GoogleAuthProvider } from "firebase/auth"
-  import { auth, provider } from "$lib/utils/firebase"
-
-  import { ErrorAlert } from "$lib/components/ui"
-
-  let googleLoginError = null
-  let isRedirecting = false
-  const onLogin = () => {
-    isRedirecting = true
-    googleLoginError = null
-    signInWithPopup(auth, provider)
-      .then((result) => {
-        // This gives you a Google Access Token. You can use it to access the Google API.
-        const credential = GoogleAuthProvider.credentialFromResult(result)
-        const accessToken = credential.idToken
-        $loginMutation.mutate({ accessToken })
-      })
-      .catch((error) => {
-        // Handle Errors here.
-        const errorMessage = error.message
-        googleLoginError = errorMessage
-        isRedirecting = false
-      })
-  }
-
-  const loginMutation = createMutation(LOGIN, {
-    onSuccess: () => {
-      isRedirecting = true
-      const referrer = $page.url.searchParams.get(`referrer`)
-      const href = referrer ? referrer : `/`
-      window.location.href = href
-    }
-  })
+  $: referrer = $page.url.searchParams.get(`referrer`) || `/`
+  $: href = `/login/google?referrer=${encodeURIComponent(referrer)}`
 </script>
 
 <div class="flex flex-col flex-wrap items-center gap-4 rounded-lg p-2">
-  {#if isRedirecting}
-    <p class="-mb-2 -mt-2 text-left text-sm text-gray-200">Taking you to your dashboard...</p>
-  {/if}
-  <Button
-    on:click={onLogin}
-    variant="ghost"
-    isDisabled={$loginMutation.isLoading || isRedirecting}
-    class="!hover:bg-[#4285F4]/90 !focus:ring-[#4285F4]/50 mb-2 mr-2 inline-flex w-fit items-center rounded-lg !bg-[#4285F4] px-5 py-2.5 text-center text-sm font-medium !text-white  focus:outline-none focus:ring-4"
+  <a
+    {href}
+    class="!hover:bg-[#4285F4]/90 !focus:ring-[#4285F4]/50 mb-2 mr-2 inline-flex w-fit items-center rounded-lg !bg-[#4285F4] px-5 py-2.5 text-center text-sm font-medium !text-white focus:outline-none focus:ring-4"
   >
     <svg
       class="-ml-1 mr-3 h-7 w-7"
@@ -67,10 +26,5 @@
       />
     </svg>
     Sign in with Google
-  </Button>
-  {#if $loginMutation.isError || googleLoginError}
-    <ErrorAlert>
-      {$loginMutation.error?.message || googleLoginError}
-    </ErrorAlert>
-  {/if}
+  </a>
 </div>
