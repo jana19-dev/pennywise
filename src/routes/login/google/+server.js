@@ -1,6 +1,6 @@
 import { redirect } from "@sveltejs/kit"
 import { dev } from "$app/environment"
-import { GOOGLE_CLIENT_ID } from "$env/static/private"
+import { env } from "$env/dynamic/private"
 
 export function GET({ url, cookies }) {
   const referrer = url.searchParams.get(`referrer`) || `/`
@@ -25,7 +25,7 @@ export function GET({ url, cookies }) {
   const redirectUri = `${url.origin}/login/callback`
 
   const params = new URLSearchParams({
-    client_id: GOOGLE_CLIENT_ID,
+    client_id: env.GOOGLE_CLIENT_ID,
     redirect_uri: redirectUri,
     response_type: `code`,
     scope: `openid email profile`,
