@@ -15,3 +15,6 @@ yarn.lock
 
 # vercel
 .vercel
+
+# claude
+.claude
